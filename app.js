@@ -1,20 +1,32 @@
+var JANUS_APP_URL = 'https://planning-trustees-portraits-care.trycloudflare.com';
+
 document.addEventListener('DOMContentLoaded', function() {
-    const btnTryNow = document.getElementById('btn-try-now');
+    var btnTryNow = document.getElementById('btn-try-now');
     
     if (btnTryNow) {
+        btnTryNow.href = JANUS_APP_URL;
         btnTryNow.addEventListener('click', function(e) {
             e.preventDefault();
-            alert('El enlace al tunnel de Cloudflare se configurará aquí. Por ahora, usa la URL de tu servidor local.');
+            window.open(JANUS_APP_URL, '_blank');
+        });
+    }
+
+    var navBtn = document.querySelector('.navbar .btn-primary');
+    if (navBtn) {
+        navBtn.href = JANUS_APP_URL;
+        navBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open(JANUS_APP_URL, '_blank');
         });
     }
     
-    const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
-    smoothScrollLinks.forEach(link => {
+    var smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+    smoothScrollLinks.forEach(function(link) {
         link.addEventListener('click', function(e) {
-            const href = this.getAttribute('href');
+            var href = this.getAttribute('href');
             if (href !== '#' && href !== '#cta') {
                 e.preventDefault();
-                const target = document.querySelector(href);
+                var target = document.querySelector(href);
                 if (target) {
                     target.scrollIntoView({
                         behavior: 'smooth',
