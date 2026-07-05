@@ -1,4 +1,4 @@
-var JANUS_APP_URL = 'https://planning-trustees-portraits-care.trycloudflare.com';
+var JANUS_APP_URL = 'https://looking-gold-legend-okay.trycloudflare.com';
 
 document.addEventListener('DOMContentLoaded', function() {
     function redirectToApp(e) {
