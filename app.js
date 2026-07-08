@@ -30,4 +30,78 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    // Demo videos carousel + toggle
+    var demos = [
+        { name: 'Anime', original: 'assets/video_demos/video_anime.mp4', dubbed: 'assets/video_demos/video_dubbed_anime.mp4' },
+        { name: 'Review', original: 'assets/video_demos/video_review.mp4', dubbed: 'assets/video_demos/video_dubbed_review.mp4' },
+        { name: 'Gameplay', original: 'assets/video_demos/video_piewdepie.mp4', dubbed: 'assets/video_demos/video_dubbed_piewdepie.mp4' }
+    ];
+    var demoIndex = 0;
+    var demoMode = 'original';
+    var demoVideo = document.getElementById('demo-video');
+    var toggleBtns = document.querySelectorAll('.demo-toggle-btn');
+    var dots = document.querySelectorAll('.demo-dot');
+    var demoLabel = document.getElementById('demo-label');
+
+    function loadDemo(index) {
+        demoIndex = index;
+        var demo = demos[index];
+        var wasPlaying = !demoVideo.paused;
+        var currentTime = demoVideo.currentTime || 0;
+
+        demoVideo.src = demo[demoMode];
+        demoVideo.load();
+
+        if (wasPlaying) {
+            demoVideo.addEventListener('loadedmetadata', function onMeta() {
+                demoVideo.removeEventListener('loadedmetadata', onMeta);
+                demoVideo.currentTime = currentTime;
+                demoVideo.play();
+            });
+        }
+
+        // Update dots
+        dots.forEach(function(d, i) {
+            d.classList.toggle('active', i === index);
+        });
+
+        // Update label
+        demoLabel.textContent = demo.name;
+    }
+
+    // Toggle Original/Doblado
+    toggleBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var mode = btn.getAttribute('data-mode');
+            if (mode === demoMode) return;
+
+            demoMode = mode;
+            toggleBtns.forEach(function(b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+
+            var wasPlaying = !demoVideo.paused;
+            var currentTime = demoVideo.currentTime || 0;
+
+            demoVideo.src = demos[demoIndex][mode];
+            demoVideo.load();
+
+            if (wasPlaying) {
+                demoVideo.addEventListener('loadedmetadata', function onMeta() {
+                    demoVideo.removeEventListener('loadedmetadata', onMeta);
+                    demoVideo.currentTime = currentTime;
+                    demoVideo.play();
+                });
+            }
+        });
+    });
+
+    // Carousel dots
+    dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+            var index = parseInt(dot.getAttribute('data-index'));
+            if (index === demoIndex) return;
+            loadDemo(index);
+        });
+    });
 });
