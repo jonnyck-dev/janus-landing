@@ -45,20 +45,18 @@ document.addEventListener('DOMContentLoaded', function() {
     var demoLabel = document.getElementById('demo-label');
     var demoDescription = document.getElementById('demo-description');
 
-    function loadDemo(index) {
+    function loadDemo(index, forcePlay) {
         demoIndex = index;
         var demo = demos[index];
         var wasPlaying = !demoVideo.paused;
-        var currentTime = demoVideo.currentTime || 0;
 
         demoVideo.poster = demo.poster;
         demoVideo.src = demo[demoMode];
         demoVideo.load();
 
-        if (wasPlaying) {
+        if (wasPlaying || forcePlay) {
             demoVideo.addEventListener('loadedmetadata', function onMeta() {
                 demoVideo.removeEventListener('loadedmetadata', onMeta);
-                demoVideo.currentTime = currentTime;
                 demoVideo.play();
             });
         }
@@ -159,4 +157,22 @@ document.addEventListener('DOMContentLoaded', function() {
         touchStartX = null;
         touchStartY = null;
     }, { passive: true });
+
+    // Initial autoplay (muted) — arranca desde el primer demo
+    loadDemo(0, true);
+
+    // Auto-advance: cuando un video termina, pasa al siguiente
+    demoVideo.addEventListener('ended', function() {
+        var next = (demoIndex + 1) % demos.length;
+        loadDemo(next, true);
+    });
+
+    // Primer click en el video quita el mute
+    var hasBeenUnmuted = false;
+    demoVideo.addEventListener('click', function() {
+        if (!hasBeenUnmuted) {
+            demoVideo.muted = false;
+            hasBeenUnmuted = true;
+        }
+    });
 });
