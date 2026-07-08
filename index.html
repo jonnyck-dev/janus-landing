@@ -53,6 +53,43 @@
         </div>
     </section>
 
+    <section class="demos" id="demos">
+        <div class="container">
+            <h2 class="section-title">Ver para Creer</h2>
+            <p class="section-subtitle">Original vs doblado. Tú decides.</p>
+
+            <p class="demo-mode-label">🎬 Original &nbsp;→&nbsp; 🎙️ Doblado con JANUS</p>
+            
+            <div class="demo-player">
+                <button class="demo-arrow demo-arrow-left" aria-label="Video anterior">‹</button>
+                <video id="demo-video" controls playsinline preload="none" poster="assets/video_demos/poster_video_piewdepie.jpg">
+                    <source src="" type="video/mp4">
+                </video>
+                <button class="demo-arrow demo-arrow-right" aria-label="Video siguiente">›</button>
+                
+                <div class="demo-controls">
+                    <button class="demo-toggle-btn active" data-mode="original">Original</button>
+                    <button class="demo-toggle-btn" data-mode="dubbed">Doblado</button>
+                </div>
+            </div>
+            
+            <div class="demo-carousel">
+                <div class="demo-dots" id="demo-dots">
+                    <span class="demo-dot active" data-index="0"></span>
+                    <span class="demo-dot" data-index="1"></span>
+                    <span class="demo-dot" data-index="2"></span>
+                </div>
+                <p class="demo-label" id="demo-label">Gameplay</p>
+                <p class="demo-description" id="demo-description">Escena del juego Piewdiepie doblada al español</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <p class="demo-cta-text">¿Te gusta lo que ves? Prueba JANUS con tu propio video</p>
+                <a href="#cta" class="btn btn-primary btn-lg">Probar JANUS ahora</a>
+            </div>
+        </div>
+    </section>
+
     <section class="features" id="features">
         <div class="container">
             <h2 class="section-title">Lo que hace JANUS</h2>
@@ -94,39 +131,6 @@
                     <h3 class="feature-title">Rápido y automático</h3>
                     <p class="feature-desc">De URL a video doblado en minutos. Sin edición manual, sin complicaciones.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="demos" id="demos">
-        <div class="container">
-            <h2 class="section-title">Ver para Creer</h2>
-            <p class="section-subtitle">Original vs doblado. Tú decides.</p>
-            
-            <div class="demo-player">
-                <button class="demo-arrow demo-arrow-left" aria-label="Video anterior">‹</button>
-                <video id="demo-video" controls playsinline preload="none" poster="assets/video_demos/poster_video_piewdepie.jpg">
-                    <source src="" type="video/mp4">
-                </video>
-                <button class="demo-arrow demo-arrow-right" aria-label="Video siguiente">›</button>
-                
-                <div class="demo-controls">
-                    <button class="demo-toggle-btn active" data-mode="original">Original</button>
-                    <button class="demo-toggle-btn" data-mode="dubbed">Doblado</button>
-                </div>
-            </div>
-            
-            <div class="demo-carousel">
-                <div class="demo-dots" id="demo-dots">
-                    <span class="demo-dot active" data-index="0"></span>
-                    <span class="demo-dot" data-index="1"></span>
-                    <span class="demo-dot" data-index="2"></span>
-                </div>
-                <p class="demo-label" id="demo-label">Gameplay</p>
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="#cta" class="btn btn-primary btn-lg">Probar JANUS ahora</a>
             </div>
         </div>
     </section>

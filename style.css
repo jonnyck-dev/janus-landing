@@ -404,6 +404,21 @@ h1, h2, h3 {
     margin: 0;
 }
 
+.demo-description {
+    font-size: 15px;
+    color: var(--gray-500);
+    margin: 0;
+    text-align: center;
+    max-width: 400px;
+}
+
+.demo-cta-text {
+    font-size: 17px;
+    color: var(--gray-600);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
 .how-it-works {
     padding: 100px 0;
     background: var(--gray-50);
@@ -540,7 +555,16 @@ h1, h2, h3 {
         margin: 0 auto;
     }
 
-    .demo-player {
+.demo-mode-label {
+    text-align: center;
+    font-size: 15px;
+    color: var(--gray-500);
+    margin: -12px 0 24px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.demo-player {
         max-width: 100%;
     }
 

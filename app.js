@@ -33,9 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Demo videos carousel + toggle
     var demos = [
-        { name: 'Gameplay', original: 'assets/video_demos/video_piewdepie.mp4', dubbed: 'assets/video_demos/video_dubbed_piewdepie.mp4', poster: 'assets/video_demos/poster_video_piewdepie.jpg' },
-        { name: 'Review', original: 'assets/video_demos/video_review.mp4', dubbed: 'assets/video_demos/video_dubbed_review.mp4', poster: 'assets/video_demos/poster_video_review.jpg' },
-        { name: 'Anime', original: 'assets/video_demos/video_anime.mp4', dubbed: 'assets/video_demos/video_dubbed_anime.mp4', poster: 'assets/video_demos/poster_video_anime.jpg' }
+        { name: 'Gameplay', original: 'assets/video_demos/video_piewdepie.mp4', dubbed: 'assets/video_demos/video_dubbed_piewdepie.mp4', poster: 'assets/video_demos/poster_video_piewdepie.jpg', desc: 'Escena del juego Piewdiepie doblada al español' },
+        { name: 'Review', original: 'assets/video_demos/video_review.mp4', dubbed: 'assets/video_demos/video_dubbed_review.mp4', poster: 'assets/video_demos/poster_video_review.jpg', desc: 'Review de producto con voz clonada' },
+        { name: 'Anime', original: 'assets/video_demos/video_anime.mp4', dubbed: 'assets/video_demos/video_dubbed_anime.mp4', poster: 'assets/video_demos/poster_video_anime.jpg', desc: 'Anime doblado con sincronización labial' }
     ];
     var demoIndex = 0;
     var demoMode = 'original';
@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var toggleBtns = document.querySelectorAll('.demo-toggle-btn');
     var dots = document.querySelectorAll('.demo-dot');
     var demoLabel = document.getElementById('demo-label');
+    var demoDescription = document.getElementById('demo-description');
 
     function loadDemo(index) {
         demoIndex = index;
@@ -69,6 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update label
         demoLabel.textContent = demo.name;
+
+        // Update description
+        demoDescription.textContent = demo.desc;
     }
 
     // Toggle Original/Doblado
