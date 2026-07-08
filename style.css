@@ -116,15 +116,20 @@ h1, h2, h3 {
 }
 
 .hero {
-    padding: 140px 0 80px;
+    padding: 140px 0 60px;
     background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
 }
 
 .hero-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 60px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    text-align: center;
+    gap: 0;
+}
+
+.hero-text {
+    max-width: 720px;
 }
 
 .hero-title {
@@ -141,75 +146,13 @@ h1, h2, h3 {
 .hero-subtitle {
     font-size: 20px;
     color: var(--gray-600);
-    margin-bottom: 32px;
+    margin-bottom: 48px;
     line-height: 1.6;
 }
 
 .hero-subtitle strong {
     color: var(--gold-dark);
     font-weight: 700;
-}
-
-.demo-placeholder {
-    background: var(--white);
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: var(--shadow-xl);
-    border: 1px solid var(--gray-200);
-}
-
-.demo-screen {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-
-.demo-step {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px 20px;
-    background: var(--gray-50);
-    border-radius: 12px;
-    border: 1px solid var(--gray-200);
-}
-
-.demo-step-final {
-    background: linear-gradient(135deg, rgba(212, 168, 83, 0.1) 0%, rgba(240, 192, 64, 0.1) 100%);
-    border-color: var(--gold-primary);
-}
-
-.step-num {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: var(--gold-primary);
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 14px;
-    flex-shrink: 0;
-}
-
-.step-text {
-    font-size: 16px;
-    font-weight: 500;
-    color: var(--gray-700);
-}
-
-.demo-arrow {
-    text-align: center;
-    color: var(--gray-400);
-    font-size: 20px;
-}
-
-.demo-caption {
-    text-align: center;
-    margin-top: 20px;
-    color: var(--gray-500);
-    font-size: 14px;
 }
 
 .section-title {
@@ -531,11 +474,6 @@ h1, h2, h3 {
 }
 
 @media (max-width: 968px) {
-    .hero-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    
     .hero-title {
         font-size: 42px;
     }
@@ -555,16 +493,7 @@ h1, h2, h3 {
         margin: 0 auto;
     }
 
-.demo-mode-label {
-    text-align: center;
-    font-size: 15px;
-    color: var(--gray-500);
-    margin: -12px 0 24px;
-    font-weight: 500;
-    letter-spacing: 0.3px;
-}
-
-.demo-player {
+    .demo-player {
         max-width: 100%;
     }
 
@@ -593,10 +522,6 @@ h1, h2, h3 {
     
     .features-grid {
         grid-template-columns: 1fr;
-    }
-
-    .demos {
-        padding: 60px 0;
     }
 
     .demo-toggle-btn {
