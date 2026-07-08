@@ -283,6 +283,44 @@ h1, h2, h3 {
     border: 1px solid var(--gray-200);
     overflow: hidden;
     box-shadow: var(--shadow-lg);
+    position: relative;
+}
+
+.demo-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.1);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--gray-800);
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
+    opacity: 0.7;
+}
+
+.demo-arrow:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.demo-arrow-left {
+    left: 12px;
+}
+
+.demo-arrow-right {
+    right: 12px;
 }
 
 #demo-video {
@@ -504,6 +542,10 @@ h1, h2, h3 {
 
     .demo-player {
         max-width: 100%;
+    }
+
+    .demo-arrow {
+        display: none;
     }
 
     .demo-toggle-btn {

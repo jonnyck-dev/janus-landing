@@ -104,4 +104,43 @@ document.addEventListener('DOMContentLoaded', function() {
             loadDemo(index);
         });
     });
+
+    // Arrow navigation
+    document.querySelector('.demo-arrow-left').addEventListener('click', function() {
+        var prev = (demoIndex - 1 + demos.length) % demos.length;
+        loadDemo(prev);
+    });
+
+    document.querySelector('.demo-arrow-right').addEventListener('click', function() {
+        var next = (demoIndex + 1) % demos.length;
+        loadDemo(next);
+    });
+
+    // Touch swipe (mobile)
+    var demoPlayer = document.querySelector('.demo-player');
+    var touchStartX = 0;
+    var touchStartY = 0;
+
+    demoPlayer.addEventListener('touchstart', function(e) {
+        // Ignore touches on toggle buttons or arrows
+        if (e.target.closest('.demo-controls, .demo-arrow')) return;
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    demoPlayer.addEventListener('touchend', function(e) {
+        var deltaX = e.changedTouches[0].screenX - touchStartX;
+        var deltaY = e.changedTouches[0].screenY - touchStartY;
+        var minSwipe = 50;
+
+        if (Math.abs(deltaX) > minSwipe && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+            if (deltaX > 0) {
+                var prev = (demoIndex - 1 + demos.length) % demos.length;
+                loadDemo(prev);
+            } else {
+                var next = (demoIndex + 1) % demos.length;
+                loadDemo(next);
+            }
+        }
+    }, { passive: true });
 });
