@@ -116,14 +116,16 @@ document.addEventListener('DOMContentLoaded', function() {
         loadDemo(next);
     });
 
-    // Touch swipe (mobile)
-    var demoPlayer = document.querySelector('.demo-player');
+    // Touch swipe (mobile) — only on the video element, not on controls below
     var touchStartX = null;
     var touchStartY = null;
 
-    demoPlayer.addEventListener('touchstart', function(e) {
-        // Ignore touches on toggle buttons or arrows
-        if (e.target.closest('.demo-controls, .demo-arrow')) {
+    demoVideo.addEventListener('touchstart', function(e) {
+        var rect = demoVideo.getBoundingClientRect();
+        var touchY = e.changedTouches[0].clientY - rect.top;
+        // Ignore touches in bottom 25% (native controls area) to avoid
+        // triggering demo change when scrubbing the seek bar
+        if (touchY > rect.height * 0.75) {
             touchStartX = null;
             touchStartY = null;
             return;
@@ -132,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         touchStartY = e.changedTouches[0].screenY;
     }, { passive: true });
 
-    demoPlayer.addEventListener('touchend', function(e) {
+    demoVideo.addEventListener('touchend', function(e) {
         if (touchStartX === null || touchStartY === null) return;
         var deltaX = e.changedTouches[0].screenX - touchStartX;
         var deltaY = e.changedTouches[0].screenY - touchStartY;
@@ -147,5 +149,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 loadDemo(next);
             }
         }
+
+        touchStartX = null;
+        touchStartY = null;
     }, { passive: true });
 });
