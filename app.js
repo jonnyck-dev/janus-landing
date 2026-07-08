@@ -118,17 +118,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Touch swipe (mobile)
     var demoPlayer = document.querySelector('.demo-player');
-    var touchStartX = 0;
-    var touchStartY = 0;
+    var touchStartX = null;
+    var touchStartY = null;
 
     demoPlayer.addEventListener('touchstart', function(e) {
         // Ignore touches on toggle buttons or arrows
-        if (e.target.closest('.demo-controls, .demo-arrow')) return;
+        if (e.target.closest('.demo-controls, .demo-arrow')) {
+            touchStartX = null;
+            touchStartY = null;
+            return;
+        }
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
     }, { passive: true });
 
     demoPlayer.addEventListener('touchend', function(e) {
+        if (touchStartX === null || touchStartY === null) return;
         var deltaX = e.changedTouches[0].screenX - touchStartX;
         var deltaY = e.changedTouches[0].screenY - touchStartY;
         var minSwipe = 50;
