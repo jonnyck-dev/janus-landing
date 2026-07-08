@@ -1,4 +1,18 @@
+var JANUS_APP_URL = 'https://looking-gold-legend-okay.trycloudflare.com';
+
 document.addEventListener('DOMContentLoaded', function() {
+    function redirectToApp(e) {
+        e.preventDefault();
+        window.open(JANUS_APP_URL, '_blank');
+    }
+
+    // Último CTA (final de página) abre la app vía Cloudflare
+    var finalCta = document.getElementById('btn-try-now');
+    if (finalCta) {
+        finalCta.href = JANUS_APP_URL;
+        finalCta.addEventListener('click', redirectToApp);
+    }
+
     // Smooth scroll solo para links internos que NO son CTA
     var smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
     smoothScrollLinks.forEach(function(link) {
