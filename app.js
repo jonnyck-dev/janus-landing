@@ -1,4 +1,4 @@
-var JANUS_APP_URL = 'https://conclusion-bizarre-unlock-geek.trycloudflare.com';
+var JANUS_APP_URL = 'https://epa-away-eden-johnston.trycloudflare.com';
 
 document.addEventListener('DOMContentLoaded', function() {
     function redirectToApp(e) {

@@ -1,6 +1,6 @@
 ﻿// Janus Chat Widget - app
 (function () {
-  var API_BASE = "https://conclusion-bizarre-unlock-geek.trycloudflare.com"; // Cambiar por URL del tunnel en produccion
+  var API_BASE = "https://epa-away-eden-johnston.trycloudflare.com"; // Cambiar por URL del tunnel en produccion
   var OPEN = false;
   var STREAMING = false;
 
