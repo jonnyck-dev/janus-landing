@@ -1,4 +1,4 @@
-var JANUS_APP_URL = 'https://looking-gold-legend-okay.trycloudflare.com';
+var JANUS_APP_URL = 'https://joyce-prescribed-inc-maiden.trycloudflare.com';
 
 document.addEventListener('DOMContentLoaded', function() {
     function redirectToApp(e) {
