@@ -1,4 +1,4 @@
-var JANUS_APP_URL = 'https://epa-away-eden-johnston.trycloudflare.com';
+var JANUS_APP_URL = 'https://buf-sat-open-hall.trycloudflare.com';
 
 document.addEventListener('DOMContentLoaded', function() {
     function redirectToApp(e) {
