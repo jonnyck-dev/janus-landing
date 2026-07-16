@@ -434,6 +434,108 @@ h1, h2, h3 {
     background: var(--white);
 }
 
+/* Managed Service Section */
+.managed-service {
+    padding: 100px 0;
+    background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
+}
+
+.managed-intro {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--gray-700);
+}
+
+.managed-intro strong {
+    color: var(--gray-900);
+}
+
+.managed-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.managed-card {
+    padding: 40px 32px;
+    background: var(--white);
+    border-radius: 16px;
+    border: 2px solid var(--gray-200);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+}
+
+.managed-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--gold-primary);
+}
+
+.managed-card-highlight {
+    border-color: var(--gold-primary);
+    background: linear-gradient(135deg, #fffbf0 0%, var(--white) 100%);
+}
+
+.managed-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.managed-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--gray-900);
+    text-align: center;
+}
+
+.managed-desc {
+    font-size: 16px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.managed-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0;
+}
+
+.managed-list li {
+    padding: 8px 0 8px 28px;
+    position: relative;
+    font-size: 15px;
+    color: var(--gray-700);
+    line-height: 1.5;
+}
+
+.managed-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--gold-primary);
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.managed-highlight {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--gold-primary);
+    color: var(--gray-900);
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 15px;
+}
+
 /* Loss Aversion Section */
 .loss-aversion {
     padding: 100px 0;
