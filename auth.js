@@ -17,15 +17,27 @@ var MAILTO_HREF = 'mailto:jonnyck.dev@icloud.com?subject=Quiero%20probar%20JANUS
 
 var _supabase = null;
 var _afterAuthMailto = false;
+var _postAuthCallback = null;
+
+function janusSetPostAuthCallback(fn) {
+    _postAuthCallback = fn;
+}
 
 function janusInitSupabase() {
     if (_supabase || typeof supabase === 'undefined') return _supabase;
     _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     _supabase.auth.onAuthStateChange(function (event, session) {
-        if (event === 'SIGNED_IN' && _afterAuthMailto) {
-            _afterAuthMailto = false;
-            window.location.href = MAILTO_HREF;
+        if (event === 'SIGNED_IN') {
+            if (_postAuthCallback) {
+                var cb = _postAuthCallback;
+                _postAuthCallback = null;
+                _afterAuthMailto = false;
+                cb(session);
+            } else if (_afterAuthMailto) {
+                _afterAuthMailto = false;
+                window.location.href = MAILTO_HREF;
+            }
         }
     });
 
@@ -128,7 +140,9 @@ function janusLoginGoogle() {
         return;
     }
     janusInitSupabase();
-    _afterAuthMailto = true;
+    if (!_postAuthCallback) {
+        _afterAuthMailto = true;
+    }
     var redirect = window.location.origin + window.location.pathname;
     _supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -170,7 +184,14 @@ function janusSubmitForm(e) {
                     return;
                 }
                 if (res.data.session) {
-                    window.location.href = MAILTO_HREF;
+                    if (_postAuthCallback) {
+                        var cb = _postAuthCallback;
+                        _postAuthCallback = null;
+                        janusCloseModal();
+                        cb(res.data.session);
+                    } else {
+                        window.location.href = MAILTO_HREF;
+                    }
                 } else {
                     janusSetMsg('Revisa tu email para confirmar tu cuenta.');
                 }
@@ -180,7 +201,9 @@ function janusSubmitForm(e) {
             });
     } else {
         // Magic link
-        _afterAuthMailto = true;
+        if (!_postAuthCallback) {
+            _afterAuthMailto = true;
+        }
         _supabase.auth.signInWithOtp({
             email: email,
             options: {

@@ -244,6 +244,117 @@
         </div>
     </section>
 
+    <section class="roi-calculator" id="roi-calculator">
+        <div class="container">
+            <h2 class="section-title">🧮 Calculadora de ROI</h2>
+            <p class="section-subtitle">Descubre cuánto dinero estás perdiendo al no doblar tus videos</p>
+            
+            <p class="roi-intro">Ajusta los valores según tu canal y mira en tiempo real el <strong>ingreso potencial</strong> que estás dejando sobre la mesa.</p>
+            
+            <div class="roi-container">
+                <div class="roi-inputs">
+                    <div class="roi-input-group">
+                        <label class="roi-label">
+                            <span class="roi-label-icon">🌍</span>
+                            Idioma actual de tu canal
+                        </label>
+                        <div class="roi-toggle-group">
+                            <label class="roi-toggle">
+                                <input type="radio" name="roi-language" value="en_to_es" checked>
+                                <span class="roi-toggle-label">Inglés</span>
+                            </label>
+                            <label class="roi-toggle">
+                                <input type="radio" name="roi-language" value="es_to_en">
+                                <span class="roi-toggle-label">Español</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="roi-input-group">
+                        <label class="roi-label">
+                            <span class="roi-label-icon">👁️</span>
+                            Visualizaciones mensuales
+                        </label>
+                        <div class="roi-slider-container">
+                            <div class="roi-slider-value" id="roi-views-display">500,000</div>
+                            <input type="range" id="roi-views" class="roi-slider" min="10000" max="10000000" value="500000" step="10000">
+                            <div class="roi-slider-range">
+                                <span>10K</span>
+                                <span>10M</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="roi-input-group">
+                        <label class="roi-label">
+                            <span class="roi-label-icon">💰</span>
+                            CPM estimado (USD)
+                        </label>
+                        <div class="roi-slider-container">
+                            <div class="roi-slider-value" id="roi-cpm-display">$5.00</div>
+                            <input type="range" id="roi-cpm" class="roi-slider" min="1" max="20" value="5" step="0.5">
+                            <div class="roi-slider-range">
+                                <span>$1</span>
+                                <span>$20</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="roi-input-group">
+                        <label class="roi-label">
+                            <span class="roi-label-icon">📅</span>
+                            Frecuencia de subida
+                        </label>
+                        <select id="roi-frequency" class="roi-select">
+                            <option value="1_month">1 video al mes</option>
+                            <option value="1_week" selected>1 video a la semana</option>
+                            <option value="2_week">2 videos a la semana</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="roi-results">
+                    <h3 class="roi-results-title">Resultados en tiempo real</h3>
+                    <div class="roi-results-grid">
+                        <div class="roi-result-card">
+                            <div class="roi-result-label">Ingreso mensual actual</div>
+                            <div class="roi-result-value" id="roi-current">$0</div>
+                        </div>
+                        <div class="roi-result-card roi-result-highlight">
+                            <div class="roi-result-label">Potencial adicional</div>
+                            <div class="roi-result-value" id="roi-potential">$0</div>
+                        </div>
+                        <div class="roi-result-card roi-result-loss">
+                            <div class="roi-result-label">Pérdida anual</div>
+                            <div class="roi-result-value" id="roi-loss">$0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="roi-bars">
+                        <div class="roi-bar-group roi-bar-current">
+                            <div class="roi-bar-label">Actual</div>
+                            <div class="roi-bar-track">
+                                <div class="roi-bar-fill" id="roi-bar-current"></div>
+                            </div>
+                        </div>
+                        <div class="roi-bar-group roi-bar-potential">
+                            <div class="roi-bar-label">Con JANUS</div>
+                            <div class="roi-bar-track">
+                                <div class="roi-bar-fill" id="roi-bar-potential"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="roi-download" class="roi-download-btn">
+                    📊 Descargar mi informe de ROI personalizado
+                </button>
+            </div>
+            
+            <div id="roi-report" class="roi-report"></div>
+        </div>
+    </section>
+
     <section class="cta-section" id="cta">
         <div class="container">
             <h2 class="cta-title">¿Listo para duplicar tu audiencia?</h2>
@@ -267,8 +378,10 @@
     <script src="app.js"></script>
     <link rel="stylesheet" href="chat-style.css">
     <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="calculator.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="auth.js"></script>
+    <script src="calculator.js"></script>
     <div id="janus-chat-widget"></div>
     <script src="chat-app.js"></script>
 </body>

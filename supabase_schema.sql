@@ -54,3 +54,28 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+-- 6. Tabla para leads de la calculadora de ROI
+create table if not exists public.roi_leads (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade,
+  name text,
+  email text,
+  channel_language text not null,
+  monthly_views numeric not null,
+  cpm numeric not null,
+  estimated_loss numeric not null,
+  created_at timestamptz default now()
+);
+
+-- 7. Habilitar RLS para roi_leads
+alter table public.roi_leads enable row level security;
+
+-- 8. Políticas de acceso para roi_leads
+create policy "Users can insert own leads"
+  on public.roi_leads for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can view own leads"
+  on public.roi_leads for select
+  using (auth.uid() = user_id);
