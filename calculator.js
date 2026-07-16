@@ -130,35 +130,87 @@ function roiShowReport(data) {
     if (!reportEl) return;
 
     var langLabel = data.language === 'en_to_es' ? 'Inglés → Español' : 'Español → Inglés';
-
+    
+    // Proyección con crecimiento gradual (efecto compuesto)
+    var projections = [
+        { month: 1, growthFactor: 1.0 },
+        { month: 3, growthFactor: 1.25 },
+        { month: 6, growthFactor: 1.75 },
+        { month: 12, growthFactor: 3.0 }
+    ];
+    
+    var projectionHTML = '<table class="roi-projection-table"><thead><tr>' +
+        '<th>Mes</th><th>Ingreso actual</th><th>Con JANUS</th><th>Diferencia</th>' +
+        '</tr></thead><tbody>';
+    
+    var totalCurrent = 0;
+    var totalWithJanus = 0;
+    
+    projections.forEach(function(proj) {
+        var current = data.monthly_revenue * proj.month;
+        var additional = data.potential_additional * proj.month * proj.growthFactor;
+        var withJanus = current + additional;
+        var diff = additional;
+        
+        totalCurrent += current;
+        totalWithJanus += withJanus;
+        
+        projectionHTML += '<tr>' +
+            '<td>Mes ' + proj.month + '</td>' +
+            '<td>' + roiFormatCurrency(current) + '</td>' +
+            '<td class="roi-projection-highlight">' + roiFormatCurrency(withJanus) + '</td>' +
+            '<td class="roi-projection-gain">+' + roiFormatCurrency(diff) + '</td>' +
+            '</tr>';
+    });
+    
+    var totalDiff = totalWithJanus - totalCurrent;
+    projectionHTML += '<tr class="roi-projection-total">' +
+        '<td><strong>Total anual</strong></td>' +
+        '<td>' + roiFormatCurrency(data.monthly_revenue * 12) + '</td>' +
+        '<td class="roi-projection-highlight">' + roiFormatCurrency(totalWithJanus) + '</td>' +
+        '<td class="roi-projection-gain"><strong>+' + roiFormatCurrency(totalDiff) + '</strong></td>' +
+        '</tr></tbody></table>';
+    
+    // Comparativa de costos
+    var traditionalCost = data.monthly_views > 1000000 ? 3000 : 1500;
+    var janusCost = traditionalCost * 0.1;
+    var savings = ((traditionalCost - janusCost) / traditionalCost * 100).toFixed(0);
+    
+    // Recomendaciones según dirección
+    var recommendation = data.language === 'en_to_es' 
+        ? 'Tu audiencia en español crecerá más rápido pero con CPM más bajo. <strong>Estrategia recomendada:</strong> Enfócate en volumen y frecuencia de publicación. Publica al menos 2 videos por semana en español para maximizar el crecimiento.'
+        : 'El mercado en inglés paga más pero requiere más tiempo para crecer. <strong>Estrategia recomendada:</strong> Enfócate en calidad y nicho específico. Publica 1 video por semana en inglés con contenido altamente especializado.';
+    
     reportEl.innerHTML =
-        '<h3 class="roi-report-title">📊 Tu Informe de ROI Personalizado</h3>' +
-        '<div class="roi-report-grid">' +
-            '<div class="roi-report-item">' +
-                '<span class="roi-report-label">Dirección del doblaje</span>' +
-                '<span class="roi-report-value">' + langLabel + '</span>' +
+        '<h3 class="roi-report-title">📊 Tu Plan de Ingresos Personalizado</h3>' +
+        '<p class="roi-report-subtitle">Dirección: <strong>' + langLabel + '</strong></p>' +
+        
+        '<h4 class="roi-report-section-title">📈 Proyección a 12 meses</h4>' +
+        '<p class="roi-report-section-desc">El crecimiento no es lineal. Tu audiencia en el nuevo idioma se construye gradualmente, generando un efecto compuesto.</p>' +
+        projectionHTML +
+        
+        '<h4 class="roi-report-section-title">💰 Comparativa de costos</h4>' +
+        '<div class="roi-cost-comparison">' +
+            '<div class="roi-cost-item">' +
+                '<span class="roi-cost-label">Doblaje tradicional</span>' +
+                '<span class="roi-cost-value roi-cost-traditional">$' + traditionalCost + ' - $' + (traditionalCost * 2) + ' por video</span>' +
             '</div>' +
-            '<div class="roi-report-item">' +
-                '<span class="roi-report-label">Views mensuales</span>' +
-                '<span class="roi-report-value">' + data.monthly_views.toLocaleString() + '</span>' +
+            '<div class="roi-cost-item">' +
+                '<span class="roi-cost-label">JANUS</span>' +
+                '<span class="roi-cost-value roi-cost-janus">~$' + janusCost.toFixed(0) + ' por video</span>' +
             '</div>' +
-            '<div class="roi-report-item">' +
-                '<span class="roi-report-label">CPM estimado</span>' +
-                '<span class="roi-report-value">$' + data.cpm.toFixed(2) + '</span>' +
-            '</div>' +
-            '<div class="roi-report-item">' +
-                '<span class="roi-report-label">Ingreso mensual actual</span>' +
-                '<span class="roi-report-value">' + roiFormatCurrency(data.monthly_revenue) + '</span>' +
-            '</div>' +
-            '<div class="roi-report-item roi-report-highlight">' +
-                '<span class="roi-report-label">Potencial adicional mensual</span>' +
-                '<span class="roi-report-value">' + roiFormatCurrency(data.potential_additional) + '</span>' +
-            '</div>' +
-            '<div class="roi-report-item roi-report-loss">' +
-                '<span class="roi-report-label">Pérdida anual estimada</span>' +
-                '<span class="roi-report-value">' + roiFormatCurrency(data.annual_loss) + '</span>' +
+            '<div class="roi-cost-item roi-cost-savings">' +
+                '<span class="roi-cost-label">Ahorro</span>' +
+                '<span class="roi-cost-value">Hasta ' + savings + '%</span>' +
             '</div>' +
         '</div>' +
+        
+        '<h4 class="roi-report-section-title">🎯 Recomendaciones para tu perfil</h4>' +
+        '<div class="roi-recommendation">' +
+            '<p>' + recommendation + '</p>' +
+            '<p><strong>ROI estimado:</strong> Recuperas tu inversión en JANUS en las primeras 2-3 semanas de publicación.</p>' +
+        '</div>' +
+        
         '<div class="roi-report-cta">' +
             '<p>¿Listo para recuperar ese ingreso?</p>' +
             '<a href="#" id="roi-try-janus" class="btn btn-primary">Probar JANUS ahora</a>' +
