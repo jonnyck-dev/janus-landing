@@ -434,6 +434,131 @@ h1, h2, h3 {
     background: var(--white);
 }
 
+/* Loss Aversion Section */
+.loss-aversion {
+    padding: 100px 0;
+    background: linear-gradient(180deg, var(--gray-50) 0%, var(--white) 100%);
+}
+
+.loss-intro {
+    max-width: 800px;
+    margin: 0 auto 60px;
+    text-align: center;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--gray-700);
+}
+
+.loss-intro strong {
+    color: var(--gray-900);
+}
+
+.loss-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    max-width: 900px;
+    margin: 0 auto 60px;
+}
+
+.loss-card {
+    padding: 40px 32px;
+    background: var(--white);
+    border-radius: 16px;
+    border: 2px solid var(--gray-200);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.loss-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: #e53e3e;
+}
+
+.loss-card-highlight {
+    border-color: #e53e3e;
+    background: linear-gradient(135deg, #fff5f5 0%, var(--white) 100%);
+}
+
+.loss-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--gray-100);
+    color: var(--gray-700);
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.loss-card-highlight .loss-badge {
+    background: #fed7d7;
+    color: #c53030;
+}
+
+.loss-scenario {
+    font-size: 16px;
+    color: var(--gray-600);
+    margin-bottom: 16px;
+    line-height: 1.5;
+}
+
+.loss-amount {
+    font-size: 42px;
+    font-weight: 800;
+    color: #e53e3e;
+    margin-bottom: 8px;
+    line-height: 1;
+    font-family: var(--font-heading);
+}
+
+.loss-period {
+    font-size: 15px;
+    color: var(--gray-600);
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.loss-detail {
+    font-size: 14px;
+    color: var(--gray-500);
+    line-height: 1.6;
+}
+
+.loss-conclusion {
+    max-width: 800px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%);
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+}
+
+.conclusion-text {
+    font-size: 20px;
+    color: var(--white);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.conclusion-text strong {
+    color: #fc8181;
+}
+
+.conclusion-solution {
+    font-size: 17px;
+    color: var(--gray-300);
+    line-height: 1.6;
+}
+
+.conclusion-solution strong {
+    color: var(--gold-light);
+}
+
 .research-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -576,6 +701,11 @@ h1, h2, h3 {
         grid-template-columns: repeat(2, 1fr);
     }
     
+    .loss-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+    
     .steps {
         flex-direction: column;
         gap: 24px;
@@ -628,6 +758,31 @@ h1, h2, h3 {
 
     .highlight-text {
         font-size: 16px;
+    }
+
+    .loss-intro {
+        font-size: 16px;
+        padding: 0 16px;
+    }
+
+    .loss-card {
+        padding: 32px 24px;
+    }
+
+    .loss-amount {
+        font-size: 36px;
+    }
+
+    .loss-conclusion {
+        padding: 32px 24px;
+    }
+
+    .conclusion-text {
+        font-size: 17px;
+    }
+
+    .conclusion-solution {
+        font-size: 15px;
     }
 
     .demo-toggle-btn {
