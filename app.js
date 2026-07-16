@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
     smoothScrollLinks.forEach(function(link) {
         if (link.classList.contains('btn-primary')) return;
+        if (link.id === 'btn-nav-try' || link.id === 'btn-hero-try') return;
         link.addEventListener('click', function(e) {
             var href = this.getAttribute('href');
             if (href === '#') return;
