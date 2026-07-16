@@ -118,9 +118,6 @@ function roiSaveToSupabase(session, data) {
     if (!session || !session.user) return Promise.resolve({ error: 'No session' });
 
     return _supabase.from('roi_leads').insert({
-        user_id: session.user.id,
-        name: session.user.user_metadata?.full_name || session.user.email,
-        email: session.user.email,
         channel_language: data.language,
         monthly_views: data.monthly_views,
         cpm: data.cpm,

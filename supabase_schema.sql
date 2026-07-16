@@ -58,9 +58,7 @@ create trigger on_auth_user_created
 -- 6. Tabla para leads de la calculadora de ROI
 create table if not exists public.roi_leads (
   id uuid primary key default gen_random_uuid(),
-  user_id uuid references auth.users(id) on delete cascade,
-  name text,
-  email text,
+  user_id uuid references auth.users(id) on delete cascade default auth.uid(),
   channel_language text not null,
   monthly_views numeric not null,
   cpm numeric not null,
