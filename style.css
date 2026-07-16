@@ -561,13 +561,13 @@ h1, h2, h3 {
 
 .research-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 24px;
     margin-bottom: 48px;
 }
 
 .research-card {
-    padding: 28px 24px;
+    padding: 32px 28px;
     background: var(--gray-50);
     border-radius: 16px;
     border: 1px solid var(--gray-200);
@@ -588,27 +588,24 @@ h1, h2, h3 {
 }
 
 .research-title {
-    font-size: 17px;
+    font-size: 19px;
     font-weight: 600;
     color: var(--gray-900);
-    margin-bottom: 8px;
-    font-family: var(--font-heading);
-}
-
-.research-stat {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--gold-dark);
     margin-bottom: 12px;
-    line-height: 1.2;
+    font-family: var(--font-heading);
+    line-height: 1.3;
 }
 
 .research-desc {
-    font-size: 14px;
+    font-size: 15px;
     color: var(--gray-600);
-    line-height: 1.5;
+    line-height: 1.7;
     margin-bottom: 16px;
     flex-grow: 1;
+}
+
+.research-desc strong {
+    color: var(--gray-900);
 }
 
 .research-source {
@@ -698,7 +695,7 @@ h1, h2, h3 {
     }
     
     .research-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 1fr;
     }
     
     .loss-grid {
