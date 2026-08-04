@@ -44,6 +44,13 @@ janus-landing/
 └── vercel.json       ← Rewrites for /app and /studio
 ```
 
+## Auth UI (Supabase)
+
+- **Chip de usuario en navbar**: `#janus-nav-user` (avatar + nombre) reemplaza a `btn-nav-try` cuando hay sesión. El avatar viene de `profiles.avatar_url` (imagen de Google vía OAuth), con fallback a inicial.
+- **Menú**: click en el chip → dropdown con "Mi perfil" (`janusOpenProfile`) y "Cerrar sesión" (`janusLogout`).
+- **Modal de perfil**: edita `profiles.full_name`, email (vía `auth.updateUser`, requiere confirmación por correo) y contraseña (`auth.updateUser`).
+- `janusRenderNav(session)` se llama en `onAuthStateChange` (SIGNED_IN/SIGNED_OUT) y al cargar la página.
+
 ## Stripe Compliance (2026-08)
 
 - **Empresa**: `jonnyck-org` — debe aparecer en footer y legal.html. NUNCA renombrar a otra cosa.

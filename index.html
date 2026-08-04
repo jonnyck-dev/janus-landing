@@ -18,7 +18,20 @@
             <a href="#" class="logo">
                 <span class="logo-text">JANUS</span>
             </a>
-            <a href="#" id="btn-nav-try" class="btn btn-primary btn-sm">Probar ahora</a>
+            <div class="nav-actions">
+                <a href="#" id="btn-nav-try" class="btn btn-primary btn-sm">Probar ahora</a>
+                <div id="janus-nav-user" class="janus-nav-user" style="display:none;">
+                    <button class="janus-user-chip" id="janus-user-chip" aria-label="Mi cuenta">
+                        <img id="janus-user-avatar-img" class="janus-user-avatar" alt="" style="display:none;">
+                        <span id="janus-user-avatar-fallback" class="janus-user-avatar janus-user-avatar-fallback">·</span>
+                        <span class="janus-user-name" id="janus-user-name"></span>
+                    </button>
+                    <div class="janus-user-menu" id="janus-user-menu">
+                        <button class="janus-user-menu-item" id="janus-menu-profile">Mi perfil</button>
+                        <button class="janus-user-menu-item danger" id="janus-menu-logout">Cerrar sesión</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
