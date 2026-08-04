@@ -182,14 +182,14 @@ function roiShowReport(data) {
         : 'El mercado en inglés paga más pero requiere más tiempo para crecer. <strong>Estrategia recomendada:</strong> Enfócate en calidad y nicho específico. Publica 1 video por semana en inglés con contenido altamente especializado.';
     
     reportEl.innerHTML =
-        '<h3 class="roi-report-title">📊 Tu Plan de Ingresos Personalizado</h3>' +
+        '<h3 class="roi-report-title">Tu Plan de Ingresos Personalizado</h3>' +
         '<p class="roi-report-subtitle">Dirección: <strong>' + langLabel + '</strong></p>' +
-        
-        '<h4 class="roi-report-section-title">📈 Proyección a 12 meses</h4>' +
+
+        '<h4 class="roi-report-section-title">Proyección a 12 meses</h4>' +
         '<p class="roi-report-section-desc">El crecimiento no es lineal. Tu audiencia en el nuevo idioma se construye gradualmente, generando un efecto compuesto.</p>' +
         projectionHTML +
-        
-        '<h4 class="roi-report-section-title">💰 Comparativa de costos</h4>' +
+
+        '<h4 class="roi-report-section-title">Comparativa de costos</h4>' +
         '<div class="roi-cost-comparison">' +
             '<div class="roi-cost-item">' +
                 '<span class="roi-cost-label">Doblaje tradicional</span>' +
@@ -205,7 +205,7 @@ function roiShowReport(data) {
             '</div>' +
         '</div>' +
         
-        '<h4 class="roi-report-section-title">🎯 Recomendaciones para tu perfil</h4>' +
+        '<h4 class="roi-report-section-title">Recomendaciones para tu perfil</h4>' +
         '<div class="roi-recommendation">' +
             '<p>' + recommendation + '</p>' +
             '<p><strong>ROI estimado:</strong> Recuperas tu inversión en JANUS en las primeras 2-3 semanas de publicación.</p>' +

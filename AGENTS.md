@@ -26,9 +26,12 @@ User's PC (localhost:8000) — FastAPI backend
 
 ```
 janus-landing/
-├── index.html        ← Landing page (marketing)
+├── index.html        ← Landing page (marketing + pricing)
 ├── style.css         ← White + gold palette (#d4a853, #f0c040)
 ├── app.js            ← CTA buttons → JANUS_APP_URL (/app)
+├── auth.js           ← Supabase auth; CTAs usan clase .janus-cta o ids btn-nav-try/btn-hero-try
+├── calculator.js     ← ROI calculator → tabla roi_leads en Supabase
+├── legal.html        ← Términos, reembolsos, cancelación, promociones (Stripe compliance)
 ├── assets/           ← Images, demo gifs
 ├── frontend/
 │   ├── index.html    ← Editor de doblaje
@@ -40,6 +43,13 @@ janus-landing/
 │   └── style.css     ← Shared dark theme
 └── vercel.json       ← Rewrites for /app and /studio
 ```
+
+## Stripe Compliance (2026-08)
+
+- **Empresa**: `jonnyck-org` — debe aparecer en footer y legal.html. NUNCA renombrar a otra cosa.
+- **Contacto**: `jonnyck.dev@icloud.com` (footer + legal.html#contacto).
+- **Políticas** en `legal.html` con anchors: `#terminos`, `#reembolsos`, `#cancelacion`, `#promociones`, `#restricciones`. El footer linkea a estos anchors — mantenerlos si se edita legal.html.
+- **Pricing**: 3 planes por video (Esencial $5 / Multi-Voz $25 / Global $45), hasta 40 min cada uno. Fuente de verdad: sección `#pricing` en index.html. Si cambian precios o features, actualizar también las políticas de reembolso si aplica.
 
 ## Plan Pendiente: Separar Frontend del Backend
 
@@ -107,6 +117,9 @@ Mover `frontend/` y `frontend_studio/` del repo `TRADUCTOR` al repo `janus-landi
 ## When Editing
 
 - Landing: maintain white/gold color scheme (see CSS variables in `style.css`)
+- Tipografía: Playfair Display (headings) + Inter (body) + IBM Plex Mono (labels/eyebrows/detalles técnicos)
+- NO usar emojis en títulos de sección ni como iconos de features — usar números mono (01, 02...) y `.section-eyebrow` labels
+- Hero title: negro sólido con `<em>` italic dorado — NO gradient text (efecto IA genérico)
 - Editor: maintain dark glassmorphism with neon accents (see `frontend/style.css`)
 - Keep the 3-step flow (paste URL → click start → get dubbed video) as the core message
 - Separate project from TRADUCTOR backend repo — do NOT mix backend code here

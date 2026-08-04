@@ -230,22 +230,29 @@ function janusWireButtons() {
     var buttons = ['btn-nav-try', 'btn-hero-try'];
     buttons.forEach(function (id) {
         var btn = document.getElementById(id);
-        if (!btn) return;
-        btn.addEventListener('click', function (e) {
-            e.preventDefault();
-            if (!janusIsConfigured()) {
-                // Fallback: comportamiento original (mailto) si no hay Supabase.
+        if (btn) janusWireCta(btn);
+    });
+    // CTAs genéricos (pricing, etc.)
+    document.querySelectorAll('.janus-cta').forEach(function (btn) {
+        janusWireCta(btn);
+    });
+}
+
+function janusWireCta(btn) {
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        if (!janusIsConfigured()) {
+            // Fallback: comportamiento original (mailto) si no hay Supabase.
+            window.location.href = MAILTO_HREF;
+            return;
+        }
+        janusInitSupabase();
+        _supabase.auth.getSession().then(function (res) {
+            if (res.data && res.data.session) {
                 window.location.href = MAILTO_HREF;
-                return;
+            } else {
+                janusOpenModal();
             }
-            janusInitSupabase();
-            _supabase.auth.getSession().then(function (res) {
-                if (res.data && res.data.session) {
-                    window.location.href = MAILTO_HREF;
-                } else {
-                    janusOpenModal();
-                }
-            });
         });
     });
 }
