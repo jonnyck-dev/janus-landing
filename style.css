@@ -90,7 +90,7 @@ h1, h2, h3 {
 
 /* 1. Botones táctiles 3D (presionar = hundirse) */
 .btn-3d {
-    background: var(--gold-primary);
+    background: var(--gold-light);
     color: var(--gray-900);
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 12px;
@@ -128,18 +128,18 @@ h1, h2, h3 {
     height: 200%;
     background: linear-gradient(
         60deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.35) 50%,
-        transparent 70%
+        transparent 25%,
+        rgba(255, 255, 255, 0.7) 50%,
+        transparent 75%
     );
-    transform: translateX(-100%) rotate(30deg);
-    animation: shimmer 5s infinite;
+    transform: translateX(-120%) rotate(25deg);
+    animation: shimmer 5s ease-in-out infinite;
 }
 
 @keyframes shimmer {
-    0% { transform: translateX(-100%) rotate(30deg); }
-    20% { transform: translateX(100%) rotate(30deg); }
-    100% { transform: translateX(100%) rotate(30deg); }
+    0% { transform: translateX(-120%) rotate(25deg); }
+    40% { transform: translateX(120%) rotate(25deg); }
+    100% { transform: translateX(120%) rotate(25deg); }
 }
 
 /* 4. Micro-indicador "en vivo" */
