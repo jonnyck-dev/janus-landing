@@ -123,6 +123,7 @@ Mover `frontend/` y `frontend_studio/` del repo `TRADUCTOR` al repo `janus-landi
 ## Key Facts
 
 - `JANUS_APP_URL` in `app.js` apunta a `/app` en el mismo dominio (Vercel). `calculator.js` define la suya con guard `typeof JANUS_APP_URL === 'undefined'` (para agencia.html, que no carga app.js)
+- **Pricing flotante** (`app.js`): la tarjeta `#pricing` con `.price-card-featured` sobresale por defecto (clase `.price-card-active`). Al hacer hover, esa tarjeta se eleva y la del medio vuelve a su posición; al salir, la del medio sobresale otra vez. Incluye tilt sutil por cursor via CSS vars `--tilt-x`/`--tilt-y`
 - El frontend se comunica con el backend via `API_BASE` apuntando al tunnel
 - La URL del tunnel cambia al reiniciar cloudflared — actualizar `API_BASE`
 - `.btn-primary` → redirige a la app SOLO si es `#btn-try-now`/`#btn-nav-try`/`#btn-hero-try`/`.price-cta` (vía auth.js o app.js). El `.btn-primary` del banner agencia apunta a `agencia.html`

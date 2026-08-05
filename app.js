@@ -193,4 +193,39 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Tarjetas de pricing flotantes: la del medio sobresale por defecto;
+    // al pasar el mouse, esa tarjeta sobresale (con tilt sutil) y la del medio vuelve a su posición.
+    var pricingCards = document.querySelectorAll('.price-card');
+    var defaultPriceCard = document.querySelector('.price-card-featured') ||
+        pricingCards[Math.floor(pricingCards.length / 2)];
+
+    if (pricingCards.length && defaultPriceCard) {
+        function setPriceActive(card) {
+            pricingCards.forEach(function(c) {
+                c.classList.toggle('price-card-active', c === card);
+            });
+        }
+
+        setPriceActive(defaultPriceCard);
+
+        pricingCards.forEach(function(card) {
+            card.addEventListener('mouseenter', function() {
+                setPriceActive(card);
+            });
+            card.addEventListener('mousemove', function(e) {
+                if (!card.classList.contains('price-card-active')) return;
+                var rect = card.getBoundingClientRect();
+                var x = e.clientX - rect.left - rect.width / 2;
+                var y = e.clientY - rect.top - rect.height / 2;
+                card.style.setProperty('--tilt-x', (x / 40) + 'deg');
+                card.style.setProperty('--tilt-y', (-y / 40) + 'deg');
+            });
+            card.addEventListener('mouseleave', function() {
+                card.style.setProperty('--tilt-x', '0deg');
+                card.style.setProperty('--tilt-y', '0deg');
+                setPriceActive(defaultPriceCard);
+            });
+        });
+    }
 });

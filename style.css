@@ -174,7 +174,6 @@ h1, h2, h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .btn-shimmer::after,
     .pulse-dot {
         animation: none;
     }
@@ -634,6 +633,8 @@ h1, h2, h3 {
     max-width: 1080px;
     margin: 0 auto;
     align-items: stretch;
+    perspective: 1200px;
+    padding-top: 24px;
 }
 
 .price-card {
@@ -644,12 +645,12 @@ h1, h2, h3 {
     background: var(--white);
     border: 1px solid var(--gray-200);
     border-radius: 12px;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.35s ease;
+    will-change: transform;
 }
 
 .price-card:hover {
-    border-color: var(--gray-400);
-    box-shadow: var(--shadow-md);
+    border-color: var(--gold-primary);
 }
 
 .price-card-featured {
@@ -660,7 +661,13 @@ h1, h2, h3 {
 
 .price-card-featured:hover {
     border-color: var(--gold-primary);
-    box-shadow: var(--shadow-xl);
+}
+
+/* Tarjeta flotante activa: la que sobresale por defecto (la del medio)
+   y la que sobresale al pasar el mouse (con tilt sutil según el cursor) */
+.price-card-active {
+    transform: translateY(-16px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg));
+    box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.22);
 }
 
 .price-badge {
