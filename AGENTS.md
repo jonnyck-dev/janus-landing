@@ -26,11 +26,13 @@ User's PC (localhost:8000) — FastAPI backend
 
 ```
 janus-landing/
-├── index.html        ← Landing page (marketing + pricing)
+├── index.html        ← Landing page (home): hero → cómo funciona → features → pricing → banner agencia → CTA final
+├── agencia.html      ← Página /agencia: servicio gestionado → pérdida → estudio de mercado → calculadora ROI → CTA
 ├── style.css         ← White + gold palette (#d4a853, #f0c040)
-├── app.js            ← CTA buttons → JANUS_APP_URL (/app)
-├── auth.js           ← Supabase auth; CTAs usan clase .janus-cta o ids btn-nav-try/btn-hero-try
-├── calculator.js     ← ROI calculator → tabla roi_leads en Supabase
+├── app.js            ← SOLO en index.html: CTA buttons → JANUS_APP_URL (/app) + demo player + smooth scroll
+├── auth.js           ← Supabase auth; CTAs usan clase .janus-cta o ids btn-nav-try/btn-hero-try (seguro en cualquier página)
+├── calculator.js     ← SOLO en agencia.html: ROI calculator → tabla roi_leads en Supabase (standalone, define su propio JANUS_APP_URL)
+├── calculator.css    ← SOLO en agencia.html
 ├── legal.html        ← Términos, reembolsos, cancelación, promociones (Stripe compliance)
 ├── assets/           ← Images, demo gifs
 ├── frontend/
@@ -43,6 +45,14 @@ janus-landing/
 │   └── style.css     ← Shared dark theme
 └── vercel.json       ← Rewrites for /app and /studio
 ```
+
+## Pages / Rutas
+
+- **Home (`/index.html`)**: orden estricto → hero (intacto) → how-it-works → features → pricing (`#pricing`, fuente de verdad de precios) → `.service-banner` (upsell que enlaza a `agencia.html`) → CTA final → footer.
+- **Agencia (`/agencia.html`)**: navbar con links "Inicio" y "Agencia" (activo). Contiene las secciones que se movieron del home: `#managed` (servicio gestionado completo), `#loss` (pérdida), `#research` (estudio de mercado), `#roi-calculator` (calculadora ROI). CTA final → mailto.
+- **Navbar**: `#nav-links` con `a.nav-link`; la página actual lleva `.active` (borde dorado). Home muestra solo "Agencia"; Agencia muestra "Inicio" + "Agencia".
+- **Regla de scripts por página**: `app.js` SOLO en index (el demo player no tiene guards: crashea si no hay `#demo-video`). `calculator.js` + `calculator.css` SOLO en agencia. `auth.js`, `chat-app.js` y supabase CDN van en ambas.
+- **Banner agencia**: sección `.service-banner` en index — luz con borde dorado a la izquierda, CTA primario → `agencia.html`, link secundario → mailto.
 
 ## Auth UI (Supabase)
 
@@ -112,10 +122,10 @@ Mover `frontend/` y `frontend_studio/` del repo `TRADUCTOR` al repo `janus-landi
 
 ## Key Facts
 
-- `JANUS_APP_URL` in `app.js` apunta a `/app` en el mismo dominio (Vercel)
+- `JANUS_APP_URL` in `app.js` apunta a `/app` en el mismo dominio (Vercel). `calculator.js` define la suya con guard `typeof JANUS_APP_URL === 'undefined'` (para agencia.html, que no carga app.js)
 - El frontend se comunica con el backend via `API_BASE` apuntando al tunnel
 - La URL del tunnel cambia al reiniciar cloudflared — actualizar `API_BASE`
-- All `.btn-primary` elements redirect to the app
+- `.btn-primary` → redirige a la app SOLO si es `#btn-try-now`/`#btn-nav-try`/`#btn-hero-try`/`.price-cta` (vía auth.js o app.js). El `.btn-primary` del banner agencia apunta a `agencia.html`
 - Fonts: Playfair Display (headings) + Inter (body) from Google Fonts CDN (landing)
 - Fonts: Outfit + Plus Jakarta Sans from Google Fonts CDN (editor/studio)
 - El editor usa tema oscuro glassmorphism; el landing usa tema claro dorado/blanco

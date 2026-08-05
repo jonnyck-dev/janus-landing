@@ -116,6 +116,34 @@ h1, h2, h3 {
     letter-spacing: 2px;
 }
 
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.nav-link {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--gray-500);
+    padding: 6px 0;
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: var(--gray-900);
+}
+
+.nav-link.active {
+    color: var(--gray-900);
+    border-bottom-color: var(--gold-primary);
+}
+
 .hero {
     padding: 140px 0 60px;
     background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
@@ -204,6 +232,29 @@ h1, h2, h3 {
     font-size: 18px;
     color: var(--gray-500);
     margin-bottom: 60px;
+}
+
+.page-head {
+    padding: 140px 0 80px;
+    background: linear-gradient(180deg, var(--white) 0%, var(--gray-50) 100%);
+    text-align: center;
+}
+
+.page-head-title {
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--gray-900);
+    max-width: 760px;
+    margin: 0 auto 20px;
+}
+
+.page-head-subtitle {
+    font-size: 18px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 auto;
 }
 
 .features {
@@ -704,6 +755,79 @@ h1, h2, h3 {
 
 .pricing-note a:hover {
     text-decoration: underline;
+}
+
+/* Service Banner (managed service upsell → /agencia) */
+.service-banner {
+    padding: 72px 0;
+    background: var(--white);
+}
+
+.service-banner-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+    border: 1px solid var(--gray-200);
+    border-left: 4px solid var(--gold-primary);
+    border-radius: 12px;
+    padding: 48px;
+    background: linear-gradient(180deg, var(--off-white) 0%, var(--gray-50) 100%);
+}
+
+.service-banner-text {
+    flex: 1;
+    max-width: 620px;
+}
+
+.service-banner-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--gray-900);
+    margin-bottom: 16px;
+}
+
+.service-banner-body {
+    font-size: 17px;
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.service-banner-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+.service-banner-link {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--gold-dark);
+    transition: color 0.2s ease;
+}
+
+.service-banner-link:hover {
+    color: var(--gold-primary);
+}
+
+@media (max-width: 900px) {
+    .service-banner-inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 36px 24px;
+    }
+
+    .service-banner-cta {
+        width: 100%;
+    }
 }
 
 .cta-section {
@@ -1276,5 +1400,37 @@ h1, h2, h3 {
         flex-direction: column;
         gap: 8px;
         text-align: center;
+    }
+
+    .nav-links {
+        gap: 16px;
+    }
+
+    .nav-link {
+        font-size: 12px;
+    }
+
+    .page-head {
+        padding: 120px 0 60px;
+    }
+
+    .page-head-title {
+        font-size: 32px;
+    }
+
+    .page-head-subtitle {
+        font-size: 16px;
+    }
+
+    .service-banner {
+        padding: 48px 0;
+    }
+
+    .service-banner-title {
+        font-size: 24px;
+    }
+
+    .service-banner-body {
+        font-size: 15px;
     }
 }
