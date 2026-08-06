@@ -177,25 +177,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Tarjetas con animación de "empuje hacia el fondo" según el cursor (respetando prefers-reduced-motion)
-    var prefersReducedMotion = window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!prefersReducedMotion) {
-        document.querySelectorAll('.card-3d').forEach(function(card) {
-            card.addEventListener('mouseenter', function() {
-                card.style.transform = 'perspective(900px) translateZ(-18px) scale(0.96) rotateX(0deg) rotateY(0deg)';
-            });
-            card.addEventListener('mousemove', function(e) {
-                var rect = card.getBoundingClientRect();
-                var x = e.clientX - rect.left - rect.width / 2;
-                var y = e.clientY - rect.top - rect.height / 2;
-                card.style.transform = 'perspective(900px) translateZ(-18px) scale(0.96) rotateX(' + (y / 50) + 'deg) rotateY(' + (-x / 50) + 'deg)';
-            });
-            card.addEventListener('mouseleave', function() {
-                card.style.transform = 'perspective(900px) translateZ(0px) scale(1) rotateX(0deg) rotateY(0deg)';
-            });
+    // Feature cards: empuje tipo pricing (sin guard de reduced-motion, igual que el pricing).
+    // Todas al mismo nivel flotante; la que tiene el mouse encima se empuja hacia adelante con tilt sutil.
+    document.querySelectorAll('.card-3d').forEach(function(card) {
+        card.addEventListener('mouseenter', function() {
+            card.classList.add('card-3d-push');
         });
-    }
+        card.addEventListener('mousemove', function(e) {
+            if (!card.classList.contains('card-3d-push')) return;
+            var rect = card.getBoundingClientRect();
+            var x = e.clientX - rect.left - rect.width / 2;
+            var y = e.clientY - rect.top - rect.height / 2;
+            card.style.setProperty('--tilt-x', (x / 40) + 'deg');
+            card.style.setProperty('--tilt-y', (-y / 40) + 'deg');
+        });
+        card.addEventListener('mouseleave', function() {
+            card.classList.remove('card-3d-push');
+            card.style.setProperty('--tilt-x', '0deg');
+            card.style.setProperty('--tilt-y', '0deg');
+        });
+    });
 
     // Tarjetas de pricing flotantes: la del medio sobresale por defecto;
     // al pasar el mouse, esa tarjeta sobresale (con tilt sutil) y la del medio vuelve a su posición.

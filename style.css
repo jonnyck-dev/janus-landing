@@ -359,6 +359,7 @@ h1, h2, h3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+    perspective: 1200px;
 }
 
 .feature-card {
@@ -374,15 +375,20 @@ h1, h2, h3 {
     border-color: var(--gold-primary);
 }
 
-/* 3. Tarjetas con inclinación 3D según el cursor */
+/* 3. Tarjetas con empuje tipo pricing: todas al mismo nivel flotante,
+   la que tiene el mouse encima se empuja hacia adelante con tilt sutil */
 .card-3d {
     transform-style: preserve-3d;
     will-change: transform;
-    transition: transform 0.18s ease-out, border-color 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .card-3d:hover {
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-lg);
+}
+
+.card-3d-push {
+    transform: translateY(-8px) rotateX(var(--tilt-y, 0deg)) rotateY(var(--tilt-x, 0deg));
 }
 
 .feature-icon {
