@@ -136,7 +136,7 @@ Mover `frontend/` y `frontend_studio/` del repo `TRADUCTOR` al repo `janus-landi
 
 - Landing: maintain white/gold color scheme (see CSS variables in `style.css`)
 - Tipografía: Playfair Display (headings) + Inter (body) + IBM Plex Mono (labels/eyebrows/detalles técnicos)
-- NO usar emojis en títulos de sección ni como iconos de features — las 6 feature cards usan `assets/icons/01.png`–`06.png` (PNG transparente, 366×366) dentro de `.feature-icon` (caja 64px con fondo dorado sutil)
+- NO usar emojis en títulos de sección ni como iconos de features — las 6 feature cards usan `assets/icons/01.png`–`06.png` (PNG transparente, 366×366) dentro de `.feature-icon` (120px, sin fondo: el icono va directo sobre el fondo de la tarjeta)
 - Hero title: negro sólido con `<em>` italic dorado — NO gradient text (efecto IA genérico)
 - Editor: maintain dark glassmorphism with neon accents (see `frontend/style.css`)
 - Keep the 3-step flow (paste URL → click start → get dubbed video) as the core message

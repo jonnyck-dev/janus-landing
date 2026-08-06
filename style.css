@@ -382,20 +382,16 @@ h1, h2, h3 {
 }
 
 .card-3d:hover {
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-sm);
 }
 
 .feature-icon {
-    width: 64px;
-    height: 64px;
+    width: 120px;
+    height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px;
-    margin-bottom: 22px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, rgba(212, 168, 83, 0.12) 0%, rgba(212, 168, 83, 0.04) 100%);
-    border: 1px solid rgba(212, 168, 83, 0.2);
+    margin-bottom: 24px;
 }
 
 .feature-icon img {

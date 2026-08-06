@@ -177,19 +177,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Tarjetas con inclinación 3D según el cursor (respetando prefers-reduced-motion)
+    // Tarjetas con animación de "empuje hacia el fondo" según el cursor (respetando prefers-reduced-motion)
     var prefersReducedMotion = window.matchMedia &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!prefersReducedMotion) {
         document.querySelectorAll('.card-3d').forEach(function(card) {
+            card.addEventListener('mouseenter', function() {
+                card.style.transform = 'perspective(900px) translateZ(-18px) scale(0.96) rotateX(0deg) rotateY(0deg)';
+            });
             card.addEventListener('mousemove', function(e) {
                 var rect = card.getBoundingClientRect();
                 var x = e.clientX - rect.left - rect.width / 2;
                 var y = e.clientY - rect.top - rect.height / 2;
-                card.style.transform = 'perspective(1000px) rotateX(' + (-y / 30) + 'deg) rotateY(' + (x / 30) + 'deg) translateY(-4px)';
+                card.style.transform = 'perspective(900px) translateZ(-18px) scale(0.96) rotateX(' + (y / 50) + 'deg) rotateY(' + (-x / 50) + 'deg)';
             });
             card.addEventListener('mouseleave', function() {
-                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+                card.style.transform = 'perspective(900px) translateZ(0px) scale(1) rotateX(0deg) rotateY(0deg)';
             });
         });
     }
