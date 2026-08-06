@@ -34,7 +34,7 @@ janus-landing/
 ├── calculator.js     ← SOLO en agencia.html: ROI calculator → tabla roi_leads en Supabase (standalone, define su propio JANUS_APP_URL)
 ├── calculator.css    ← SOLO en agencia.html
 ├── legal.html        ← Términos, reembolsos, cancelación, promociones (Stripe compliance)
-├── assets/           ← Images, demo gifs, icons (01.png–06.png para las 6 feature cards)
+├── assets/           ← Images, demo gifs, icons (01.png–06.png features, pasos_01.png–03.png pasos)
 ├── frontend/
 │   ├── index.html    ← Editor de doblaje
 │   ├── app.js        ← (from Traductor repo)
