@@ -194,6 +194,12 @@ h1, h2, h3 {
     text-decoration: none;
 }
 
+.logo-img {
+    display: block;
+    height: 34px;
+    width: auto;
+}
+
 .logo-text {
     font-family: var(--font-heading);
     font-size: 28px;
