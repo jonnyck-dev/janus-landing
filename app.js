@@ -46,6 +46,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var demoLabel = document.getElementById('demo-label');
     var demoDescription = document.getElementById('demo-description');
 
+    // El demo player solo existe en la landing principal; si falta, se omite
+    // sin romper el resto de la página (smooth-scroll, card-3d, pricing).
+    if (demoVideo && demoLabel && demoDescription && document.querySelector('.demo-arrow-left')) {
     function loadDemo(index, forcePlay) {
         demoIndex = index;
         var demo = demos[index];
@@ -176,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
             hasBeenUnmuted = true;
         }
     });
+    }
 
     // Feature cards: empuje tipo pricing (sin guard de reduced-motion, igual que el pricing).
     // Todas al mismo nivel flotante; la que tiene el mouse encima se empuja hacia adelante con tilt sutil.
