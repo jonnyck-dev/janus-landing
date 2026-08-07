@@ -83,7 +83,7 @@ function janusBuildModal() {
             '<button class="janus-auth-toggle" id="janus-auth-toggle">Usar contraseña en su lugar</button>' +
 
             '<p class="janus-auth-msg" id="janus-auth-msg"></p>' +
-            '<p class="janus-auth-foot">Al continuar aceptas los Términos de JANUS Studio.</p>' +
+            '<p class="janus-auth-foot">Al continuar aceptas los Términos de JANUS.</p>' +
         '</div>';
 
     document.body.appendChild(overlay);

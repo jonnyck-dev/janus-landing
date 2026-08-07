@@ -12,14 +12,14 @@
         '<button class="janus-chat-close" id="janus-chat-close" aria-label="Cerrar">✕</button>' +
       "</div>" +
       '<div class="janus-chat-messages" id="janus-chat-msgs">' +
-        '<div class="janus-msg bot">!Hola! Soy Janus Bot. ?En que puedo ayudarte sobre JANUS Studio?</div>' +
+        '<div class="janus-msg bot">!Hola! Soy Janus Bot. ?En que puedo ayudarte sobre JANUS?</div>' +
       "</div>" +
       '<div class="janus-chat-input-area">' +
         '<input class="janus-chat-input" id="janus-chat-input" type="text" placeholder="Escribe tu pregunta..." autocomplete="off">' +
         '<button class="janus-chat-send" id="janus-chat-send" aria-label="Enviar">➤</button>' +
       "</div>" +
       '<div class="janus-chat-powered">' +
-        '<a href="https://janus-landing-red.vercel.app" target="_blank">JANUS Studio</a> &middot; Asistente informativo' +
+        '<a href="https://janus-landing-red.vercel.app" target="_blank">JANUS</a> &middot; Asistente informativo' +
       "</div>" +
     "</div>";
 
