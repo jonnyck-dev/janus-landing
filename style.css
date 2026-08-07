@@ -25,6 +25,17 @@
     --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
+.brand-janus {
+    color: var(--gold-dark);
+    font-weight: 700;
+}
+
+.footer .brand-janus,
+.cta-section .brand-janus {
+    color: var(--gold-light);
+    font-weight: 700;
+}
+
 * {
     margin: 0;
     padding: 0;
