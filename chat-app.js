@@ -96,7 +96,19 @@
       body: JSON.stringify({ question: q }),
     })
       .then(function (res) {
-        if (!res.ok) throw new Error("Error " + res.status);
+        if (!res.ok) {
+          return res
+            .json()
+            .catch(function () {
+              return null;
+            })
+            .then(function (body) {
+              if (body && body.status === "maintenance") {
+                throw { maintenance: true, message: body.message };
+              }
+              throw new Error("Error " + res.status);
+            });
+        }
         var reader = res.body.getReader();
         var decoder = new TextDecoder();
         var buffer = "";
@@ -157,6 +169,13 @@
         clearInterval(dotInterval);
         STREAMING = false;
         send.disabled = false;
+        if (err && err.maintenance) {
+          botEl.className = "janus-msg error";
+          botEl.textContent =
+            (err.message || "🛌 La PC esta en modo siesta. Estamos recogiendo el carbon...") +
+            " Vuelve en un momento ⛏️🔥";
+          return;
+        }
         botEl.className = "janus-msg error";
         botEl.textContent = "Error: " + err.message;
       });
