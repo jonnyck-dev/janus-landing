@@ -64,7 +64,7 @@ janus-landing/
 ## Stripe Compliance (2026-08)
 
 - **Empresa**: `jonnyck-org` — debe aparecer en footer y legal.html. NUNCA renombrar a otra cosa.
-- **Contacto**: `jonnyck.dev@icloud.com` (footer + legal.html#contacto).
+- **Contacto**: `support@janusdubber.website` (footer + legal.html#contacto).
 - **Políticas** en `legal.html` con anchors: `#terminos`, `#reembolsos`, `#cancelacion`, `#promociones`, `#restricciones`. El footer linkea a estos anchors — mantenerlos si se edita legal.html.
 - **Pricing**: 3 planes por video (Esencial $5 / Multi-Voz $25 / Global $45), hasta 40 min cada uno. Fuente de verdad: sección `#pricing` en index.html. Si cambian precios o features, actualizar también las políticas de reembolso si aplica.
 
