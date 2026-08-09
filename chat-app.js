@@ -4,22 +4,26 @@
   var OPEN = false;
   var STREAMING = false;
 
+  function t(key) {
+    return typeof window.janusT === "function" ? window.janusT(key) : key;
+  }
+
   var html =
-    '<button id="janus-chat-btn" aria-label="Abrir chat">💬</button>' +
+    '<button id="janus-chat-btn" aria-label="' + t("chat.open_aria") + '">💬</button>' +
     '<div id="janus-chat-window">' +
       '<div class="janus-chat-header">' +
         '<h3>JANUS</h3>' +
-        '<button class="janus-chat-close" id="janus-chat-close" aria-label="Cerrar">✕</button>' +
+        '<button class="janus-chat-close" id="janus-chat-close" aria-label="' + t("chat.close_aria") + '">✕</button>' +
       "</div>" +
       '<div class="janus-chat-messages" id="janus-chat-msgs">' +
-        '<div class="janus-msg bot">!Hola! Soy Janus Bot. ?En que puedo ayudarte sobre JANUS?</div>' +
+        '<div class="janus-msg bot" id="janus-chat-greeting">' + t("chat.greeting") + "</div>" +
       "</div>" +
       '<div class="janus-chat-input-area">' +
-        '<input class="janus-chat-input" id="janus-chat-input" type="text" placeholder="Escribe tu pregunta..." autocomplete="off">' +
-        '<button class="janus-chat-send" id="janus-chat-send" aria-label="Enviar">➤</button>' +
+        '<input class="janus-chat-input" id="janus-chat-input" type="text" placeholder="' + t("chat.placeholder") + '" autocomplete="off">' +
+        '<button class="janus-chat-send" id="janus-chat-send" aria-label="' + t("chat.send_aria") + '">➤</button>' +
       "</div>" +
       '<div class="janus-chat-powered">' +
-        '<a href="https://www.janusdubber.website" target="_blank">JANUS</a> &middot; Asistente informativo' +
+        '<a href="https://www.janusdubber.website" target="_blank">JANUS</a> &middot; <span id="janus-chat-powered-text">' + t("chat.powered") + "</span>" +
       "</div>" +
     "</div>";
 
@@ -86,7 +90,7 @@
       dots = (dots + 1) % 4;
       var dotsStr = "";
       for (var i = 0; i < dots; i++) dotsStr += ".";
-      botEl.textContent = fullText || "Pensando" + dotsStr;
+      botEl.textContent = fullText || t("chat.thinking") + dotsStr;
     }, 400);
 
     var url = API_BASE + "/api/chat";
@@ -136,7 +140,7 @@
                     STREAMING = false;
                     send.disabled = false;
                     botEl.className = "janus-msg error";
-                    botEl.textContent = "Error: " + data.error;
+                    botEl.textContent = t("chat.error_prefix").replace("%s", data.error);
                     return;
                   }
                   if (data.token) {
@@ -160,7 +164,7 @@
             STREAMING = false;
             send.disabled = false;
             botEl.className = "janus-msg error";
-            botEl.textContent = "Error de conexion. Verifica que el backend este corriendo.";
+            botEl.textContent = t("chat.err_connect");
           });
         }
         read();
@@ -172,17 +176,28 @@
         if (err && err.maintenance) {
           botEl.className = "janus-msg error";
           botEl.textContent =
-            (err.message || "🛌 La PC esta en modo siesta. Estamos recogiendo el carbon...") +
-            " Vuelve en un momento ⛏️🔥";
+            (err.message || t("chat.err_maintenance")) +
+            " " + t("chat.err_maintenance_back");
           return;
         }
         botEl.className = "janus-msg error";
-        botEl.textContent = "Error: " + err.message;
+        botEl.textContent = t("chat.error_prefix").replace("%s", err.message);
       });
   }
 
   send.addEventListener("click", sendQuestion);
   input.addEventListener("keydown", function (e) {
     if (e.key === "Enter") sendQuestion();
+  });
+
+  document.addEventListener("janus:langchange", function () {
+    var greeting = document.getElementById("janus-chat-greeting");
+    if (greeting) greeting.textContent = t("chat.greeting");
+    var powered = document.getElementById("janus-chat-powered-text");
+    if (powered) powered.textContent = t("chat.powered");
+    input.setAttribute("placeholder", t("chat.placeholder"));
+    btn.setAttribute("aria-label", t("chat.open_aria"));
+    close.setAttribute("aria-label", t("chat.close_aria"));
+    send.setAttribute("aria-label", t("chat.send_aria"));
   });
 })();

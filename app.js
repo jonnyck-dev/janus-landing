@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Demo videos carousel + toggle
     var demos = [
-        { name: 'Gameplay', original: 'assets/video_demos/video_piewdepie.mp4', dubbed: 'assets/video_demos/video_dubbed_piewdepie.mp4', poster: 'assets/video_demos/poster_video_piewdepie.jpg', desc: 'Escena del juego Piewdiepie doblada al español' },
-        { name: 'Review', original: 'assets/video_demos/video_review.mp4', dubbed: 'assets/video_demos/video_dubbed_review.mp4', poster: 'assets/video_demos/poster_video_review.jpg', desc: 'Review de producto con voz clonada' },
-        { name: 'Anime', original: 'assets/video_demos/video_anime.mp4', dubbed: 'assets/video_demos/video_dubbed_anime.mp4', poster: 'assets/video_demos/poster_video_anime.jpg', desc: 'Anime doblado con sincronización labial' }
+        { name: 'Gameplay', descKey: 'demo.gameplay.desc', original: 'assets/video_demos/video_piewdepie.mp4', dubbed: 'assets/video_demos/video_dubbed_piewdepie.mp4', poster: 'assets/video_demos/poster_video_piewdepie.jpg' },
+        { name: 'Review', descKey: 'demo.review.desc', original: 'assets/video_demos/video_review.mp4', dubbed: 'assets/video_demos/video_dubbed_review.mp4', poster: 'assets/video_demos/poster_video_review.jpg' },
+        { name: 'Anime', descKey: 'demo.anime.desc', original: 'assets/video_demos/video_anime.mp4', dubbed: 'assets/video_demos/video_dubbed_anime.mp4', poster: 'assets/video_demos/poster_video_anime.jpg' }
     ];
     var demoIndex = 0;
     var demoMode = 'original';
@@ -74,7 +74,9 @@ document.addEventListener('DOMContentLoaded', function() {
         demoLabel.textContent = demo.name;
 
         // Update description
-        demoDescription.textContent = demo.desc;
+        demoDescription.textContent = (typeof window.janusT === 'function')
+            ? window.janusT(demo.descKey)
+            : demo.descKey;
     }
 
     // Toggle Original/Doblado
@@ -164,6 +166,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial autoplay (muted) — arranca desde el primer demo
     loadDemo(0, true);
+
+    // Re-traducir la descripción del demo actual al cambiar idioma
+    document.addEventListener('janus:langchange', function () {
+        if (demoDescription) {
+            demoDescription.textContent = (typeof window.janusT === 'function')
+                ? window.janusT(demos[demoIndex].descKey)
+                : demos[demoIndex].descKey;
+        }
+    });
 
     // Auto-advance: cuando un video termina, pasa al siguiente
     demoVideo.addEventListener('ended', function() {

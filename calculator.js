@@ -9,6 +9,16 @@ if (typeof JANUS_APP_URL === 'undefined') {
 
 var ROI_STORAGE_KEY = 'janus_roi_calculation';
 
+function roiT(key) {
+    return typeof window.janusT === 'function' ? window.janusT(key) : key;
+}
+
+function roiLangLabel(data) {
+    return data.language === 'en_to_es'
+        ? roiT('calc.lang_label_en_to_es')
+        : roiT('calc.lang_label_es_to_en');
+}
+
 // Factores de multiplicación según dirección del doblaje
 var ROI_FACTORS = {
     'en_to_es': 0.4,   // Inglés → Español: CPM más bajo pero más volumen
@@ -92,7 +102,9 @@ function roiUpdateDisplay(data) {
         barPotential.style.width = (data.potential_additional / maxBar * 100) + '%';
     }
 
-    var langLabel = data.language === 'en_to_es' ? 'inglés → español' : 'español → inglés';
+    var langLabel = data.language === 'en_to_es'
+        ? roiT('calc.lang_label_en_to_es')
+        : roiT('calc.lang_label_es_to_en');
     document.getElementById('roi-lang-label').textContent = langLabel;
 }
 
@@ -134,7 +146,9 @@ function roiShowReport(data) {
     var reportEl = document.getElementById('roi-report');
     if (!reportEl) return;
 
-    var langLabel = data.language === 'en_to_es' ? 'Inglés → Español' : 'Español → Inglés';
+    var langLabel = data.language === 'en_to_es'
+        ? roiT('calc.lang_en_to_es')
+        : roiT('calc.lang_es_to_en');
     
     // Proyección con crecimiento gradual (efecto compuesto)
     var projections = [
@@ -145,7 +159,7 @@ function roiShowReport(data) {
     ];
     
     var projectionHTML = '<table class="roi-projection-table"><thead><tr>' +
-        '<th>Mes</th><th>Ingreso actual</th><th>Con JANUS</th><th>Diferencia</th>' +
+        '<th>' + roiT('calc.projection_month') + '</th><th>' + roiT('calc.projection_current') + '</th><th>' + roiT('calc.projection_janus') + '</th><th>' + roiT('calc.projection_diff') + '</th>' +
         '</tr></thead><tbody>';
     
     var totalCurrent = 0;
@@ -161,7 +175,7 @@ function roiShowReport(data) {
         totalWithJanus += withJanus;
         
         projectionHTML += '<tr>' +
-            '<td>Mes ' + proj.month + '</td>' +
+            '<td>' + roiT('calc.projection_month') + ' ' + proj.month + '</td>' +
             '<td>' + roiFormatCurrency(current) + '</td>' +
             '<td class="roi-projection-highlight">' + roiFormatCurrency(withJanus) + '</td>' +
             '<td class="roi-projection-gain">+' + roiFormatCurrency(diff) + '</td>' +
@@ -170,7 +184,7 @@ function roiShowReport(data) {
     
     var totalDiff = totalWithJanus - totalCurrent;
     projectionHTML += '<tr class="roi-projection-total">' +
-        '<td><strong>Total anual</strong></td>' +
+        '<td><strong>' + roiT('calc.projection_total_annual') + '</strong></td>' +
         '<td>' + roiFormatCurrency(data.monthly_revenue * 12) + '</td>' +
         '<td class="roi-projection-highlight">' + roiFormatCurrency(totalWithJanus) + '</td>' +
         '<td class="roi-projection-gain"><strong>+' + roiFormatCurrency(totalDiff) + '</strong></td>' +
@@ -182,43 +196,43 @@ function roiShowReport(data) {
     var savings = ((traditionalCost - janusCost) / traditionalCost * 100).toFixed(0);
     
     // Recomendaciones según dirección
-    var recommendation = data.language === 'en_to_es' 
-        ? 'Tu audiencia en español crecerá más rápido pero con CPM más bajo. <strong>Estrategia recomendada:</strong> Enfócate en volumen y frecuencia de publicación. Publica al menos 2 videos por semana en español para maximizar el crecimiento.'
-        : 'El mercado en inglés paga más pero requiere más tiempo para crecer. <strong>Estrategia recomendada:</strong> Enfócate en calidad y nicho específico. Publica 1 video por semana en inglés con contenido altamente especializado.';
+    var recommendation = data.language === 'en_to_es'
+        ? roiT('calc.recommend_en')
+        : roiT('calc.recommend_es');
     
     reportEl.innerHTML =
-        '<h3 class="roi-report-title">Tu Plan de Ingresos Personalizado</h3>' +
-        '<p class="roi-report-subtitle">Dirección: <strong>' + langLabel + '</strong></p>' +
+        '<h3 class="roi-report-title">' + roiT('calc.report_title') + '</h3>' +
+        '<p class="roi-report-subtitle">' + roiT('calc.report_subtitle.html').replace('%s', langLabel) + '</p>' +
 
-        '<h4 class="roi-report-section-title">Proyección a 12 meses</h4>' +
-        '<p class="roi-report-section-desc">El crecimiento no es lineal. Tu audiencia en el nuevo idioma se construye gradualmente, generando un efecto compuesto.</p>' +
+        '<h4 class="roi-report-section-title">' + roiT('calc.section_projection') + '</h4>' +
+        '<p class="roi-report-section-desc">' + roiT('calc.section_projection_desc') + '</p>' +
         projectionHTML +
 
-        '<h4 class="roi-report-section-title">Comparativa de costos</h4>' +
+        '<h4 class="roi-report-section-title">' + roiT('calc.section_costs') + '</h4>' +
         '<div class="roi-cost-comparison">' +
             '<div class="roi-cost-item">' +
-                '<span class="roi-cost-label">Doblaje tradicional</span>' +
-                '<span class="roi-cost-value roi-cost-traditional">$' + traditionalCost + ' - $' + (traditionalCost * 2) + ' por video</span>' +
+                '<span class="roi-cost-label">' + roiT('calc.cost_traditional') + '</span>' +
+                '<span class="roi-cost-value roi-cost-traditional">$' + traditionalCost + ' - $' + (traditionalCost * 2) + ' ' + roiT('calc.per_video') + '</span>' +
             '</div>' +
             '<div class="roi-cost-item">' +
                 '<span class="roi-cost-label">JANUS</span>' +
-                '<span class="roi-cost-value roi-cost-janus">~$' + janusCost.toFixed(0) + ' por video</span>' +
+                '<span class="roi-cost-value roi-cost-janus">~$' + janusCost.toFixed(0) + ' ' + roiT('calc.per_video') + '</span>' +
             '</div>' +
             '<div class="roi-cost-item roi-cost-savings">' +
-                '<span class="roi-cost-label">Ahorro</span>' +
-                '<span class="roi-cost-value">Hasta ' + savings + '%</span>' +
+                '<span class="roi-cost-label">' + roiT('calc.cost_savings') + '</span>' +
+                '<span class="roi-cost-value">' + roiT('calc.cost_savings_value').replace('%s', savings) + '</span>' +
             '</div>' +
         '</div>' +
         
-        '<h4 class="roi-report-section-title">Recomendaciones para tu perfil</h4>' +
+        '<h4 class="roi-report-section-title">' + roiT('calc.section_recommend') + '</h4>' +
         '<div class="roi-recommendation">' +
             '<p>' + recommendation + '</p>' +
-            '<p><strong>ROI estimado:</strong> Recuperas tu inversión en JANUS en las primeras 2-3 semanas de publicación.</p>' +
+            '<p>' + roiT('calc.roi_estimated.html') + '</p>' +
         '</div>' +
         
         '<div class="roi-report-cta">' +
-            '<p>¿Listo para recuperar ese ingreso?</p>' +
-            '<a href="#" id="roi-try-janus" class="btn btn-primary">Probar JANUS ahora</a>' +
+            '<p>' + roiT('calc.report_cta') + '</p>' +
+            '<a href="#" id="roi-try-janus" class="btn btn-primary">' + roiT('nav.probar_lg') + '</a>' +
         '</div>';
 
     reportEl.style.display = 'block';
@@ -297,3 +311,13 @@ function roiInit() {
 }
 
 document.addEventListener('DOMContentLoaded', roiInit);
+
+document.addEventListener('janus:langchange', function () {
+    var stored = roiLoadCalculation();
+    if (stored) roiShowReport(stored);
+    var viewsSlider = document.getElementById('roi-views');
+    var cpmSlider = document.getElementById('roi-cpm');
+    var downloadBtn = document.getElementById('roi-download');
+    if (!viewsSlider || !cpmSlider || !downloadBtn) return;
+    roiUpdateDisplay(roiCalculate());
+});

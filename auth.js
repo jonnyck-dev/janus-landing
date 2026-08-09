@@ -15,6 +15,16 @@ var JANUS_APP_URL = 'https://app.janusdubber.website';
 // mailto original que disparan navbar/hero tras registrarse
 var MAILTO_HREF = 'mailto:support@janusdubber.website?subject=Quiero%20probar%20JANUS&body=Hola%2C%20me%20gustar%C3%ADa%20probar%20JANUS%20para%20doblar%20mis%20videos.';
 
+function janusT(key) {
+    if (typeof window.janusT === 'function') return window.janusT(key);
+    var es = window.JANUS_I18N && window.JANUS_I18N.es;
+    return (es && es[key]) || key;
+}
+
+function janusErr(msg) {
+    return janusT('chat.error_prefix').replace('%s', msg);
+}
+
 var _supabase = null;
 var _afterAuthMailto = false;
 var _postAuthCallback = null;
@@ -60,30 +70,30 @@ function janusBuildModal() {
     overlay.id = 'janus-auth-modal';
     overlay.className = 'janus-auth-overlay';
     overlay.innerHTML =
-        '<div class="janus-auth-card" role="dialog" aria-modal="true" aria-label="Regístrate en JANUS">' +
-            '<button class="janus-auth-close" id="janus-auth-close" aria-label="Cerrar">✕</button>' +
+        '<div class="janus-auth-card" role="dialog" aria-modal="true" aria-label="' + janusT('auth.modal.title') + '">' +
+            '<button class="janus-auth-close" id="janus-auth-close" aria-label="' + janusT('nav.close_aria') + '">✕</button>' +
             '<div class="janus-auth-logo">JANUS</div>' +
-            '<h2 class="janus-auth-title">Regístrate para probar JANUS</h2>' +
-            '<p class="janus-auth-sub">Crea tu cuenta y te enviaremos los datos para doblar tu video.</p>' +
+            '<h2 class="janus-auth-title">' + janusT('auth.modal.title') + '</h2>' +
+            '<p class="janus-auth-sub">' + janusT('auth.modal.sub') + '</p>' +
 
             '<button class="janus-auth-btn janus-auth-google" id="janus-btn-google">' +
-                '<span class="janus-auth-gicon">G</span> Continuar con Google' +
+                '<span class="janus-auth-gicon">G</span><span class="janus-auth-google-text">' + janusT('auth.google') + '</span>' +
             '</button>' +
 
-            '<div class="janus-auth-divider"><span>o</span></div>' +
+            '<div class="janus-auth-divider"><span>' + janusT('auth.or') + '</span></div>' +
 
             '<form class="janus-auth-form" id="janus-auth-form" novalidate>' +
-                '<input type="email" id="janus-auth-email" class="janus-auth-input" placeholder="tu@email.com" autocomplete="email" required>' +
+                '<input type="email" id="janus-auth-email" class="janus-auth-input" placeholder="' + janusT('auth.email_placeholder') + '" autocomplete="email" required>' +
                 '<div class="janus-auth-pw-wrap" id="janus-auth-pw-wrap" style="display:none;">' +
-                    '<input type="password" id="janus-auth-password" class="janus-auth-input" placeholder="Contraseña (mín. 6)" autocomplete="current-password">' +
+                    '<input type="password" id="janus-auth-password" class="janus-auth-input" placeholder="' + janusT('auth.pw_placeholder') + '" autocomplete="current-password">' +
                 '</div>' +
-                '<button type="submit" class="janus-auth-btn janus-auth-primary" id="janus-btn-submit">Enviar enlace mágico</button>' +
+                '<button type="submit" class="janus-auth-btn janus-auth-primary" id="janus-btn-submit">' + (_passwordMode ? janusT('auth.submit_btn') : janusT('auth.magic_btn')) + '</button>' +
             '</form>' +
 
-            '<button class="janus-auth-toggle" id="janus-auth-toggle">Usar contraseña en su lugar</button>' +
+            '<button class="janus-auth-toggle" id="janus-auth-toggle">' + (_passwordMode ? janusT('auth.toggle_magic') : janusT('auth.toggle_pw')) + '</button>' +
 
             '<p class="janus-auth-msg" id="janus-auth-msg"></p>' +
-            '<p class="janus-auth-foot">Al continuar aceptas los Términos de JANUS.</p>' +
+            '<p class="janus-auth-foot">' + janusT('auth.foot') + '</p>' +
         '</div>';
 
     document.body.appendChild(overlay);
@@ -105,12 +115,12 @@ function janusTogglePassword() {
     var submit = document.getElementById('janus-btn-submit');
     if (_passwordMode) {
         wrap.style.display = 'block';
-        toggle.textContent = 'Enviar enlace mágico en su lugar';
-        submit.textContent = 'Registrarme / Entrar';
+        toggle.textContent = janusT('auth.toggle_magic');
+        submit.textContent = janusT('auth.submit_btn');
     } else {
         wrap.style.display = 'none';
-        toggle.textContent = 'Usar contraseña en su lugar';
-        submit.textContent = 'Enviar enlace mágico';
+        toggle.textContent = janusT('auth.toggle_pw');
+        submit.textContent = janusT('auth.magic_btn');
     }
 }
 
@@ -139,7 +149,7 @@ function janusSetMsg(text, isError) {
 // ---------- Acciones ----------
 function janusLoginGoogle() {
     if (!janusIsConfigured()) {
-        janusSetMsg('Faltan las credenciales de Supabase (auth.js).', true);
+        janusSetMsg(janusT('auth.err_credentials'), true);
         return;
     }
     janusInitSupabase();
@@ -156,21 +166,21 @@ function janusLoginGoogle() {
 function janusSubmitForm(e) {
     e.preventDefault();
     if (!janusIsConfigured()) {
-        janusSetMsg('Faltan las credenciales de Supabase (auth.js).', true);
+        janusSetMsg(janusT('auth.err_credentials'), true);
         return;
     }
     janusInitSupabase();
     var email = document.getElementById('janus-auth-email').value.trim();
     if (!email || email.indexOf('@') === -1) {
-        janusSetMsg('Ingresa un email válido.', true);
+        janusSetMsg(janusT('auth.err_email'), true);
         return;
     }
-    janusSetMsg('Procesando...');
+    janusSetMsg(janusT('auth.processing'));
 
     if (_passwordMode) {
         var password = document.getElementById('janus-auth-password').value;
         if (!password || password.length < 6) {
-            janusSetMsg('La contraseña debe tener al menos 6 caracteres.', true);
+            janusSetMsg(janusT('auth.err_password'), true);
             return;
         }
         // Intenta login; si no existe, registra.
@@ -183,7 +193,7 @@ function janusSubmitForm(e) {
             })
             .then(function (res) {
                 if (res.error) {
-                    janusSetMsg(res.error.message, true);
+                    janusSetMsg(janusErr(res.error.message), true);
                     return;
                 }
                 if (res.data.session) {
@@ -196,11 +206,11 @@ function janusSubmitForm(e) {
                         window.location.href = MAILTO_HREF;
                     }
                 } else {
-                    janusSetMsg('Revisa tu email para confirmar tu cuenta.');
+                    janusSetMsg(janusT('auth.check_email'));
                 }
             })
             .catch(function (err) {
-                janusSetMsg('Error: ' + err.message, true);
+                janusSetMsg(janusErr(err.message), true);
             });
     } else {
         // Magic link
@@ -215,14 +225,14 @@ function janusSubmitForm(e) {
         })
         .then(function (res) {
             if (res.error) {
-                janusSetMsg(res.error.message, true);
+                janusSetMsg(janusErr(res.error.message), true);
                 _afterAuthMailto = false;
                 return;
             }
-            janusSetMsg('¡Listo! Revisa tu correo y haz clic en el enlace para continuar.');
+            janusSetMsg(janusT('auth.sent'));
         })
         .catch(function (err) {
-            janusSetMsg('Error: ' + err.message, true);
+            janusSetMsg(janusErr(err.message), true);
             _afterAuthMailto = false;
         });
     }
@@ -358,34 +368,34 @@ function janusBuildProfileModal() {
     overlay.id = 'janus-profile-modal';
     overlay.className = 'janus-auth-overlay';
     overlay.innerHTML =
-        '<div class="janus-auth-card janus-profile-card" role="dialog" aria-modal="true" aria-label="Mi perfil">' +
-            '<button class="janus-auth-close" id="janus-pf-close" aria-label="Cerrar">✕</button>' +
+        '<div class="janus-auth-card janus-profile-card" role="dialog" aria-modal="true" aria-label="' + janusT('auth.profile.title') + '">' +
+            '<button class="janus-auth-close" id="janus-pf-close" aria-label="' + janusT('nav.close_aria') + '">✕</button>' +
             '<div class="janus-auth-logo">JANUS</div>' +
-            '<h2 class="janus-auth-title">Mi perfil</h2>' +
-            '<p class="janus-auth-sub">Actualiza tu nombre, correo o contraseña.</p>' +
+            '<h2 class="janus-auth-title">' + janusT('auth.profile.title') + '</h2>' +
+            '<p class="janus-auth-sub">' + janusT('auth.profile.sub') + '</p>' +
 
             '<div class="janus-profile-section">' +
-                '<label class="janus-profile-label" for="janus-pf-name">Nombre</label>' +
+                '<label class="janus-profile-label" for="janus-pf-name">' + janusT('auth.profile.name_label') + '</label>' +
                 '<form class="janus-profile-row" id="janus-pf-name-form">' +
-                    '<input type="text" id="janus-pf-name" class="janus-auth-input" placeholder="Tu nombre" autocomplete="name">' +
-                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">Guardar</button>' +
+                    '<input type="text" id="janus-pf-name" class="janus-auth-input" placeholder="' + janusT('auth.profile.name_placeholder') + '" autocomplete="name">' +
+                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusT('auth.profile.save') + '</button>' +
                 '</form>' +
             '</div>' +
 
             '<div class="janus-profile-section">' +
-                '<label class="janus-profile-label" for="janus-pf-email">Correo</label>' +
+                '<label class="janus-profile-label" for="janus-pf-email">' + janusT('auth.profile.email_label') + '</label>' +
                 '<form class="janus-profile-row" id="janus-pf-email-form">' +
-                    '<input type="email" id="janus-pf-email" class="janus-auth-input" placeholder="tu@email.com" autocomplete="email">' +
-                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">Guardar</button>' +
+                    '<input type="email" id="janus-pf-email" class="janus-auth-input" placeholder="' + janusT('auth.profile.email_placeholder') + '" autocomplete="email">' +
+                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusT('auth.profile.save') + '</button>' +
                 '</form>' +
-                '<p class="janus-profile-note">Al cambiar el correo te enviaremos un enlace de confirmación al nuevo email.</p>' +
+                '<p class="janus-profile-note">' + janusT('auth.profile.email_note') + '</p>' +
             '</div>' +
 
             '<div class="janus-profile-section">' +
-                '<label class="janus-profile-label" for="janus-pf-pw">Nueva contraseña</label>' +
+                '<label class="janus-profile-label" for="janus-pf-pw">' + janusT('auth.profile.pw_label') + '</label>' +
                 '<form class="janus-profile-row" id="janus-pf-pw-form">' +
-                    '<input type="password" id="janus-pf-pw" class="janus-auth-input" placeholder="Mín. 6 caracteres" autocomplete="new-password">' +
-                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">Guardar</button>' +
+                    '<input type="password" id="janus-pf-pw" class="janus-auth-input" placeholder="' + janusT('auth.profile.pw_placeholder') + '" autocomplete="new-password">' +
+                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusT('auth.profile.save') + '</button>' +
                 '</form>' +
             '</div>' +
 
@@ -444,14 +454,63 @@ function janusProfileMsg(text, isError) {
     el.className = 'janus-auth-msg' + (isError ? ' janus-auth-msg-error' : '');
 }
 
+function janusRefreshAuthStrings() {
+    var t = janusT;
+    var el;
+    if ((el = document.getElementById('janus-auth-title'))) el.textContent = t('auth.modal.title');
+    if ((el = document.getElementById('janus-auth-sub'))) el.textContent = t('auth.modal.sub');
+    var googleText = document.querySelector('#janus-btn-google .janus-auth-google-text');
+    if (googleText) googleText.textContent = t('auth.google');
+    var dividerSpan = document.querySelector('.janus-auth-divider span');
+    if (dividerSpan) dividerSpan.textContent = t('auth.or');
+    if ((el = document.getElementById('janus-auth-email'))) el.setAttribute('placeholder', t('auth.email_placeholder'));
+    if ((el = document.getElementById('janus-auth-password'))) el.setAttribute('placeholder', t('auth.pw_placeholder'));
+    if ((el = document.getElementById('janus-btn-submit'))) el.textContent = _passwordMode ? t('auth.submit_btn') : t('auth.magic_btn');
+    if ((el = document.getElementById('janus-auth-toggle'))) el.textContent = _passwordMode ? t('auth.toggle_magic') : t('auth.toggle_pw');
+    var foot = document.querySelector('.janus-auth-foot');
+    if (foot) foot.textContent = t('auth.foot');
+    var authCard = document.getElementById('janus-auth-modal');
+    if (authCard) authCard.setAttribute('aria-label', t('auth.modal.title'));
+    if ((el = document.getElementById('janus-auth-close'))) el.setAttribute('aria-label', t('nav.close_aria'));
+
+    if ((el = document.getElementById('janus-pf-close'))) el.setAttribute('aria-label', t('nav.close_aria'));
+    if ((el = document.getElementById('janus-profile-modal'))) el.setAttribute('aria-label', t('auth.profile.title'));
+    if ((el = document.getElementById('janus-pf-name-form'))) {
+        var lbl = el.parentElement.querySelector('.janus-profile-label');
+        if (lbl) lbl.textContent = t('auth.profile.name_label');
+    }
+    if ((el = document.getElementById('janus-pf-name'))) el.setAttribute('placeholder', t('auth.profile.name_placeholder'));
+    if ((el = document.getElementById('janus-pf-email-form'))) {
+        var lbl2 = el.parentElement.querySelector('.janus-profile-label');
+        if (lbl2) lbl2.textContent = t('auth.profile.email_label');
+    }
+    if ((el = document.getElementById('janus-pf-email'))) el.setAttribute('placeholder', t('auth.profile.email_placeholder'));
+    if ((el = document.getElementById('janus-pf-pw-form'))) {
+        var lbl3 = el.parentElement.querySelector('.janus-profile-label');
+        if (lbl3) lbl3.textContent = t('auth.profile.pw_label');
+    }
+    if ((el = document.getElementById('janus-pf-pw'))) el.setAttribute('placeholder', t('auth.profile.pw_placeholder'));
+    document.querySelectorAll('.janus-profile-save').forEach(function (b) {
+        b.textContent = t('auth.profile.save');
+    });
+    if ((el = document.getElementById('janus-profile-modal'))) {
+        var h2 = el.querySelector('.janus-auth-title');
+        if (h2) h2.textContent = t('auth.profile.title');
+        var sub = el.querySelector('.janus-auth-sub');
+        if (sub) sub.textContent = t('auth.profile.sub');
+        var note = el.querySelector('.janus-profile-note');
+        if (note) note.textContent = t('auth.profile.email_note');
+    }
+}
+
 function janusSaveName(e) {
     e.preventDefault();
     var name = document.getElementById('janus-pf-name').value.trim();
     if (!name) {
-        janusProfileMsg('Ingresa tu nombre.', true);
+        janusProfileMsg(janusT('auth.profile.err_name'), true);
         return;
     }
-    janusProfileMsg('Guardando...');
+    janusProfileMsg(janusT('auth.profile.saving'));
     janusInitSupabase();
     _supabase.auth.getSession().then(function (res) {
         var user = res.data.session.user;
@@ -465,7 +524,7 @@ function janusSaveName(e) {
                 }
                 // Sincroniza metadata (el trigger de registro la usa como fallback)
                 _supabase.auth.updateUser({ data: { full_name: name } });
-                janusProfileMsg('Nombre actualizado.');
+                janusProfileMsg(janusT('auth.profile.name_updated'));
                 janusRenderNav(res.data.session);
             });
     });
@@ -475,17 +534,17 @@ function janusSaveEmail(e) {
     e.preventDefault();
     var email = document.getElementById('janus-pf-email').value.trim();
     if (!email || email.indexOf('@') === -1) {
-        janusProfileMsg('Ingresa un correo válido.', true);
+        janusProfileMsg(janusT('auth.profile.err_email'), true);
         return;
     }
-    janusProfileMsg('Guardando...');
+    janusProfileMsg(janusT('auth.profile.saving'));
     janusInitSupabase();
     _supabase.auth.updateUser({ email: email }).then(function (r) {
         if (r.error) {
-            janusProfileMsg(r.error.message, true);
+            janusProfileMsg(janusErr(r.error.message), true);
             return;
         }
-        janusProfileMsg('Te enviamos un enlace de confirmación al nuevo correo. El cambio se aplica al confirmarlo.');
+        janusProfileMsg(janusT('auth.profile.email_sent'));
     });
 }
 
@@ -493,22 +552,26 @@ function janusSavePassword(e) {
     e.preventDefault();
     var pw = document.getElementById('janus-pf-pw').value;
     if (!pw || pw.length < 6) {
-        janusProfileMsg('La contraseña debe tener al menos 6 caracteres.', true);
+        janusProfileMsg(janusT('auth.err_password'), true);
         return;
     }
-    janusProfileMsg('Guardando...');
+    janusProfileMsg(janusT('auth.profile.saving'));
     janusInitSupabase();
     _supabase.auth.updateUser({ password: pw }).then(function (r) {
         if (r.error) {
-            janusProfileMsg(r.error.message, true);
+            janusProfileMsg(janusErr(r.error.message), true);
             return;
         }
         document.getElementById('janus-pf-pw').value = '';
-        janusProfileMsg('Contraseña actualizada.');
+        janusProfileMsg(janusT('auth.profile.pw_updated'));
     });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     janusWireButtons();
     janusInitUserNav();
+});
+
+document.addEventListener('janus:langchange', function () {
+    janusRefreshAuthStrings();
 });

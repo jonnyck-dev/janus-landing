@@ -12,28 +12,29 @@
     
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body data-page="index">
     <nav class="navbar">
         <div class="container nav-content">
             <a href="index.html" class="logo">
                 <img src="assets/icons/JANUSLOGO_BANNER.png" alt="JANUS" class="logo-img">
             </a>
             <div class="nav-links">
-                <a href="agencia.html" class="nav-link">Agencia</a>
+                <a href="agencia.html" class="nav-link" data-i18n="nav.agencia">Agencia</a>
             </div>
             <div class="nav-actions">
-                <a href="#" id="btn-nav-try" class="btn btn-primary btn-sm btn-3d btn-shimmer">Probar ahora</a>
+                <a href="#" id="btn-nav-try" class="btn btn-primary btn-sm btn-3d btn-shimmer" data-i18n="nav.probar">Probar ahora</a>
                 <div id="janus-nav-user" class="janus-nav-user" style="display:none;">
-                    <button class="janus-user-chip" id="janus-user-chip" aria-label="Mi cuenta">
+                    <button class="janus-user-chip" id="janus-user-chip" data-i18n-aria="nav.cuenta_aria" aria-label="Mi cuenta">
                         <img id="janus-user-avatar-img" class="janus-user-avatar" alt="" style="display:none;">
                         <span id="janus-user-avatar-fallback" class="janus-user-avatar janus-user-avatar-fallback">·</span>
                         <span class="janus-user-name" id="janus-user-name"></span>
                     </button>
                     <div class="janus-user-menu" id="janus-user-menu">
-                        <button class="janus-user-menu-item" id="janus-menu-profile">Mi perfil</button>
-                        <button class="janus-user-menu-item danger" id="janus-menu-logout">Cerrar sesión</button>
+                        <button class="janus-user-menu-item" id="janus-menu-profile" data-i18n="nav.perfil">Mi perfil</button>
+                        <button class="janus-user-menu-item danger" id="janus-menu-logout" data-i18n="nav.cerrar">Cerrar sesión</button>
                     </div>
                 </div>
+                <div id="janus-lang-toggle" class="janus-lang-toggle"></div>
             </div>
         </div>
     </nav>
@@ -41,28 +42,28 @@
     <section class="hero" id="hero">
         <div class="container hero-content">
             <div class="hero-text">
-                <p class="hero-eyebrow">Doblaje con IA · Inglés ↔ Español</p>
-                <h1 class="hero-title">Duplica tu <em>audiencia</em></h1>
-                <p class="hero-subtitle">Dobla tus videos entre <strong>inglés y español</strong> automáticamente. Llega a más de <strong>1,000 millones</strong> de personas sin editar ni un segundo.</p>
+                <p class="hero-eyebrow" data-i18n="hero.eyebrow">Doblaje con IA · Inglés ↔ Español</p>
+                <h1 class="hero-title" data-i18n-html="hero.title.html">Duplica tu <em>audiencia</em></h1>
+                <p class="hero-subtitle" data-i18n-html="hero.subtitle.html">Dobla tus videos entre <strong>inglés y español</strong> automáticamente. Llega a más de <strong>1,000 millones</strong> de personas sin editar ni un segundo.</p>
             </div>
 
             <div class="live-badge">
                 <span class="pulse-dot"></span>
-                <span>Modelos Activos</span>
+                <span data-i18n="hero.models">Modelos Activos</span>
             </div>
 
-            <p class="demo-mode-label">Original &nbsp;→&nbsp; Doblado con JANUS</p>
+            <p class="demo-mode-label" data-i18n="hero.demo_label">Original &nbsp;→&nbsp; Doblado con JANUS</p>
             
             <div class="demo-player">
-                <button class="demo-arrow demo-arrow-left" aria-label="Video anterior">‹</button>
+                <button class="demo-arrow demo-arrow-left" data-i18n-aria="hero.demo_prev_aria" aria-label="Video anterior">‹</button>
                 <video id="demo-video" controls playsinline muted autoplay poster="assets/video_demos/poster_video_piewdepie.jpg">
                     <source src="" type="video/mp4">
                 </video>
-                <button class="demo-arrow demo-arrow-right" aria-label="Video siguiente">›</button>
+                <button class="demo-arrow demo-arrow-right" data-i18n-aria="hero.demo_next_aria" aria-label="Video siguiente">›</button>
                 
                 <div class="demo-controls">
-                    <button class="demo-toggle-btn active" data-mode="original">Original</button>
-                    <button class="demo-toggle-btn" data-mode="dubbed">Doblado</button>
+                    <button class="demo-toggle-btn active" data-mode="original" data-i18n="hero.demo_original">Original</button>
+                    <button class="demo-toggle-btn" data-mode="dubbed" data-i18n="hero.demo_dubbed">Doblado</button>
                 </div>
             </div>
             
@@ -77,48 +78,48 @@
             </div>
             
             <div style="text-align: center; margin-top: 40px;">
-                <p class="demo-cta-text">¿Te gusta lo que ves? Prueba JANUS con tu propio video</p>
-                <a href="#" id="btn-hero-try" class="btn btn-primary btn-lg btn-3d btn-shimmer">Probar JANUS ahora</a>
+                <p class="demo-cta-text" data-i18n="hero.cta_text">¿Te gusta lo que ves? Prueba JANUS con tu propio video</p>
+                <a href="#" id="btn-hero-try" class="btn btn-primary btn-lg btn-3d btn-shimmer" data-i18n="nav.probar_lg">Probar JANUS ahora</a>
             </div>
         </div>
     </section>
 
     <section class="how-it-works" id="how">
         <div class="container">
-            <p class="section-eyebrow">Proceso</p>
-            <h2 class="section-title">Cómo funciona</h2>
-            <p class="section-subtitle">3 pasos simples</p>
+            <p class="section-eyebrow" data-i18n="how.eyebrow">Proceso</p>
+            <h2 class="section-title" data-i18n="how.title">Cómo funciona</h2>
+            <p class="section-subtitle" data-i18n="how.subtitle">3 pasos simples</p>
             
             <div class="steps">
                 <div class="step">
                     <div class="step-icon">
-                        <img src="assets/icons/pasos_01.png" alt="Pega tu URL">
+                        <img src="assets/icons/pasos_01.png" alt="Pega tu URL" data-i18n-alt="how.step1.title">
                         <span class="step-number">1</span>
                     </div>
-                    <h3 class="step-title">Pega tu URL</h3>
-                    <p class="step-desc">Copia el link de YouTube de tu video y pégalo en JANUS.</p>
+                    <h3 class="step-title" data-i18n="how.step1.title">Pega tu URL</h3>
+                    <p class="step-desc" data-i18n="how.step1.desc">Copia el link de YouTube de tu video y pégalo en JANUS.</p>
                 </div>
                 
                 <div class="step-connector"></div>
                 
                 <div class="step">
                     <div class="step-icon">
-                        <img src="assets/icons/pasos_02.png" alt="Click Comenzar">
+                        <img src="assets/icons/pasos_02.png" alt="Click Comenzar" data-i18n-alt="how.step2.title">
                         <span class="step-number">2</span>
                     </div>
-                    <h3 class="step-title">Click "Comenzar"</h3>
-                    <p class="step-desc">JANUS procesa tu video: separa voces, traduce, dobla y sincroniza.</p>
+                    <h3 class="step-title" data-i18n="how.step2.title">Click "Comenzar"</h3>
+                    <p class="step-desc" data-i18n="how.step2.desc">JANUS procesa tu video: separa voces, traduce, dobla y sincroniza.</p>
                 </div>
                 
                 <div class="step-connector"></div>
                 
                 <div class="step">
                     <div class="step-icon">
-                        <img src="assets/icons/pasos_03.png" alt="Recibe tu video">
+                        <img src="assets/icons/pasos_03.png" alt="Recibe tu video" data-i18n-alt="how.step3.title">
                         <span class="step-number">3</span>
                     </div>
-                    <h3 class="step-title">Recibe tu video</h3>
-                    <p class="step-desc">Descarga tu video doblado al español, listo para subir a tu canal.</p>
+                    <h3 class="step-title" data-i18n="how.step3.title">Recibe tu video</h3>
+                    <p class="step-desc" data-i18n="how.step3.desc">Descarga tu video doblado al español, listo para subir a tu canal.</p>
                 </div>
             </div>
         </div>
@@ -126,45 +127,45 @@
 
     <section class="features" id="features">
         <div class="container">
-            <p class="section-eyebrow">Capacidades</p>
-            <h2 class="section-title">Lo que hace JANUS</h2>
-            <p class="section-subtitle">Tecnología de IA que trabaja para ti</p>
+            <p class="section-eyebrow" data-i18n="feat.eyebrow">Capacidades</p>
+            <h2 class="section-title" data-i18n="feat.title">Lo que hace JANUS</h2>
+            <p class="section-subtitle" data-i18n="feat.subtitle">Tecnología de IA que trabaja para ti</p>
             
             <div class="features-grid">
                 <div class="feature-card card-3d">
-                    <div class="feature-icon"><img src="assets/icons/01.png" alt="Separa la voz del fondo"></div>
-                    <h3 class="feature-title">Separa la voz del fondo</h3>
-                    <p class="feature-desc">Aísla la voz original con precisión quirúrgica, preservando la música y efectos.</p>
+                    <div class="feature-icon"><img src="assets/icons/01.png" alt="Separa la voz del fondo" data-i18n-alt="feat1.title"></div>
+                    <h3 class="feature-title" data-i18n="feat1.title">Separa la voz del fondo</h3>
+                    <p class="feature-desc" data-i18n="feat1.desc">Aísla la voz original con precisión quirúrgica, preservando la música y efectos.</p>
                 </div>
 
                 <div class="feature-card card-3d">
-                    <div class="feature-icon"><img src="assets/icons/02.png" alt="Traducción natural"></div>
-                    <h3 class="feature-title">Traducción natural</h3>
-                    <p class="feature-desc">Traducción que suena como tú, no como Google Translate. Contexto, tono y modismos.</p>
+                    <div class="feature-icon"><img src="assets/icons/02.png" alt="Traducción natural" data-i18n-alt="feat2.title"></div>
+                    <h3 class="feature-title" data-i18n="feat2.title">Traducción natural</h3>
+                    <p class="feature-desc" data-i18n="feat2.desc">Traducción que suena como tú, no como Google Translate. Contexto, tono y modismos.</p>
                 </div>
 
                 <div class="feature-card card-3d">
-                    <div class="feature-icon"><img src="assets/icons/03.png" alt="Tu misma voz"></div>
-                    <h3 class="feature-title">Tu misma voz</h3>
-                    <p class="feature-desc">Clonación de voz idéntica. Tu audiencia no notará la diferencia.</p>
+                    <div class="feature-icon"><img src="assets/icons/03.png" alt="Tu misma voz" data-i18n-alt="feat3.title"></div>
+                    <h3 class="feature-title" data-i18n="feat3.title">Tu misma voz</h3>
+                    <p class="feature-desc" data-i18n="feat3.desc">Clonación de voz idéntica. Tu audiencia no notará la diferencia.</p>
                 </div>
 
                 <div class="feature-card card-3d">
-                    <div class="feature-icon"><img src="assets/icons/04.png" alt="Sincronización perfecta"></div>
-                    <h3 class="feature-title">Sincronización perfecta</h3>
-                    <p class="feature-desc">Cada palabra en su momento exacto. Sincronización labial profesional.</p>
+                    <div class="feature-icon"><img src="assets/icons/04.png" alt="Sincronización perfecta" data-i18n-alt="feat4.title"></div>
+                    <h3 class="feature-title" data-i18n="feat4.title">Sincronización perfecta</h3>
+                    <p class="feature-desc" data-i18n="feat4.desc">Cada palabra en su momento exacto. Sincronización labial profesional.</p>
                 </div>
 
                 <div class="feature-card card-3d">
-                    <div class="feature-icon"><img src="assets/icons/05.png" alt="Editor profesional"></div>
-                    <h3 class="feature-title">Editor profesional</h3>
-                    <p class="feature-desc">Timeline interactivo para ajustes finos. Regenera frases individuales en segundos.</p>
+                    <div class="feature-icon"><img src="assets/icons/05.png" alt="Editor profesional" data-i18n-alt="feat5.title"></div>
+                    <h3 class="feature-title" data-i18n="feat5.title">Editor profesional</h3>
+                    <p class="feature-desc" data-i18n="feat5.desc">Timeline interactivo para ajustes finos. Regenera frases individuales en segundos.</p>
                 </div>
 
                 <div class="feature-card card-3d">
-                    <div class="feature-icon"><img src="assets/icons/06.png" alt="Rápido y automático"></div>
-                    <h3 class="feature-title">Rápido y automático</h3>
-                    <p class="feature-desc">De URL a video doblado en minutos. Sin edición manual, sin complicaciones.</p>
+                    <div class="feature-icon"><img src="assets/icons/06.png" alt="Rápido y automático" data-i18n-alt="feat6.title"></div>
+                    <h3 class="feature-title" data-i18n="feat6.title">Rápido y automático</h3>
+                    <p class="feature-desc" data-i18n="feat6.desc">De URL a video doblado en minutos. Sin edición manual, sin complicaciones.</p>
                 </div>
             </div>
         </div>
@@ -172,83 +173,83 @@
 
     <section class="pricing" id="pricing">
         <div class="container">
-            <p class="section-eyebrow">Precios</p>
-            <h2 class="section-title">Un video. Un precio. Sin sorpresas.</h2>
-            <p class="section-subtitle">Traducción profesional y clonación de voz por video, hasta 40 minutos de duración.</p>
+            <p class="section-eyebrow" data-i18n="pr.eyebrow">Precios</p>
+            <h2 class="section-title" data-i18n="pr.title">Un video. Un precio. Sin sorpresas.</h2>
+            <p class="section-subtitle" data-i18n="pr.subtitle">Traducción profesional y clonación de voz por video, hasta 40 minutos de duración.</p>
 
             <div class="pricing-grid">
                 <article class="price-card">
                     <header class="price-header">
                         <span class="price-index">01</span>
-                        <h3 class="price-name">Esencial</h3>
-                        <p class="price-tagline">Para un solo hablante</p>
+                        <h3 class="price-name" data-i18n="pr.essential.name">Esencial</h3>
+                        <p class="price-tagline" data-i18n="pr.essential.tagline">Para un solo hablante</p>
                     </header>
                     <div class="price-amount">
                         <span class="price-currency">$</span><span class="price-value">5</span>
-                        <span class="price-unit">/ video</span>
+                        <span class="price-unit" data-i18n="pr.unit">/ video</span>
                     </div>
                     <ul class="price-features">
-                        <li>Traducción inglés ↔ español</li>
-                        <li>Clonación de voz del hablante principal</li>
-                        <li>Sincronización de audio con calidad de estudio</li>
-                        <li>Música y efectos de fondo preservados</li>
+                        <li data-i18n="pr.essential.f1">Traducción inglés ↔ español</li>
+                        <li data-i18n="pr.essential.f2">Clonación de voz del hablante principal</li>
+                        <li data-i18n="pr.essential.f3">Sincronización de audio con calidad de estudio</li>
+                        <li data-i18n="pr.essential.f4">Música y efectos de fondo preservados</li>
                     </ul>
                     <footer class="price-meta">
-                        <span>Entrega en 2 días</span>
-                        <span>1 revisión</span>
+                        <span data-i18n="pr.essential.delivery">Entrega en 2 días</span>
+                        <span data-i18n="pr.essential.revision">1 revisión</span>
                     </footer>
-                    <a href="#" class="price-cta janus-cta">Comenzar</a>
+                    <a href="#" class="price-cta janus-cta" data-i18n="pr.cta">Comenzar</a>
                 </article>
 
                 <article class="price-card price-card-featured">
                     <header class="price-header">
                         <span class="price-index">02</span>
-                        <h3 class="price-name">Multi-Voz</h3>
-                        <p class="price-tagline">Podcasts, entrevistas y diálogos</p>
+                        <h3 class="price-name" data-i18n="pr.multivoice.name">Multi-Voz</h3>
+                        <p class="price-tagline" data-i18n="pr.multivoice.tagline">Podcasts, entrevistas y diálogos</p>
                     </header>
                     <div class="price-amount">
                         <span class="price-currency">$</span><span class="price-value">25</span>
-                        <span class="price-unit">/ video</span>
+                        <span class="price-unit" data-i18n="pr.unit">/ video</span>
                     </div>
                     <ul class="price-features">
-                        <li>Todo lo incluido en Esencial</li>
-                        <li>Hasta 3 voces clonadas (principal + secundarias)</li>
-                        <li>Ajuste avanzado de cadencia y tono emocional</li>
-                        <li>Música y efectos de fondo preservados</li>
+                        <li data-i18n="pr.multivoice.f1">Todo lo incluido en Esencial</li>
+                        <li data-i18n="pr.multivoice.f2">Hasta 3 voces clonadas (principal + secundarias)</li>
+                        <li data-i18n="pr.multivoice.f3">Ajuste avanzado de cadencia y tono emocional</li>
+                        <li data-i18n="pr.multivoice.f4">Música y efectos de fondo preservados</li>
                     </ul>
                     <footer class="price-meta">
-                        <span>Entrega en 2 días</span>
-                        <span>2 revisiones</span>
+                        <span data-i18n="pr.multivoice.delivery">Entrega en 2 días</span>
+                        <span data-i18n="pr.multivoice.revision">2 revisiones</span>
                     </footer>
-                    <a href="#" class="price-cta price-cta-featured janus-cta">Comenzar</a>
-                    <span class="price-badge">Más elegido</span>
+                    <a href="#" class="price-cta price-cta-featured janus-cta" data-i18n="pr.cta">Comenzar</a>
+                    <span class="price-badge" data-i18n="pr.badge">Más elegido</span>
                 </article>
 
                 <article class="price-card">
                     <header class="price-header">
                         <span class="price-index">03</span>
-                        <h3 class="price-name">Global</h3>
-                        <p class="price-tagline">Más allá del inglés y español</p>
+                        <h3 class="price-name" data-i18n="pr.global.name">Global</h3>
+                        <p class="price-tagline" data-i18n="pr.global.tagline">Más allá del inglés y español</p>
                     </header>
                     <div class="price-amount">
                         <span class="price-currency">$</span><span class="price-value">45</span>
-                        <span class="price-unit">/ video</span>
+                        <span class="price-unit" data-i18n="pr.unit">/ video</span>
                     </div>
                     <ul class="price-features">
-                        <li>Todo lo incluido en Multi-Voz</li>
-                        <li>Francés o japonés, bidireccional</li>
-                        <li>Hasta 5 voces clonadas</li>
-                        <li>Música y efectos de fondo preservados</li>
+                        <li data-i18n="pr.global.f1">Todo lo incluido en Multi-Voz</li>
+                        <li data-i18n="pr.global.f2">Francés o japonés, bidireccional</li>
+                        <li data-i18n="pr.global.f3">Hasta 5 voces clonadas</li>
+                        <li data-i18n="pr.global.f4">Música y efectos de fondo preservados</li>
                     </ul>
                     <footer class="price-meta">
-                        <span>Entrega en 3 días</span>
-                        <span>3 revisiones</span>
+                        <span data-i18n="pr.global.delivery">Entrega en 3 días</span>
+                        <span data-i18n="pr.global.revision">3 revisiones</span>
                     </footer>
-                    <a href="#" class="price-cta janus-cta">Comenzar</a>
+                    <a href="#" class="price-cta janus-cta" data-i18n="pr.cta">Comenzar</a>
                 </article>
             </div>
 
-            <p class="pricing-note">Todos los planes cubren videos de hasta 40 minutos. Al continuar aceptas nuestros <a href="legal.html#terminos">Términos de Servicio</a> y <a href="legal.html#reembolsos">Política de Reembolsos</a>.</p>
+            <p class="pricing-note" data-i18n-html="pr.note.html">Todos los planes cubren videos de hasta 40 minutos. Al continuar aceptas nuestros <a href="legal.html#terminos">Términos de Servicio</a> y <a href="legal.html#reembolsos">Política de Reembolsos</a>.</p>
         </div>
     </section>
 
@@ -256,13 +257,13 @@
         <div class="container">
             <div class="service-banner-inner">
                 <div class="service-banner-text">
-                    <p class="section-eyebrow">Servicio gestionado</p>
-                    <h2 class="service-banner-title">¿Quieres delegar completamente la operación de tu canal secundario?</h2>
-                    <p class="service-banner-body">Doblaje, traducción, edición, SEO y publicación llave en mano para creadores y empresas. Tú solo te preocupas por cobrar los nuevos ingresos.</p>
+                    <p class="section-eyebrow" data-i18n="serv.eyebrow">Servicio gestionado</p>
+                    <h2 class="service-banner-title" data-i18n="serv.title">¿Quieres delegar completamente la operación de tu canal secundario?</h2>
+                    <p class="service-banner-body" data-i18n="serv.body">Doblaje, traducción, edición, SEO y publicación llave en mano para creadores y empresas. Tú solo te preocupas por cobrar los nuevos ingresos.</p>
                 </div>
                 <div class="service-banner-cta">
-                    <a href="agencia.html" class="btn btn-primary btn-lg">Conocer Servicio Llave en Mano</a>
-                    <a href="mailto:support@janusdubber.website" class="service-banner-link">Agendar Llamada →</a>
+                    <a href="agencia.html" class="btn btn-primary btn-lg" data-i18n="serv.cta">Conocer Servicio Llave en Mano</a>
+                    <a href="mailto:support@janusdubber.website" class="service-banner-link" data-i18n="serv.link">Agendar Llamada →</a>
                 </div>
             </div>
         </div>
@@ -270,9 +271,9 @@
 
     <section class="cta-section" id="cta">
         <div class="container">
-            <h2 class="cta-title">¿Listo para duplicar tu audiencia?</h2>
-            <p class="cta-subtitle">Únete a creadores que ya están llegando a millones de hispanohablantes</p>
-            <a href="#" class="btn btn-primary btn-lg btn-3d btn-shimmer" id="btn-try-now">Probar JANUS ahora</a>
+            <h2 class="cta-title" data-i18n="cta.title">¿Listo para duplicar tu audiencia?</h2>
+            <p class="cta-subtitle" data-i18n="cta.subtitle">Únete a creadores que ya están llegando a millones de hispanohablantes</p>
+            <a href="#" class="btn btn-primary btn-lg btn-3d btn-shimmer" id="btn-try-now" data-i18n="nav.probar_lg">Probar JANUS ahora</a>
         </div>
     </section>
 
@@ -281,34 +282,35 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <span class="logo-text">JANUS</span>
-                    <p class="footer-tagline">Duplica tu audiencia</p>
-                    <p class="footer-desc">Servicio de doblaje y traducción de video con IA: inglés ↔ español, clonación de voz natural y sincronización de estudio, con la música y los efectos de tu video intactos.</p>
+                    <p class="footer-tagline" data-i18n="foot.tagline">Duplica tu audiencia</p>
+                    <p class="footer-desc" data-i18n="foot.desc">Servicio de doblaje y traducción de video con IA: inglés ↔ español, clonación de voz natural y sincronización de estudio, con la música y los efectos de tu video intactos.</p>
                 </div>
                 <div class="footer-col">
-                    <h4 class="footer-heading">Contacto</h4>
+                    <h4 class="footer-heading" data-i18n="foot.contacto">Contacto</h4>
                     <ul class="footer-list">
                         <li><a href="mailto:support@janusdubber.website">support@janusdubber.website</a></li>
-                        <li>Atención al cliente por correo electrónico</li>
-                        <li>Respuesta en 24–48 h laborables</li>
+                        <li data-i18n="foot.support">Atención al cliente por correo electrónico</li>
+                        <li data-i18n="foot.response">Respuesta en 24–48 h laborables</li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4 class="footer-heading">Legal</h4>
+                    <h4 class="footer-heading" data-i18n="foot.legal">Legal</h4>
                     <ul class="footer-list">
-                        <li><a href="legal.html#terminos">Términos de Servicio</a></li>
-                        <li><a href="legal.html#reembolsos">Reembolsos y Disputas</a></li>
-                        <li><a href="legal.html#cancelacion">Política de Cancelación</a></li>
-                        <li><a href="legal.html#promociones">Términos de Promociones</a></li>
+                        <li><a href="legal.html#terminos" data-i18n="foot.terminos">Términos de Servicio</a></li>
+                        <li><a href="legal.html#reembolsos" data-i18n="foot.reembolsos">Reembolsos y Disputas</a></li>
+                        <li><a href="legal.html#cancelacion" data-i18n="foot.cancelacion">Política de Cancelación</a></li>
+                        <li><a href="legal.html#promociones" data-i18n="foot.promociones">Términos de Promociones</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 jonnyck-org. Todos los derechos reservados.</p>
-                <p class="footer-bottom-note">JANUS es un producto de jonnyck-org.</p>
+                <p data-i18n="foot.copyright">&copy; 2026 jonnyck-org. Todos los derechos reservados.</p>
+                <p class="footer-bottom-note" data-i18n="foot.nota">JANUS es un producto de jonnyck-org.</p>
             </div>
         </div>
     </footer>
 
+    <script src="i18n.js"></script>
     <script src="app.js"></script>
     <link rel="stylesheet" href="chat-style.css">
     <link rel="stylesheet" href="auth.css">

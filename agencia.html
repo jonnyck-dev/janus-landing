@@ -13,65 +13,66 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="calculator.css">
 </head>
-<body>
+<body data-page="agencia">
     <nav class="navbar">
         <div class="container nav-content">
             <a href="index.html" class="logo">
                 <img src="assets/icons/JANUSLOGO_BANNER.png" alt="JANUS" class="logo-img">
             </a>
             <div class="nav-links">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="agencia.html" class="nav-link active">Agencia</a>
+                <a href="index.html" class="nav-link" data-i18n="nav.inicio">Inicio</a>
+                <a href="agencia.html" class="nav-link active" data-i18n="nav.agencia">Agencia</a>
             </div>
             <div class="nav-actions">
-                <a href="#" id="btn-nav-try" class="btn btn-primary btn-sm">Probar ahora</a>
+                <a href="#" id="btn-nav-try" class="btn btn-primary btn-sm" data-i18n="nav.probar">Probar ahora</a>
                 <div id="janus-nav-user" class="janus-nav-user" style="display:none;">
-                    <button class="janus-user-chip" id="janus-user-chip" aria-label="Mi cuenta">
+                    <button class="janus-user-chip" id="janus-user-chip" data-i18n-aria="nav.cuenta_aria" aria-label="Mi cuenta">
                         <img id="janus-user-avatar-img" class="janus-user-avatar" alt="" style="display:none;">
                         <span id="janus-user-avatar-fallback" class="janus-user-avatar janus-user-avatar-fallback">·</span>
                         <span class="janus-user-name" id="janus-user-name"></span>
                     </button>
                     <div class="janus-user-menu" id="janus-user-menu">
-                        <button class="janus-user-menu-item" id="janus-menu-profile">Mi perfil</button>
-                        <button class="janus-user-menu-item danger" id="janus-menu-logout">Cerrar sesión</button>
+                        <button class="janus-user-menu-item" id="janus-menu-profile" data-i18n="nav.perfil">Mi perfil</button>
+                        <button class="janus-user-menu-item danger" id="janus-menu-logout" data-i18n="nav.cerrar">Cerrar sesión</button>
                     </div>
                 </div>
+                <div id="janus-lang-toggle" class="janus-lang-toggle"></div>
             </div>
         </div>
     </nav>
 
     <section class="page-head">
         <div class="container">
-            <p class="section-eyebrow">Servicio gestionado</p>
-            <h1 class="page-head-title">Gestión llave en mano de tu canal secundario</h1>
-            <p class="page-head-subtitle">Traducción, doblaje, edición, SEO y publicación por nuestro equipo. Tú solo te preocupas por cobrar los nuevos ingresos.</p>
+            <p class="section-eyebrow" data-i18n="serv.eyebrow">Servicio gestionado</p>
+            <h1 class="page-head-title" data-i18n="ag.title">Gestión llave en mano de tu canal secundario</h1>
+            <p class="page-head-subtitle" data-i18n="ag.subtitle">Traducción, doblaje, edición, SEO y publicación por nuestro equipo. Tú solo te preocupas por cobrar los nuevos ingresos.</p>
         </div>
     </section>
 
     <section class="managed-service" id="managed">
         <div class="container">
             <div class="managed-intro">
-                <p>Sabemos que no tienes tiempo para gestionar un segundo canal, subir videos, optimizar metadatos en otro idioma o configurar la plataforma. <strong>Por eso eliminamos la fricción por completo.</strong></p>
+                <p data-i18n-html="ag.intro.html">Sabemos que no tienes tiempo para gestionar un segundo canal, subir videos, optimizar metadatos en otro idioma o configurar la plataforma. <strong>Por eso eliminamos la fricción por completo.</strong></p>
             </div>
             
             <div class="managed-grid">
                 <div class="managed-card">
                     <div class="managed-icon">🎙️</div>
-                    <h3 class="managed-title">Doblaje de Alta Precisión</h3>
-                    <p class="managed-desc">JANUS traduce tus videos entre inglés y español conservando tu tono de voz original, tu intención y logrando una sincronización impecable.</p>
+                    <h3 class="managed-title" data-i18n="ag.card1.title">Doblaje de Alta Precisión</h3>
+                    <p class="managed-desc" data-i18n="ag.card1.desc">JANUS traduce tus videos entre inglés y español conservando tu tono de voz original, tu intención y logrando una sincronización impecable.</p>
                 </div>
                 
                 <div class="managed-card managed-card-highlight">
                     <div class="managed-icon">🔑</div>
-                    <h3 class="managed-title">Gestión Llave en Mano</h3>
-                    <p class="managed-desc">No tienes que mover un solo dedo. Nuestro equipo y tecnología se encargan de:</p>
+                    <h3 class="managed-title" data-i18n="ag.card2.title">Gestión Llave en Mano</h3>
+                    <p class="managed-desc" data-i18n="ag.card2.desc">No tienes que mover un solo dedo. Nuestro equipo y tecnología se encargan de:</p>
                     <ul class="managed-list">
-                        <li>Crear y configurar tu canal secundario</li>
-                        <li>Optimizar el SEO (títulos, descripciones y miniaturas)</li>
-                        <li>Subir los videos doblados automáticamente</li>
-                        <li>Gestionar la publicación y programación</li>
+                        <li data-i18n="ag.card2.l1">Crear y configurar tu canal secundario</li>
+                        <li data-i18n="ag.card2.l2">Optimizar el SEO (títulos, descripciones y miniaturas)</li>
+                        <li data-i18n="ag.card2.l3">Subir los videos doblados automáticamente</li>
+                        <li data-i18n="ag.card2.l4">Gestionar la publicación y programación</li>
                     </ul>
-                    <p class="managed-highlight">Tú solo te preocupas por cobrar los nuevos ingresos.</p>
+                    <p class="managed-highlight" data-i18n="ag.card2.highlight">Tú solo te preocupas por cobrar los nuevos ingresos.</p>
                 </div>
             </div>
         </div>
@@ -79,104 +80,104 @@
 
     <section class="loss-aversion" id="loss">
         <div class="container">
-            <p class="section-eyebrow">El costo de esperar</p>
-            <h2 class="section-title">La matemática de tu inacción</h2>
-            <p class="section-subtitle">Lo que estás perdiendo ahora mismo</p>
+            <p class="section-eyebrow" data-i18n="ag.loss.eyebrow">El costo de esperar</p>
+            <h2 class="section-title" data-i18n="ag.loss.title">La matemática de tu inacción</h2>
+            <p class="section-subtitle" data-i18n="ag.loss.subtitle">Lo que estás perdiendo ahora mismo</p>
             
             <div class="loss-intro">
-                <p>Si creas contenido <strong>solo en inglés</strong> o <strong>solo en español</strong>, estás regalando tu alcance. Al no cruzar el puente de ambos idiomas, estás renunciando a un mercado combinado de más de <strong>1,000 millones de personas</strong>. Cada día que tus videos no están localizados, pierdes dinero y relevancia frente a competidores que sí lo están haciendo.</p>
+                <p data-i18n-html="ag.loss.intro.html">Si creas contenido <strong>solo en inglés</strong> o <strong>solo en español</strong>, estás regalando tu alcance. Al no cruzar el puente de ambos idiomas, estás renunciando a un mercado combinado de más de <strong>1,000 millones de personas</strong>. Cada día que tus videos no están localizados, pierdes dinero y relevancia frente a competidores que sí lo están haciendo.</p>
             </div>
             
             <div class="loss-grid">
                 <div class="loss-card">
-                    <div class="loss-badge">Creador en Inglés</div>
-                    <p class="loss-scenario">Tu canal genera <strong>$5,000 USD/mes</strong></p>
-                    <p class="loss-amount">-$1,500 a -$3,000</p>
-                    <p class="loss-period">USD/mes adicionales en el mercado hispano</p>
-                    <p class="loss-detail">Estás renunciando a este ingreso por el mismo contenido que ya grabaste.</p>
+                    <div class="loss-badge" data-i18n="ag.loss.badge_en">Creador en Inglés</div>
+                    <p class="loss-scenario" data-i18n-html="ag.loss.scenario_en.html">Tu canal genera <strong>$5,000 USD/mes</strong></p>
+                    <p class="loss-amount" data-i18n="ag.loss.amount_en">-$1,500 a -$3,000</p>
+                    <p class="loss-period" data-i18n="ag.loss.period_en">USD/mes adicionales en el mercado hispano</p>
+                    <p class="loss-detail" data-i18n="ag.loss.detail_en">Estás renunciando a este ingreso por el mismo contenido que ya grabaste.</p>
                 </div>
                 
                 <div class="loss-card loss-card-highlight">
-                    <div class="loss-badge">Creador en Español</div>
-                    <p class="loss-scenario">No traduces al inglés</p>
-                    <p class="loss-amount">-$5,000 a -$10,000</p>
-                    <p class="loss-period">USD/mes que dejas de percibir</p>
-                    <p class="loss-detail">El CPM del mercado angloparlante es mucho más alto. La pérdida es aún más dolorosa.</p>
+                    <div class="loss-badge" data-i18n="ag.loss.badge_es">Creador en Español</div>
+                    <p class="loss-scenario" data-i18n="ag.loss.scenario_es">No traduces al inglés</p>
+                    <p class="loss-amount" data-i18n="ag.loss.amount_es">-$5,000 a -$10,000</p>
+                    <p class="loss-period" data-i18n="ag.loss.period_es">USD/mes que dejas de percibir</p>
+                    <p class="loss-detail" data-i18n="ag.loss.detail_es">El CPM del mercado angloparlante es mucho más alto. La pérdida es aún más dolorosa.</p>
                 </div>
             </div>
             
             <div class="loss-conclusion">
-                <p class="conclusion-text">En cualquiera de los dos escenarios: <strong>estás tirando miles de dólares a la basura cada año</strong> simplemente por la barrera del idioma.</p>
-                <p class="conclusion-solution">El doblaje tradicional te costaría miles de dólares por video, absorbiendo todo tu margen. <strong>JANUS frena esa fuga de ingresos en minutos por una fracción de ese costo.</strong></p>
+                <p class="conclusion-text" data-i18n-html="ag.loss.conclusion.html">En cualquiera de los dos escenarios: <strong>estás tirando miles de dólares a la basura cada año</strong> simplemente por la barrera del idioma.</p>
+                <p class="conclusion-solution" data-i18n-html="ag.loss.solution.html">El doblaje tradicional te costaría miles de dólares por video, absorbiendo todo tu margen. <strong>JANUS frena esa fuga de ingresos en minutos por una fracción de ese costo.</strong></p>
             </div>
         </div>
     </section>
 
     <section class="market-research" id="research">
         <div class="container">
-            <p class="section-eyebrow">Datos verificables</p>
-            <h2 class="section-title">Estudio de mercado</h2>
-            <p class="section-subtitle">El momento de doblar tus videos es ahora</p>
+            <p class="section-eyebrow" data-i18n="ag.res.eyebrow">Datos verificables</p>
+            <h2 class="section-title" data-i18n="ag.res.title">Estudio de mercado</h2>
+            <p class="section-subtitle" data-i18n="ag.res.subtitle">El momento de doblar tus videos es ahora</p>
             
             <div class="research-grid">
                 <div class="research-card">
                     <div class="research-icon">📈</div>
-                    <h3 class="research-title">Explosión de la educación online</h3>
-                    <p class="research-desc">El mercado de Online Language Learning está valorado en <strong>USD 24.39 mil millones (2026)</strong> y se proyecta que alcance los <strong>USD 50.82 mil millones para 2031</strong>, impulsado por un crecimiento anual sostenido (CAGR) del <strong>15.83%</strong>.</p>
-                    <a href="https://www.mordorintelligence.com/industry-reports/online-language-learning-market" target="_blank" rel="noopener" class="research-source">Fuente: Mordor Intelligence →</a>
+                    <h3 class="research-title" data-i18n="ag.res1.title">Explosión de la educación online</h3>
+                    <p class="research-desc" data-i18n-html="ag.res1.desc.html">El mercado de Online Language Learning está valorado en <strong>USD 24.39 mil millones (2026)</strong> y se proyecta que alcance los <strong>USD 50.82 mil millones para 2031</strong>, impulsado por un crecimiento anual sostenido (CAGR) del <strong>15.83%</strong>.</p>
+                    <a href="https://www.mordorintelligence.com/industry-reports/online-language-learning-market" target="_blank" rel="noopener" class="research-source" data-i18n="ag.res1.source">Fuente: Mordor Intelligence →</a>
                 </div>
                 
                 <div class="research-card">
                     <div class="research-icon">🌐</div>
-                    <h3 class="research-title">La industria de la localización en su pico histórico</h3>
-                    <p class="research-desc">Los servicios globales de traducción y localización mueven un mercado de <strong>USD 71.7 mil millones</strong> que crece con fuerza para responder a la demanda de contenido en idiomas locales.</p>
-                    <a href="https://www.quantumrun.com/consulting/language-services-market/" target="_blank" rel="noopener" class="research-source">Fuente: Nimdzi Insights / Fortune Business Insights →</a>
+                    <h3 class="research-title" data-i18n="ag.res2.title">La industria de la localización en su pico histórico</h3>
+                    <p class="research-desc" data-i18n-html="ag.res2.desc.html">Los servicios globales de traducción y localización mueven un mercado de <strong>USD 71.7 mil millones</strong> que crece con fuerza para responder a la demanda de contenido en idiomas locales.</p>
+                    <a href="https://www.quantumrun.com/consulting/language-services-market/" target="_blank" rel="noopener" class="research-source" data-i18n="ag.res2.source">Fuente: Nimdzi Insights / Fortune Business Insights →</a>
                 </div>
                 
                 <div class="research-card">
                     <div class="research-icon">🤖</div>
-                    <h3 class="research-title">Revolución de la IA en traducción</h3>
-                    <p class="research-desc">El software de traducción basado en Inteligencia Artificial (Language AI) crece a un ritmo masivo del <strong>24.8% CAGR</strong>, convirtiéndose en el segmento tecnológico de mayor aceleración global.</p>
-                    <a href="https://www.thebusinessresearchcompany.com/report/ai-in-language-translation-global-market-report" target="_blank" rel="noopener" class="research-source">Fuente: The Business Research Company / Slator 2026 →</a>
+                    <h3 class="research-title" data-i18n="ag.res3.title">Revolución de la IA en traducción</h3>
+                    <p class="research-desc" data-i18n-html="ag.res3.desc.html">El software de traducción basado en Inteligencia Artificial (Language AI) crece a un ritmo masivo del <strong>24.8% CAGR</strong>, convirtiéndose en el segmento tecnológico de mayor aceleración global.</p>
+                    <a href="https://www.thebusinessresearchcompany.com/report/ai-in-language-translation-global-market-report" target="_blank" rel="noopener" class="research-source" data-i18n="ag.res3.source">Fuente: The Business Research Company / Slator 2026 →</a>
                 </div>
                 
                 <div class="research-card">
                     <div class="research-icon">🇪🇸</div>
-                    <h3 class="research-title">El poder demográfico del español</h3>
-                    <p class="research-desc">El español es la <strong>segunda lengua materna más hablada del mundo (~500 millones de personas)</strong>, y Latinoamérica se posiciona como la región de más rápido crecimiento en consumo digital y aprendizaje online.</p>
-                    <a href="https://www.grandviewresearch.com/industry-analysis/online-language-learning-market-report" target="_blank" rel="noopener" class="research-source">Fuente: Grand View Research →</a>
+                    <h3 class="research-title" data-i18n="ag.res4.title">El poder demográfico del español</h3>
+                    <p class="research-desc" data-i18n-html="ag.res4.desc.html">El español es la <strong>segunda lengua materna más hablada del mundo (~500 millones de personas)</strong>, y Latinoamérica se posiciona como la región de más rápido crecimiento en consumo digital y aprendizaje online.</p>
+                    <a href="https://www.grandviewresearch.com/industry-analysis/online-language-learning-market-report" target="_blank" rel="noopener" class="research-source" data-i18n="ag.res4.source">Fuente: Grand View Research →</a>
                 </div>
             </div>
             
             <div class="research-highlight">
-                <p class="highlight-text"><strong>⚡ Efecto multiplicador (Inglés ↔ Español):</strong> Al romper de forma bidireccional la barrera del idioma, los creadores de contenido <strong>duplican de inmediato su mercado objetivo</strong> sin invertir un solo dólar en nueva producción, ganando acceso directo a una audiencia combinada de más de <strong>1,000 millones de personas</strong>.</p>
+                <p class="highlight-text" data-i18n-html="ag.res.highlight.html"><strong>⚡ Efecto multiplicador (Inglés ↔ Español):</strong> Al romper de forma bidireccional la barrera del idioma, los creadores de contenido <strong>duplican de inmediato su mercado objetivo</strong> sin invertir un solo dólar en nueva producción, ganando acceso directo a una audiencia combinada de más de <strong>1,000 millones de personas</strong>.</p>
             </div>
         </div>
     </section>
 
     <section class="roi-calculator" id="roi-calculator">
         <div class="container">
-            <p class="section-eyebrow">Calcula tu caso</p>
-            <h2 class="section-title">Calculadora de ROI</h2>
-            <p class="section-subtitle">Descubre cuánto estás perdiendo al no doblar tus videos</p>
+            <p class="section-eyebrow" data-i18n="ag.roi.eyebrow">Calcula tu caso</p>
+            <h2 class="section-title" data-i18n="ag.roi.title">Calculadora de ROI</h2>
+            <p class="section-subtitle" data-i18n="ag.roi.subtitle">Descubre cuánto estás perdiendo al no doblar tus videos</p>
             
-            <p class="roi-intro">Ajusta los valores según tu canal y mira en tiempo real el <strong>ingreso potencial</strong> que estás dejando sobre la mesa.</p>
+            <p class="roi-intro" data-i18n-html="ag.roi.intro.html">Ajusta los valores según tu canal y mira en tiempo real el <strong>ingreso potencial</strong> que estás dejando sobre la mesa.</p>
             
             <div class="roi-container">
                 <div class="roi-inputs">
                     <div class="roi-input-group">
                         <label class="roi-label">
                             <span class="roi-label-icon">🌍</span>
-                            Idioma actual de tu canal
+                            <span data-i18n="ag.roi.lang_label">Idioma actual de tu canal</span>
                         </label>
                         <div class="roi-toggle-group">
                             <label class="roi-toggle">
                                 <input type="radio" name="roi-language" value="en_to_es" checked>
-                                <span class="roi-toggle-label">Inglés</span>
+                                <span class="roi-toggle-label" data-i18n="ag.roi.lang_en">Inglés</span>
                             </label>
                             <label class="roi-toggle">
                                 <input type="radio" name="roi-language" value="es_to_en">
-                                <span class="roi-toggle-label">Español</span>
+                                <span class="roi-toggle-label" data-i18n="ag.roi.lang_es">Español</span>
                             </label>
                         </div>
                     </div>
@@ -184,7 +185,7 @@
                     <div class="roi-input-group">
                         <label class="roi-label">
                             <span class="roi-label-icon">👁️</span>
-                            Visualizaciones mensuales
+                            <span data-i18n="ag.roi.views_label">Visualizaciones mensuales</span>
                         </label>
                         <div class="roi-slider-container">
                             <div class="roi-slider-value" id="roi-views-display">500,000</div>
@@ -199,7 +200,7 @@
                     <div class="roi-input-group">
                         <label class="roi-label">
                             <span class="roi-label-icon">💰</span>
-                            CPM estimado (USD)
+                            <span data-i18n="ag.roi.cpm_label">CPM estimado (USD)</span>
                         </label>
                         <div class="roi-slider-container">
                             <div class="roi-slider-value" id="roi-cpm-display">$5.00</div>
@@ -214,42 +215,42 @@
                     <div class="roi-input-group">
                         <label class="roi-label">
                             <span class="roi-label-icon">📅</span>
-                            Frecuencia de subida
+                            <span data-i18n="ag.roi.freq_label">Frecuencia de subida</span>
                         </label>
                         <select id="roi-frequency" class="roi-select">
-                            <option value="1_month">1 video al mes</option>
-                            <option value="1_week" selected>1 video a la semana</option>
-                            <option value="2_week">2 videos a la semana</option>
+                            <option value="1_month" data-i18n="ag.roi.freq_1m">1 video al mes</option>
+                            <option value="1_week" selected data-i18n="ag.roi.freq_1w">1 video a la semana</option>
+                            <option value="2_week" data-i18n="ag.roi.freq_2w">2 videos a la semana</option>
                         </select>
                     </div>
                 </div>
                 
                 <div class="roi-results">
-                    <h3 class="roi-results-title">Resultados en tiempo real <span id="roi-lang-label" class="roi-lang-label"></span></h3>
+                    <h3 class="roi-results-title"><span data-i18n="ag.roi.results_title">Resultados en tiempo real</span> <span id="roi-lang-label" class="roi-lang-label"></span></h3>
                     <div class="roi-results-grid">
                         <div class="roi-result-card">
-                            <div class="roi-result-label">Ingreso mensual actual</div>
+                            <div class="roi-result-label" data-i18n="ag.roi.current_label">Ingreso mensual actual</div>
                             <div class="roi-result-value" id="roi-current">$0</div>
                         </div>
                         <div class="roi-result-card roi-result-highlight">
-                            <div class="roi-result-label">Potencial adicional</div>
+                            <div class="roi-result-label" data-i18n="ag.roi.potential_label">Potencial adicional</div>
                             <div class="roi-result-value" id="roi-potential">$0</div>
                         </div>
                         <div class="roi-result-card roi-result-loss">
-                            <div class="roi-result-label">Pérdida anual</div>
+                            <div class="roi-result-label" data-i18n="ag.roi.loss_label">Pérdida anual</div>
                             <div class="roi-result-value" id="roi-loss">$0</div>
                         </div>
                     </div>
                     
                     <div class="roi-bars">
                         <div class="roi-bar-group roi-bar-current">
-                            <div class="roi-bar-label">Actual</div>
+                            <div class="roi-bar-label" data-i18n="ag.roi.bar_current">Actual</div>
                             <div class="roi-bar-track">
                                 <div class="roi-bar-fill" id="roi-bar-current"></div>
                             </div>
                         </div>
                         <div class="roi-bar-group roi-bar-potential">
-                            <div class="roi-bar-label">Con JANUS</div>
+                            <div class="roi-bar-label" data-i18n="ag.roi.bar_potential">Con JANUS</div>
                             <div class="roi-bar-track">
                                 <div class="roi-bar-fill" id="roi-bar-potential"></div>
                             </div>
@@ -257,7 +258,7 @@
                     </div>
                 </div>
                 
-                <button id="roi-download" class="roi-download-btn">
+                <button id="roi-download" class="roi-download-btn" data-i18n="ag.roi.download">
                     Ver mi plan de ingresos personalizado
                 </button>
             </div>
@@ -268,9 +269,9 @@
 
     <section class="cta-section" id="agencia-cta">
         <div class="container">
-            <h2 class="cta-title">¿Hablamos sobre tu canal?</h2>
-            <p class="cta-subtitle">Cuéntanos tu situación y te proponemos un plan de operación gestionada sin compromiso</p>
-            <a href="mailto:support@janusdubber.website?subject=Quiero%20conocer%20el%20servicio%20gestionado%20de%20JANUS" class="btn btn-primary btn-lg">Agendar Llamada</a>
+            <h2 class="cta-title" data-i18n="ag.cta.title">¿Hablamos sobre tu canal?</h2>
+            <p class="cta-subtitle" data-i18n="ag.cta.subtitle">Cuéntanos tu situación y te proponemos un plan de operación gestionada sin compromiso</p>
+            <a href="mailto:support@janusdubber.website?subject=Quiero%20conocer%20el%20servicio%20gestionado%20de%20JANUS" class="btn btn-primary btn-lg" data-i18n="ag.cta.btn">Agendar Llamada</a>
         </div>
     </section>
 
@@ -279,36 +280,37 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <span class="logo-text">JANUS</span>
-                    <p class="footer-tagline">Duplica tu audiencia</p>
-                    <p class="footer-desc">Servicio de doblaje y traducción de video con IA: inglés ↔ español, clonación de voz natural y sincronización de estudio, con la música y los efectos de tu video intactos.</p>
+                    <p class="footer-tagline" data-i18n="foot.tagline">Duplica tu audiencia</p>
+                    <p class="footer-desc" data-i18n="foot.desc">Servicio de doblaje y traducción de video con IA: inglés ↔ español, clonación de voz natural y sincronización de estudio, con la música y los efectos de tu video intactos.</p>
                 </div>
                 <div class="footer-col">
-                    <h4 class="footer-heading">Contacto</h4>
+                    <h4 class="footer-heading" data-i18n="foot.contacto">Contacto</h4>
                     <ul class="footer-list">
                         <li><a href="mailto:support@janusdubber.website">support@janusdubber.website</a></li>
-                        <li>Atención al cliente por correo electrónico</li>
-                        <li>Respuesta en 24–48 h laborables</li>
+                        <li data-i18n="foot.support">Atención al cliente por correo electrónico</li>
+                        <li data-i18n="foot.response">Respuesta en 24–48 h laborables</li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4 class="footer-heading">Legal</h4>
+                    <h4 class="footer-heading" data-i18n="foot.legal">Legal</h4>
                     <ul class="footer-list">
-                        <li><a href="legal.html#terminos">Términos de Servicio</a></li>
-                        <li><a href="legal.html#reembolsos">Reembolsos y Disputas</a></li>
-                        <li><a href="legal.html#cancelacion">Política de Cancelación</a></li>
-                        <li><a href="legal.html#promociones">Términos de Promociones</a></li>
+                        <li><a href="legal.html#terminos" data-i18n="foot.terminos">Términos de Servicio</a></li>
+                        <li><a href="legal.html#reembolsos" data-i18n="foot.reembolsos">Reembolsos y Disputas</a></li>
+                        <li><a href="legal.html#cancelacion" data-i18n="foot.cancelacion">Política de Cancelación</a></li>
+                        <li><a href="legal.html#promociones" data-i18n="foot.promociones">Términos de Promociones</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 jonnyck-org. Todos los derechos reservados.</p>
-                <p class="footer-bottom-note">JANUS es un producto de jonnyck-org.</p>
+                <p data-i18n="foot.copyright">&copy; 2026 jonnyck-org. Todos los derechos reservados.</p>
+                <p class="footer-bottom-note" data-i18n="foot.nota">JANUS es un producto de jonnyck-org.</p>
             </div>
         </div>
     </footer>
 
     <link rel="stylesheet" href="chat-style.css">
     <link rel="stylesheet" href="auth.css">
+    <script src="i18n.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="auth.js"></script>
     <script src="calculator.js"></script>
