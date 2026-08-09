@@ -19,7 +19,7 @@
         '<button class="janus-chat-send" id="janus-chat-send" aria-label="Enviar">➤</button>' +
       "</div>" +
       '<div class="janus-chat-powered">' +
-        '<a href="https://janus-landing-red.vercel.app" target="_blank">JANUS</a> &middot; Asistente informativo' +
+        '<a href="https://www.janusdubber.website" target="_blank">JANUS</a> &middot; Asistente informativo' +
       "</div>" +
     "</div>";
 

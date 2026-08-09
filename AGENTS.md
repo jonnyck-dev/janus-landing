@@ -8,13 +8,13 @@ Deployed on Vercel. Backend runs on user's local machine, exposed via Cloudflare
 ## Deployment
 
 - **Vercel** — auto-deploys on push to `main`
-- **URL**: `janus-landing-red.vercel.app`
+- **URL**: `www.janusdubber.website`
 - Framework preset: **Other** (static)
 
 ## Architecture
 
 ```
-Vercel (janus-landing-red.vercel.app)
+Vercel (www.janusdubber.website)
 ├── /              → Landing page (index.html + style.css + app.js)
 ├── /app           → Editor de doblaje (frontend/index.html + app.js)
 └── /studio        → Studio editor (frontend_studio/index.html + app.js)
@@ -78,7 +78,7 @@ Mover `frontend/` y `frontend_studio/` del repo `TRADUCTOR` al repo `janus-landi
 ### Pasos
 
 **1. Backend (TRADUCTOR) — Permisos CORS**
-- Agregar `CORSMiddleware` en `main.py` permitiendo `https://janus-landing-red.vercel.app`
+- Agregar `CORSMiddleware` en `main.py` permitiendo `https://www.janusdubber.website`
 - Asegurar que `/cache/*` y `/api/stream/*` tengan headers CORS
 
 **2. Copiar frontend al landing**
@@ -104,7 +104,7 @@ Mover `frontend/` y `frontend_studio/` del repo `TRADUCTOR` al repo `janus-landi
 ```
 
 **5. Actualizar landing app.js**
-- Cambiar `JANUS_APP_URL` del tunnel URL a `'https://janus-landing-red.vercel.app/app'`
+- Cambiar `JANUS_APP_URL` del tunnel URL a `'https://www.janusdubber.website/app'`
 - Ahora los botones "Probar ahora" abren el editor en el mismo dominio
 
 ### URLs a reemplazar (por archivo)
