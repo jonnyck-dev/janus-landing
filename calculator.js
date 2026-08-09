@@ -4,7 +4,7 @@
 
 // Standalone: sin app.js (página /agencia), define su propia URL de la app
 if (typeof JANUS_APP_URL === 'undefined') {
-    var JANUS_APP_URL = 'https://buf-sat-open-hall.trycloudflare.com';
+    var JANUS_APP_URL = 'https://app.janusdubber.website';
 }
 
 var ROI_STORAGE_KEY = 'janus_roi_calculation';

@@ -10,7 +10,7 @@ var SUPABASE_URL = 'https://wefxhvrdwckqtytxtbos.supabase.co';
 var SUPABASE_ANON_KEY = 'sb_publishable_mhBHcFeFaBjEACWQjpOZuQ_CqJ5SfWH';
 
 // URL de la app JANUS (Cloudflare tunnel) — usada solo para chequear sesión viva.
-var JANUS_APP_URL = 'https://buf-sat-open-hall.trycloudflare.com';
+var JANUS_APP_URL = 'https://app.janusdubber.website';
 
 // mailto original que disparan navbar/hero tras registrarse
 var MAILTO_HREF = 'mailto:jonnyck.dev@icloud.com?subject=Quiero%20probar%20JANUS&body=Hola%2C%20me%20gustar%C3%ADa%20probar%20JANUS%20para%20doblar%20mis%20videos.';

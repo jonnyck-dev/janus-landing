@@ -1,6 +1,6 @@
 ﻿// Janus Chat Widget - app
 (function () {
-  var API_BASE = "https://buf-sat-open-hall.trycloudflare.com"; // Cambiar por URL del tunnel en produccion
+  var API_BASE = "https://app.janusdubber.website";
   var OPEN = false;
   var STREAMING = false;
 

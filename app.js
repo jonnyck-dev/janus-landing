@@ -1,4 +1,4 @@
-var JANUS_APP_URL = 'https://buf-sat-open-hall.trycloudflare.com';
+var JANUS_APP_URL = 'https://app.janusdubber.website';
 
 document.addEventListener('DOMContentLoaded', function() {
     function redirectToApp(e) {
