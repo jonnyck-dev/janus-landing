@@ -10,7 +10,6 @@ create table if not exists public.profiles (
   full_name text,
   avatar_url text,
   website text,
-  email text,
   provider text,
 
   constraint username_length check (char_length(username) >= 3)
@@ -36,12 +35,11 @@ language plpgsql
 security definer set search_path = public
 as $$
 begin
-  insert into public.profiles (id, full_name, avatar_url, email, provider)
+  insert into public.profiles (id, full_name, avatar_url, provider)
   values (
     new.id,
     new.raw_user_meta_data->>'full_name',
     new.raw_user_meta_data->>'avatar_url',
-    new.email,
     coalesce(new.raw_app_meta_data->>'provider', 'email')
   )
   on conflict (id) do nothing;
