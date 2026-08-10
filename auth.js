@@ -15,14 +15,14 @@ var JANUS_APP_URL = 'https://app.janusdubber.website';
 // mailto original que disparan navbar/hero tras registrarse
 var MAILTO_HREF = 'mailto:support@janusdubber.website?subject=Quiero%20probar%20JANUS&body=Hola%2C%20me%20gustar%C3%ADa%20probar%20JANUS%20para%20doblar%20mis%20videos.';
 
-function janusT(key) {
+function janusTr(key) {
     if (typeof window.janusT === 'function') return window.janusT(key);
     var es = window.JANUS_I18N && window.JANUS_I18N.es;
     return (es && es[key]) || key;
 }
 
 function janusErr(msg) {
-    return janusT('chat.error_prefix').replace('%s', msg);
+    return janusTr('chat.error_prefix').replace('%s', msg);
 }
 
 var _supabase = null;
@@ -70,30 +70,30 @@ function janusBuildModal() {
     overlay.id = 'janus-auth-modal';
     overlay.className = 'janus-auth-overlay';
     overlay.innerHTML =
-        '<div class="janus-auth-card" role="dialog" aria-modal="true" aria-label="' + janusT('auth.modal.title') + '">' +
-            '<button class="janus-auth-close" id="janus-auth-close" aria-label="' + janusT('nav.close_aria') + '">✕</button>' +
+        '<div class="janus-auth-card" role="dialog" aria-modal="true" aria-label="' + janusTr('auth.modal.title') + '">' +
+            '<button class="janus-auth-close" id="janus-auth-close" aria-label="' + janusTr('nav.close_aria') + '">✕</button>' +
             '<div class="janus-auth-logo">JANUS</div>' +
-            '<h2 class="janus-auth-title">' + janusT('auth.modal.title') + '</h2>' +
-            '<p class="janus-auth-sub">' + janusT('auth.modal.sub') + '</p>' +
+            '<h2 class="janus-auth-title">' + janusTr('auth.modal.title') + '</h2>' +
+            '<p class="janus-auth-sub">' + janusTr('auth.modal.sub') + '</p>' +
 
             '<button class="janus-auth-btn janus-auth-google" id="janus-btn-google">' +
-                '<span class="janus-auth-gicon">G</span><span class="janus-auth-google-text">' + janusT('auth.google') + '</span>' +
+                '<span class="janus-auth-gicon">G</span><span class="janus-auth-google-text">' + janusTr('auth.google') + '</span>' +
             '</button>' +
 
-            '<div class="janus-auth-divider"><span>' + janusT('auth.or') + '</span></div>' +
+            '<div class="janus-auth-divider"><span>' + janusTr('auth.or') + '</span></div>' +
 
             '<form class="janus-auth-form" id="janus-auth-form" novalidate>' +
-                '<input type="email" id="janus-auth-email" class="janus-auth-input" placeholder="' + janusT('auth.email_placeholder') + '" autocomplete="email" required>' +
+                '<input type="email" id="janus-auth-email" class="janus-auth-input" placeholder="' + janusTr('auth.email_placeholder') + '" autocomplete="email" required>' +
                 '<div class="janus-auth-pw-wrap" id="janus-auth-pw-wrap" style="display:none;">' +
-                    '<input type="password" id="janus-auth-password" class="janus-auth-input" placeholder="' + janusT('auth.pw_placeholder') + '" autocomplete="current-password">' +
+                    '<input type="password" id="janus-auth-password" class="janus-auth-input" placeholder="' + janusTr('auth.pw_placeholder') + '" autocomplete="current-password">' +
                 '</div>' +
-                '<button type="submit" class="janus-auth-btn janus-auth-primary" id="janus-btn-submit">' + (_passwordMode ? janusT('auth.submit_btn') : janusT('auth.magic_btn')) + '</button>' +
+                '<button type="submit" class="janus-auth-btn janus-auth-primary" id="janus-btn-submit">' + (_passwordMode ? janusTr('auth.submit_btn') : janusTr('auth.magic_btn')) + '</button>' +
             '</form>' +
 
-            '<button class="janus-auth-toggle" id="janus-auth-toggle">' + (_passwordMode ? janusT('auth.toggle_magic') : janusT('auth.toggle_pw')) + '</button>' +
+            '<button class="janus-auth-toggle" id="janus-auth-toggle">' + (_passwordMode ? janusTr('auth.toggle_magic') : janusTr('auth.toggle_pw')) + '</button>' +
 
             '<p class="janus-auth-msg" id="janus-auth-msg"></p>' +
-            '<p class="janus-auth-foot">' + janusT('auth.foot') + '</p>' +
+            '<p class="janus-auth-foot">' + janusTr('auth.foot') + '</p>' +
         '</div>';
 
     document.body.appendChild(overlay);
@@ -115,12 +115,12 @@ function janusTogglePassword() {
     var submit = document.getElementById('janus-btn-submit');
     if (_passwordMode) {
         wrap.style.display = 'block';
-        toggle.textContent = janusT('auth.toggle_magic');
-        submit.textContent = janusT('auth.submit_btn');
+        toggle.textContent = janusTr('auth.toggle_magic');
+        submit.textContent = janusTr('auth.submit_btn');
     } else {
         wrap.style.display = 'none';
-        toggle.textContent = janusT('auth.toggle_pw');
-        submit.textContent = janusT('auth.magic_btn');
+        toggle.textContent = janusTr('auth.toggle_pw');
+        submit.textContent = janusTr('auth.magic_btn');
     }
 }
 
@@ -149,7 +149,7 @@ function janusSetMsg(text, isError) {
 // ---------- Acciones ----------
 function janusLoginGoogle() {
     if (!janusIsConfigured()) {
-        janusSetMsg(janusT('auth.err_credentials'), true);
+        janusSetMsg(janusTr('auth.err_credentials'), true);
         return;
     }
     janusInitSupabase();
@@ -166,21 +166,21 @@ function janusLoginGoogle() {
 function janusSubmitForm(e) {
     e.preventDefault();
     if (!janusIsConfigured()) {
-        janusSetMsg(janusT('auth.err_credentials'), true);
+        janusSetMsg(janusTr('auth.err_credentials'), true);
         return;
     }
     janusInitSupabase();
     var email = document.getElementById('janus-auth-email').value.trim();
     if (!email || email.indexOf('@') === -1) {
-        janusSetMsg(janusT('auth.err_email'), true);
+        janusSetMsg(janusTr('auth.err_email'), true);
         return;
     }
-    janusSetMsg(janusT('auth.processing'));
+    janusSetMsg(janusTr('auth.processing'));
 
     if (_passwordMode) {
         var password = document.getElementById('janus-auth-password').value;
         if (!password || password.length < 6) {
-            janusSetMsg(janusT('auth.err_password'), true);
+            janusSetMsg(janusTr('auth.err_password'), true);
             return;
         }
         // Intenta login; si no existe, registra.
@@ -206,7 +206,7 @@ function janusSubmitForm(e) {
                         window.location.href = MAILTO_HREF;
                     }
                 } else {
-                    janusSetMsg(janusT('auth.check_email'));
+                    janusSetMsg(janusTr('auth.check_email'));
                 }
             })
             .catch(function (err) {
@@ -229,7 +229,7 @@ function janusSubmitForm(e) {
                 _afterAuthMailto = false;
                 return;
             }
-            janusSetMsg(janusT('auth.sent'));
+            janusSetMsg(janusTr('auth.sent'));
         })
         .catch(function (err) {
             janusSetMsg(janusErr(err.message), true);
@@ -368,34 +368,34 @@ function janusBuildProfileModal() {
     overlay.id = 'janus-profile-modal';
     overlay.className = 'janus-auth-overlay';
     overlay.innerHTML =
-        '<div class="janus-auth-card janus-profile-card" role="dialog" aria-modal="true" aria-label="' + janusT('auth.profile.title') + '">' +
-            '<button class="janus-auth-close" id="janus-pf-close" aria-label="' + janusT('nav.close_aria') + '">✕</button>' +
+        '<div class="janus-auth-card janus-profile-card" role="dialog" aria-modal="true" aria-label="' + janusTr('auth.profile.title') + '">' +
+            '<button class="janus-auth-close" id="janus-pf-close" aria-label="' + janusTr('nav.close_aria') + '">✕</button>' +
             '<div class="janus-auth-logo">JANUS</div>' +
-            '<h2 class="janus-auth-title">' + janusT('auth.profile.title') + '</h2>' +
-            '<p class="janus-auth-sub">' + janusT('auth.profile.sub') + '</p>' +
+            '<h2 class="janus-auth-title">' + janusTr('auth.profile.title') + '</h2>' +
+            '<p class="janus-auth-sub">' + janusTr('auth.profile.sub') + '</p>' +
 
             '<div class="janus-profile-section">' +
-                '<label class="janus-profile-label" for="janus-pf-name">' + janusT('auth.profile.name_label') + '</label>' +
+                '<label class="janus-profile-label" for="janus-pf-name">' + janusTr('auth.profile.name_label') + '</label>' +
                 '<form class="janus-profile-row" id="janus-pf-name-form">' +
-                    '<input type="text" id="janus-pf-name" class="janus-auth-input" placeholder="' + janusT('auth.profile.name_placeholder') + '" autocomplete="name">' +
-                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusT('auth.profile.save') + '</button>' +
+                    '<input type="text" id="janus-pf-name" class="janus-auth-input" placeholder="' + janusTr('auth.profile.name_placeholder') + '" autocomplete="name">' +
+                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusTr('auth.profile.save') + '</button>' +
                 '</form>' +
             '</div>' +
 
             '<div class="janus-profile-section">' +
-                '<label class="janus-profile-label" for="janus-pf-email">' + janusT('auth.profile.email_label') + '</label>' +
+                '<label class="janus-profile-label" for="janus-pf-email">' + janusTr('auth.profile.email_label') + '</label>' +
                 '<form class="janus-profile-row" id="janus-pf-email-form">' +
-                    '<input type="email" id="janus-pf-email" class="janus-auth-input" placeholder="' + janusT('auth.profile.email_placeholder') + '" autocomplete="email">' +
-                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusT('auth.profile.save') + '</button>' +
+                    '<input type="email" id="janus-pf-email" class="janus-auth-input" placeholder="' + janusTr('auth.profile.email_placeholder') + '" autocomplete="email">' +
+                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusTr('auth.profile.save') + '</button>' +
                 '</form>' +
-                '<p class="janus-profile-note">' + janusT('auth.profile.email_note') + '</p>' +
+                '<p class="janus-profile-note">' + janusTr('auth.profile.email_note') + '</p>' +
             '</div>' +
 
             '<div class="janus-profile-section">' +
-                '<label class="janus-profile-label" for="janus-pf-pw">' + janusT('auth.profile.pw_label') + '</label>' +
+                '<label class="janus-profile-label" for="janus-pf-pw">' + janusTr('auth.profile.pw_label') + '</label>' +
                 '<form class="janus-profile-row" id="janus-pf-pw-form">' +
-                    '<input type="password" id="janus-pf-pw" class="janus-auth-input" placeholder="' + janusT('auth.profile.pw_placeholder') + '" autocomplete="new-password">' +
-                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusT('auth.profile.save') + '</button>' +
+                    '<input type="password" id="janus-pf-pw" class="janus-auth-input" placeholder="' + janusTr('auth.profile.pw_placeholder') + '" autocomplete="new-password">' +
+                    '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusTr('auth.profile.save') + '</button>' +
                 '</form>' +
             '</div>' +
 
@@ -455,7 +455,7 @@ function janusProfileMsg(text, isError) {
 }
 
 function janusRefreshAuthStrings() {
-    var t = janusT;
+    var t = janusTr;
     var el;
     if ((el = document.getElementById('janus-auth-title'))) el.textContent = t('auth.modal.title');
     if ((el = document.getElementById('janus-auth-sub'))) el.textContent = t('auth.modal.sub');
@@ -507,10 +507,10 @@ function janusSaveName(e) {
     e.preventDefault();
     var name = document.getElementById('janus-pf-name').value.trim();
     if (!name) {
-        janusProfileMsg(janusT('auth.profile.err_name'), true);
+        janusProfileMsg(janusTr('auth.profile.err_name'), true);
         return;
     }
-    janusProfileMsg(janusT('auth.profile.saving'));
+    janusProfileMsg(janusTr('auth.profile.saving'));
     janusInitSupabase();
     _supabase.auth.getSession().then(function (res) {
         var user = res.data.session.user;
@@ -524,7 +524,7 @@ function janusSaveName(e) {
                 }
                 // Sincroniza metadata (el trigger de registro la usa como fallback)
                 _supabase.auth.updateUser({ data: { full_name: name } });
-                janusProfileMsg(janusT('auth.profile.name_updated'));
+                janusProfileMsg(janusTr('auth.profile.name_updated'));
                 janusRenderNav(res.data.session);
             });
     });
@@ -534,17 +534,17 @@ function janusSaveEmail(e) {
     e.preventDefault();
     var email = document.getElementById('janus-pf-email').value.trim();
     if (!email || email.indexOf('@') === -1) {
-        janusProfileMsg(janusT('auth.profile.err_email'), true);
+        janusProfileMsg(janusTr('auth.profile.err_email'), true);
         return;
     }
-    janusProfileMsg(janusT('auth.profile.saving'));
+    janusProfileMsg(janusTr('auth.profile.saving'));
     janusInitSupabase();
     _supabase.auth.updateUser({ email: email }).then(function (r) {
         if (r.error) {
             janusProfileMsg(janusErr(r.error.message), true);
             return;
         }
-        janusProfileMsg(janusT('auth.profile.email_sent'));
+        janusProfileMsg(janusTr('auth.profile.email_sent'));
     });
 }
 
@@ -552,10 +552,10 @@ function janusSavePassword(e) {
     e.preventDefault();
     var pw = document.getElementById('janus-pf-pw').value;
     if (!pw || pw.length < 6) {
-        janusProfileMsg(janusT('auth.err_password'), true);
+        janusProfileMsg(janusTr('auth.err_password'), true);
         return;
     }
-    janusProfileMsg(janusT('auth.profile.saving'));
+    janusProfileMsg(janusTr('auth.profile.saving'));
     janusInitSupabase();
     _supabase.auth.updateUser({ password: pw }).then(function (r) {
         if (r.error) {
@@ -563,7 +563,7 @@ function janusSavePassword(e) {
             return;
         }
         document.getElementById('janus-pf-pw').value = '';
-        janusProfileMsg(janusT('auth.profile.pw_updated'));
+        janusProfileMsg(janusTr('auth.profile.pw_updated'));
     });
 }
 
