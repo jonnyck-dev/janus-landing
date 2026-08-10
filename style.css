@@ -732,18 +732,6 @@ h1, h2, h3 {
     border-bottom-color: var(--gray-700);
 }
 
-.price-index {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--gold-dark);
-}
-
-.price-card-featured .price-index {
-    color: var(--gold-light);
-}
-
 .price-name {
     font-family: var(--font-heading);
     font-size: 28px;

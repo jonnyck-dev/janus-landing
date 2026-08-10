@@ -2,142 +2,112 @@
 
 ## Project
 
-JANUS — Frontend (landing + editor apps). Static HTML/CSS/JS — no build, no deps.
-Deployed on Vercel. Backend runs on user's local machine, exposed via Cloudflare Tunnel.
+JANUS — Landing bilingüe **ES/EN** (estática, sin build, sin deps). 3 páginas públicas + widgets JS.
+Deployed on Vercel (auto-deploy on push to `main`).
+El editor de doblaje vive en **`app.janusdubber.website`** (backend FastAPI en la PC del usuario, expuesto por Cloudflare Tunnel + worker `janus-fallback` de mantenimiento). NO está en este repo.
 
 ## Deployment
 
 - **Vercel** — auto-deploys on push to `main`
 - **URL**: `www.janusdubber.website`
 - Framework preset: **Other** (static)
+- **App**: `app.janusdubber.website` → worker `janus-fallback.js` → Cloudflare Tunnel → PC local (FastAPI :8000)
 
 ## Architecture
 
 ```
-Vercel (www.janusdubber.website)
-├── /              → Landing page (index.html + style.css + app.js)
-├── /app           → Editor de doblaje (frontend/index.html + app.js)
-└── /studio        → Studio editor (frontend_studio/index.html + app.js)
-         │
-         │  API calls via fetch() → Cloudflare Tunnel
-         ▼
-User's PC (localhost:8000) — FastAPI backend
+Vercel (www.janusdubber.website — estático)
+├── index.html      → Landing: hero → cómo funciona → features → pricing → .service-banner → CTA final → footer
+├── agencia.html    → #managed, #loss, #research, #roi-calculator (servicio gestionado)
+├── legal.html      → Términos, reembolsos, cancelación, promociones (Stripe compliance)
+├── style.css       ← paleta blanco + dorado (#d4a853, #f0c040)
+├── auth.css / chat-style.css / calculator.css
+├── i18n.js         → Sistema de traducción ES/EN (carga PRIMERO en las 3 páginas)
+├── app.js          → SOLO index.html: CTA → app.janusdubber.website + demo player + pricing flotante
+├── auth.js         → Supabase auth; helper local `janusTr()` (puente a `window.janusT` de i18n)
+├── calculator.js   → SOLO agencia.html: ROI calculator → tabla `roi_leads` (define su propio JANUS_APP_URL)
+├── chat-app.js     → Widget de chat (PROPIO del producto — traducido ES/EN)
+├── brand.js        → Resalta cada mención de "JANUS" en dorado (texto + nodos dinámicos)
+├── janus-fallback.js → Worker Cloudflare: sirve mantenimiento en app.* si el tunnel/PC cae
+├── supabase_schema.sql
+└── assets/         → iconos (01.png–06.png, pasos_01.png–03.png), logos, demo gifs
+
+app.janusdubber.website → worker janus-fallback → Cloudflare Tunnel → PC local (FastAPI)
 ```
 
-```
-janus-landing/
-├── index.html        ← Landing page (home): hero → cómo funciona → features → pricing → banner agencia → CTA final
-├── agencia.html      ← Página /agencia: servicio gestionado → pérdida → estudio de mercado → calculadora ROI → CTA
-├── style.css         ← White + gold palette (#d4a853, #f0c040)
-├── app.js            ← SOLO en index.html: CTA buttons → JANUS_APP_URL (/app) + demo player + smooth scroll
-├── auth.js           ← Supabase auth; CTAs usan clase .janus-cta o ids btn-nav-try/btn-hero-try (seguro en cualquier página)
-├── calculator.js     ← SOLO en agencia.html: ROI calculator → tabla roi_leads en Supabase (standalone, define su propio JANUS_APP_URL)
-├── calculator.css    ← SOLO en agencia.html
-├── legal.html        ← Términos, reembolsos, cancelación, promociones (Stripe compliance)
-├── assets/           ← Images, demo gifs, icons (01.png–06.png features, pasos_01.png–03.png pasos)
-├── frontend/
-│   ├── index.html    ← Editor de doblaje
-│   ├── app.js        ← (from Traductor repo)
-│   └── style.css     ← Dark glassmorphism theme
-├── frontend_studio/
-│   ├── index.html    ← Studio editor standalone
-│   ├── app.js        ← (from Traductor repo)
-│   └── style.css     ← Shared dark theme
-└── vercel.json       ← Rewrites for /app and /studio
-```
+> ⚠️ NO existen `frontend/`, `frontend_studio/` ni `vercel.json` en este repo. El editor NO se sirve aquí.
+
+## i18n (ES/EN) — Sistema central
+
+- `i18n.js` se carga **antes que todos los demás scripts** en las 3 páginas.
+- Diccionario `es`/`en` con **paridad exacta de claves** (todo lo que existe en ES existe en EN y viceversa).
+- API global: `window.janusT(key)`, `janusSetLang(lang)`, `janusDetectLang()`.
+- Detección: `localStorage['janus_lang']` → `navigator.language` → **default ES**.
+- Atributos en HTML: `data-i18n` (texto), `data-i18n-html` (markup), `data-i18n-ph` (placeholder), `data-i18n-aria`, `data-i18n-alt` (imágenes).
+- Evento `janus:langchange` — los widgets escuchan: `auth.js` (`janusRefreshAuthStrings`), `chat-app.js`, `calculator.js`, `app.js` (demo actual).
+- Meta title/description por página via `body[data-page]` (`data-page="index|agencia|legal"`).
+- **Toggle de idioma**: SOLO en el **footer** (`.janus-lang-toggle` dentro de `.footer-bottom-right`), en las 3 páginas. NO hay toggle en la navbar.
+- ⚠️ Los valores del diccionario se insertan con `textContent` → **NO usar entidades HTML (`&nbsp;`)** en los valores; usar el carácter real `U+00A0`.
 
 ## Pages / Rutas
 
-- **Home (`/index.html`)**: orden estricto → hero (intacto) → how-it-works → features → pricing (`#pricing`, fuente de verdad de precios) → `.service-banner` (upsell que enlaza a `agencia.html`) → CTA final → footer.
-- **Agencia (`/agencia.html`)**: navbar con links "Inicio" y "Agencia" (activo). Contiene las secciones que se movieron del home: `#managed` (servicio gestionado completo), `#loss` (pérdida), `#research` (estudio de mercado), `#roi-calculator` (calculadora ROI). CTA final → mailto.
-- **Navbar**: `#nav-links` con `a.nav-link`; la página actual lleva `.active` (borde dorado). Home muestra solo "Agencia"; Agencia muestra "Inicio" + "Agencia".
-- **Regla de scripts por página**: `app.js` SOLO en index (el demo player no tiene guards: crashea si no hay `#demo-video`). `calculator.js` + `calculator.css` SOLO en agencia. `auth.js`, `chat-app.js` y supabase CDN van en ambas.
-- **Banner agencia**: sección `.service-banner` en index — luz con borde dorado a la izquierda, CTA primario → `agencia.html`, link secundario → mailto.
+- **Home (`index.html`)**: orden estricto → hero → how-it-works → features → pricing (`#pricing`, fuente de verdad de precios) → `.service-banner` (upsell → `agencia.html`) → CTA final → footer.
+- **Agencia (`agencia.html`)**: navbar con SOLO "Inicio". Secciones: `#managed`, `#loss`, `#research`, `#roi-calculator`. CTA final → app.
+- **Legal (`legal.html`)**: navbar con "Ver planes". Anchors: `#terminos`, `#reembolsos`, `#cancelacion`, `#promociones`, `#restricciones`.
+- **Navbar / navegación**:
+  - index: **sin links** (el link "Agencia" está OCULTO a propósito — el usuario lo pidió así).
+  - agencia: solo "Inicio" (para volver).
+  - El acceso a la página de agencia es **exclusivamente** por el botón "Más información aquí" del `.service-banner` en index (o URL directa).
+- **Regla de scripts por página**: `app.js` SOLO en index (el demo player crashea si no hay `#demo-video`). `calculator.js` + `calculator.css` SOLO en agencia. `i18n.js`, `auth.js`, `chat-app.js`, `brand.js` y supabase CDN van en index y agencia; legal solo carga `i18n.js`.
 
 ## Auth UI (Supabase)
 
-- **Chip de usuario en navbar**: `#janus-nav-user` (avatar + nombre) reemplaza a `btn-nav-try` cuando hay sesión. El avatar viene de `profiles.avatar_url` (imagen de Google vía OAuth), con fallback a inicial.
-- **Menú**: click en el chip → dropdown con "Mi perfil" (`janusOpenProfile`) y "Cerrar sesión" (`janusLogout`).
-- **Modal de perfil**: edita `profiles.full_name`, email (vía `auth.updateUser`, requiere confirmación por correo) y contraseña (`auth.updateUser`).
-- `janusRenderNav(session)` se llama en `onAuthStateChange` (SIGNED_IN/SIGNED_OUT) y al cargar la página.
+- **Chip de usuario en navbar**: `#janus-nav-user` (avatar + nombre) reemplaza a `btn-nav-try` con sesión. Avatar de `profiles.avatar_url` (Google OAuth), fallback a inicial.
+- **Menú**: chip → dropdown "Mi perfil" (`janusOpenProfile`) y "Cerrar sesión" (`janusLogout`).
+- **Modal de perfil**: edita `profiles.full_name`, email (`auth.updateUser`, requiere confirmación) y contraseña.
+- `janusRenderNav(session)` en `onAuthStateChange` (SIGNED_IN/SIGNED_OUT) y al cargar.
+- ⚠️ En `auth.js` el helper de traducción local se llama **`janusTr()`** (delega a `window.janusT`). NUNCA definir una función llamada `janusT` — sombrea el global y causa recursión infinita (RangeError).
 
 ## Stripe Compliance (2026-08)
 
-- **Empresa**: `jonnyck-org` — debe aparecer en footer y legal.html. NUNCA renombrar a otra cosa.
+- **Empresa**: `jonnyck-org` — debe aparecer en footer y legal.html. NUNCA renombrar.
 - **Contacto**: `support@janusdubber.website` (footer + legal.html#contacto).
-- **Políticas** en `legal.html` con anchors: `#terminos`, `#reembolsos`, `#cancelacion`, `#promociones`, `#restricciones`. El footer linkea a estos anchors — mantenerlos si se edita legal.html.
-- **Pricing**: 3 planes por video (Esencial $5 / Multi-Voz $25 / Global $45), hasta 40 min cada uno. Fuente de verdad: sección `#pricing` en index.html. Si cambian precios o features, actualizar también las políticas de reembolso si aplica.
+- **Políticas** en `legal.html` con anchors (ver arriba). El footer los enlaza — mantener si se edita legal.html.
+- **Pricing**: 3 planes por video (Esencial $5 / Multi-Voz $25 / Global $45), hasta 40 min. Fuente de verdad: `#pricing` en index.html. Si cambian precios/features, revisar políticas de reembolso.
+
+## Copy / Wording (decisiones de usuario)
+
+- **EN**: "**Duplicate** your audience" — NUNCA "Double". Aplica a hero, meta title y tagline del footer.
+- **NO usar "turnkey" / "llave en mano"** (ES y EN): usar "Gestión completa" / "Complete management" y "Más información aquí" / "More information here".
+- Pricing cards **sin índices numéricos** (01/02/03 eliminados; `.price-index` no existe).
 
 ## Plan Pendiente: Separar Frontend del Backend
 
-### Estado: ⏳ PLANEADO — pendiente de ejecución
+### Estado: ⏳ NO EJECUTADO — el editor sigue fuera de este repo
 
-### Objetivo
-Mover `frontend/` y `frontend_studio/` del repo `TRADUCTOR` al repo `janus-landing` para que Vercel sirva todo el frontend. El backend FastAPI solo sirve APIs en `localhost:8000`, expuesto por Cloudflare Tunnel.
-
-### Pasos
-
-**1. Backend (TRADUCTOR) — Permisos CORS**
-- Agregar `CORSMiddleware` en `main.py` permitiendo `https://www.janusdubber.website`
-- Asegurar que `/cache/*` y `/api/stream/*` tengan headers CORS
-
-**2. Copiar frontend al landing**
-- Copiar `Traductor/frontend/` → `janus-landing/frontend/`
-- Copiar `Traductor/frontend_studio/` → `janus-landing/frontend_studio/`
-
-**3. Configurar API_BASE en frontend**
-- Agregar `const API_BASE = 'TUNNEL_URL'` al inicio de ambos `app.js`
-- Reemplazar todas las URLs hardcodeadas:
-  - `fetch('/api/...')` → `fetch(API_BASE + '/api/...')`
-  - `` fetch(`/api/...) `` → `` fetch(`${API_BASE}/api/...) ``
-  - `` videoPlayer.src = `/api/stream/...` `` → `` `${API_BASE}/api/stream/...` ``
-  - `` src="/cache/..." `` → `` `${API_BASE}/cache/..." ``
-
-**4. Agregar vercel.json**
-```json
-{
-  "rewrites": [
-    { "source": "/app/(.*)", "destination": "/frontend/$1" },
-    { "source": "/studio/(.*)", "destination": "/frontend_studio/$1" }
-  ]
-}
-```
-
-**5. Actualizar landing app.js**
-- Cambiar `JANUS_APP_URL` del tunnel URL a `'https://www.janusdubber.website/app'`
-- Ahora los botones "Probar ahora" abren el editor en el mismo dominio
-
-### URLs a reemplazar (por archivo)
-
-**`frontend/app.js`** (~35 URLs): Patrones con fetch, template literals, xhr, videoPlayer.src
-**`frontend_studio/app.js`** (~30 URLs): Patrones con fetch, template literals, videoPlayer.src
-**`frontend/index.html`**: `src="/cache/..."` en elementos estáticos (si existen)
-
-### Notas técnicas
-
-- **Streaming**: `/api/stream/{task_id}` con Range requests (206 Partial Content) funciona a través de CORS sin cambios adicionales
-- **Archivos estáticos**: `/cache/*` montado como `StaticFiles` en FastAPI; CORS middleware agrega headers automáticamente
-- **Tunnel URL**: No es fija (cambia al reiniciar cloudflared). Debe actualizarse en `API_BASE` cuando cambie
-- **Alternativa futura**: Usar Cloudflare Tunnel con nombre fijo (DNS record) para evitar URL variables
+- El editor vive en `app.janusdubber.website` (subdominio) servido por worker `janus-fallback.js` + Cloudflare Tunnel a la PC local.
+- `frontend/` y `frontend_studio/` **no existen** en este repo; no hay `vercel.json`.
+- Si algún día se quiere servir el editor desde Vercel en `/app` y `/studio`:
+  1. Copiar `Traductor/frontend/` y `Traductor/frontend_studio/` aquí.
+  2. Agregar `vercel.json` con rewrites `/app/(.*)` → `/frontend/$1` y `/studio/(.*)` → `/frontend_studio/$1`.
+  3. Configurar `API_BASE`/`JANUS_APP_URL` según corresponda.
 
 ## Key Facts
 
-- `JANUS_APP_URL` in `app.js` apunta a `/app` en el mismo dominio (Vercel). `calculator.js` define la suya con guard `typeof JANUS_APP_URL === 'undefined'` (para agencia.html, que no carga app.js)
-- **Pricing flotante** (`app.js`): la tarjeta `#pricing` con `.price-card-featured` sobresale por defecto (clase `.price-card-active`). Al hacer hover, esa tarjeta se eleva y la del medio vuelve a su posición; al salir, la del medio sobresale otra vez. Incluye tilt sutil por cursor via CSS vars `--tilt-x`/`--tilt-y`
-- El frontend se comunica con el backend via `API_BASE` apuntando al tunnel
-- La URL del tunnel cambia al reiniciar cloudflared — actualizar `API_BASE`
-- `.btn-primary` → redirige a la app SOLO si es `#btn-try-now`/`#btn-nav-try`/`#btn-hero-try`/`.price-cta` (vía auth.js o app.js). El `.btn-primary` del banner agencia apunta a `agencia.html`
-- Fonts: Playfair Display (headings) + Inter (body) from Google Fonts CDN (landing)
-- Fonts: Outfit + Plus Jakarta Sans from Google Fonts CDN (editor/studio)
-- El editor usa tema oscuro glassmorphism; el landing usa tema claro dorado/blanco
-- Proyectos separados: este repo NO contiene el backend
+- `JANUS_APP_URL = 'https://app.janusdubber.website'` en `app.js` y `calculator.js` (guard `typeof JANUS_APP_URL === 'undefined'` en calculator).
+- **Pricing flotante** (`app.js`): `.price-card-featured` sobresale por defecto; hover eleva la tarjeta y la del medio vuelve; al salir sobresale otra vez. Tilt sutil via CSS vars `--tilt-x`/`--tilt-y`.
+- `.btn-primary` redirige a la app SOLO si es `#btn-try-now`/`#btn-nav-try`/`#btn-hero-try`/`.price-cta`. El `.btn-primary` del banner agencia apunta a `agencia.html`.
+- Fonts: Playfair Display (headings) + Inter (body) + IBM Plex Mono (labels/eyebrows) desde Google Fonts CDN.
+- El landing usa tema claro dorado/blanco; el editor usa dark glassmorphism (en el repo TRADUCTOR).
+- Backend NO está en este repo.
 
 ## When Editing
 
-- Landing: maintain white/gold color scheme (see CSS variables in `style.css`)
-- Tipografía: Playfair Display (headings) + Inter (body) + IBM Plex Mono (labels/eyebrows/detalles técnicos)
-- NO usar emojis en títulos de sección ni como iconos de features — las 6 feature cards usan `assets/icons/01.png`–`06.png` (PNG transparente, 366×366) dentro de `.feature-icon` (120px, sin fondo: el icono va directo sobre el fondo de la tarjeta)
-- Hero title: negro sólido con `<em>` italic dorado — NO gradient text (efecto IA genérico)
-- Editor: maintain dark glassmorphism with neon accents (see `frontend/style.css`)
-- Keep the 3-step flow (paste URL → click start → get dubbed video) as the core message
-- Separate project from TRADUCTOR backend repo — do NOT mix backend code here
+- **Bilingüe obligatorio**: si cambias un texto visible, actualiza ES y EN en `i18n.js` (paridad de claves) y el fallback HTML en español.
+- **No usar entidades HTML (`&nbsp;`)** en valores del diccionario (se insertan con textContent) — usar `\u00A0`.
+- Landing: mantener paleta blanco/dorado (variables CSS en `style.css`).
+- NO usar emojis en títulos de sección ni como iconos de features — las 6 feature cards usan `assets/icons/01.png`–`06.png` (PNG transparente 366×366) dentro de `.feature-icon` (120px, sin fondo).
+- Hero title: negro sólido con `<em>` italic dorado — NO gradient text.
+- Mantener el flujo de 3 pasos (pega URL → click comenzar → recibe video) como mensaje central.
+- Toggle de idioma solo en el footer — no añadir en navbar.
+- No mezclar código del backend (repo TRADUCTOR) aquí.
