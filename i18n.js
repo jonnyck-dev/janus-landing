@@ -19,12 +19,12 @@ window.JANUS_I18N = {
     'nav.close_aria': 'Cerrar',
 
     // ---------- Meta ----------
-    'meta.index.title': 'JANUS — Duplica tu audiencia con doblaje automático',
+    'meta.index.title': 'JANUS — AI Dubbing Platform | Doblaje y traducción con IA',
     'meta.index.desc': 'Dobla tus videos entre inglés y español automáticamente. Llega a más de 1,000 millones de personas sin editar ni un segundo.',
     'meta.agencia.title': 'JANUS — Servicio Gestionado | Agencia',
     'meta.agencia.desc': 'Delega la operación completa de tu canal secundario: doblaje, traducción, edición, SEO y publicación.',
-    'meta.legal.title': 'Términos y Políticas — JANUS by jonnyck-org',
-    'meta.legal.desc': 'Términos de servicio, política de reembolsos, cancelación y promociones de JANUS, un producto de jonnyck-org.',
+    'meta.legal.title': 'Términos y Políticas — JANUS by Janus Media Labs',
+    'meta.legal.desc': 'Términos de servicio, política de reembolsos, cancelación y promociones de JANUS, una marca de Janus Media Labs.',
 
     // ---------- Hero (index) ----------
     'hero.eyebrow': 'Doblaje con IA · Inglés ↔ Español',
@@ -66,7 +66,7 @@ window.JANUS_I18N = {
     'feat3.desc': 'Clonación de voz idéntica. Tu audiencia no notará la diferencia.',
     'feat4.title': 'Sincronización perfecta',
     'feat4.desc': 'Cada palabra en su momento exacto. Sincronización labial profesional.',
-    'feat5.title': 'Editor profesional',
+    'feat5.title': 'JANUS Studio',
     'feat5.desc': 'Timeline interactivo para ajustes finos. Regenera frases individuales en segundos.',
     'feat6.title': 'Rápido y automático',
     'feat6.desc': 'De URL a video doblado en minutos. Sin edición manual, sin complicaciones.',
@@ -126,8 +126,8 @@ window.JANUS_I18N = {
     'foot.reembolsos': 'Reembolsos y Disputas',
     'foot.cancelacion': 'Política de Cancelación',
     'foot.promociones': 'Términos de Promociones',
-    'foot.copyright': '© 2026 jonnyck-org. Todos los derechos reservados.',
-    'foot.nota': 'JANUS es un producto de jonnyck-org.',
+    'foot.copyright': '© 2026 Janus Media Labs. Todos los derechos reservados.',
+    'foot.nota': 'JANUS es una marca de Janus Media Labs.',
 
     // ---------- Agencia ----------
     'ag.title': 'Gestión completa de tu canal secundario',
@@ -275,7 +275,7 @@ window.JANUS_I18N = {
     // ---------- Legal ----------
     'legal.back': '← Volver al inicio',
     'legal.title': 'Términos y Políticas',
-    'legal.updated': 'jonnyck-org · Última actualización: agosto 2026',
+    'legal.updated': 'Janus Media Labs · Última actualización: agosto 2026',
     'legal.nav.terminos': 'Términos de Servicio',
     'legal.nav.reembolsos': 'Reembolsos y Disputas',
     'legal.nav.cancelacion': 'Cancelación',
@@ -283,7 +283,7 @@ window.JANUS_I18N = {
     'legal.nav.restricciones': 'Restricciones Legales',
     'legal.nav.contacto': 'Contacto',
     'legal.terminos.title': 'Términos de Servicio',
-    'legal.terminos.p1.html': 'JANUS es un servicio de doblaje y traducción de video operado por <strong>jonnyck-org</strong>. Ofrecemos traducción profesional de video entre inglés y español (y, en el plan Global, francés o japonés), con clonación de voz natural, sincronización de audio y preservación de la música y efectos de fondo originales.',
+    'legal.terminos.p1.html': 'JANUS es una plataforma de doblaje y traducción de video operada por <strong>Janus Media Labs</strong>, que combina servicios de procesamiento con IA y herramientas de software (la app de doblaje en 3 pasos y JANUS Studio). Ofrecemos traducción profesional de video entre inglés y español (y, en el plan Global, francés o japonés), con clonación de voz natural, sincronización de audio y preservación de la música y efectos de fondo originales.',
     'legal.terminos.servicio': 'El servicio',
     'legal.terminos.s1': 'Cada plan cubre un video de hasta 40 minutos de duración.',
     'legal.terminos.s2': 'Los tiempos de entrega son de 2 días (planes Esencial y Multi-Voz) o 3 días (plan Global), contados desde la recepción del material y la confirmación del pago.',
@@ -294,7 +294,7 @@ window.JANUS_I18N = {
     'legal.terminos.r2': 'No enviarás contenido ilegal, difamatorio, que infrinja derechos de terceros, ni contenido destinado a suplantar la identidad de otra persona sin su consentimiento.',
     'legal.terminos.r3': 'La clonación de voz se realiza únicamente sobre voces presentes en tu propio contenido o con autorización expresa del titular de la voz.',
     'legal.terminos.propiedad': 'Propiedad',
-    'legal.terminos.propiedad.p': 'Conservas todos los derechos sobre tu contenido original y sobre el video final entregado. jonnyck-org no reclama propiedad alguna sobre el material del cliente.',
+    'legal.terminos.propiedad.p': 'Conservas todos los derechos sobre tu contenido original y sobre el video final entregado. Janus Media Labs no reclama propiedad alguna sobre el material del cliente.',
     'legal.terminos.lim': 'Limitación de responsabilidad',
     'legal.terminos.lim.p': 'El servicio se ofrece "tal cual". Nuestra responsabilidad máxima por cualquier reclamo relacionado con un pedido se limita al importe pagado por ese pedido.',
     'legal.reembolsos.title': 'Política de Reembolsos y Disputas',
@@ -319,7 +319,7 @@ window.JANUS_I18N = {
     'legal.promociones.l2': 'No son acumulables con otras ofertas, cupones o descuentos, salvo indicación expresa.',
     'legal.promociones.l3': 'No tienen valor canjeable en efectivo.',
     'legal.promociones.l4': 'Cada promoción indica su vigencia; fuera de ese período no es válida.',
-    'legal.promociones.l5': 'jonnyck-org se reserva el derecho de modificar o retirar una promoción en cualquier momento, respetando las compras ya realizadas.',
+    'legal.promociones.l5': 'Janus Media Labs se reserva el derecho de modificar o retirar una promoción en cualquier momento, respetando las compras ya realizadas.',
     'legal.restricciones.title': 'Restricciones Legales y de Uso',
     'legal.restricciones.l1': 'El servicio es digital y se entrega por internet; no implica exportación de bienes físicos.',
     'legal.restricciones.l2': 'No ofrecemos el servicio donde lo prohíba la legislación aplicable ni a personas o entidades sujetas a sanciones internacionales.',
@@ -344,12 +344,12 @@ window.JANUS_I18N = {
     'nav.close_aria': 'Close',
 
     // ---------- Meta ----------
-    'meta.index.title': 'JANUS — Duplicate your audience with automatic dubbing',
+    'meta.index.title': 'JANUS — AI Dubbing Platform | AI dubbing and translation',
     'meta.index.desc': 'Automatically dub your videos between English and Spanish. Reach over 1 billion people without editing a single second.',
     'meta.agencia.title': 'JANUS — Managed Service | Agency',
     'meta.agencia.desc': 'Delegate the complete operation of your secondary channel: dubbing, translation, editing, SEO and publishing.',
-    'meta.legal.title': 'Terms & Policies — JANUS by jonnyck-org',
-    'meta.legal.desc': 'Terms of service, refund policy, cancellation and promotions of JANUS, a product of jonnyck-org.',
+    'meta.legal.title': 'Terms & Policies — JANUS by Janus Media Labs',
+    'meta.legal.desc': 'Terms of service, refund policy, cancellation and promotions of JANUS, a brand of Janus Media Labs.',
 
     // ---------- Hero (index) ----------
     'hero.eyebrow': 'AI Dubbing · English ↔ Spanish',
@@ -391,7 +391,7 @@ window.JANUS_I18N = {
     'feat3.desc': 'Identical voice cloning. Your audience won\'t notice the difference.',
     'feat4.title': 'Perfect synchronization',
     'feat4.desc': 'Every word at the exact right moment. Professional lip-sync.',
-    'feat5.title': 'Professional editor',
+    'feat5.title': 'JANUS Studio',
     'feat5.desc': 'Interactive timeline for fine adjustments. Regenerate individual sentences in seconds.',
     'feat6.title': 'Fast and automatic',
     'feat6.desc': 'From URL to dubbed video in minutes. No manual editing, no hassle.',
@@ -451,8 +451,8 @@ window.JANUS_I18N = {
     'foot.reembolsos': 'Refunds and Disputes',
     'foot.cancelacion': 'Cancellation Policy',
     'foot.promociones': 'Promotions Terms',
-    'foot.copyright': '© 2026 jonnyck-org. All rights reserved.',
-    'foot.nota': 'JANUS is a product of jonnyck-org.',
+    'foot.copyright': '© 2026 Janus Media Labs. All rights reserved.',
+    'foot.nota': 'JANUS is a brand of Janus Media Labs.',
 
     // ---------- Agency ----------
     'ag.title': 'Complete management of your secondary channel',
@@ -600,7 +600,7 @@ window.JANUS_I18N = {
     // ---------- Legal ----------
     'legal.back': '← Back to home',
     'legal.title': 'Terms and Policies',
-    'legal.updated': 'jonnyck-org · Last updated: August 2026',
+    'legal.updated': 'Janus Media Labs · Last updated: August 2026',
     'legal.nav.terminos': 'Terms of Service',
     'legal.nav.reembolsos': 'Refunds and Disputes',
     'legal.nav.cancelacion': 'Cancellation',
@@ -608,7 +608,7 @@ window.JANUS_I18N = {
     'legal.nav.restricciones': 'Legal Restrictions',
     'legal.nav.contacto': 'Contact',
     'legal.terminos.title': 'Terms of Service',
-    'legal.terminos.p1.html': 'JANUS is a video dubbing and translation service operated by <strong>jonnyck-org</strong>. We offer professional video translation between English and Spanish (and, on the Global plan, French or Japanese), with natural voice cloning, audio synchronization, and preservation of the original background music and effects.',
+    'legal.terminos.p1.html': 'JANUS is a video dubbing and translation platform operated by <strong>Janus Media Labs</strong>, combining AI processing services with software tools (the 3-step dubbing app and JANUS Studio). We offer professional video translation between English and Spanish (and, on the Global plan, French or Japanese), with natural voice cloning, audio synchronization, and preservation of the original background music and effects.',
     'legal.terminos.servicio': 'The service',
     'legal.terminos.s1': 'Each plan covers one video up to 40 minutes long.',
     'legal.terminos.s2': 'Delivery times are 2 days (Essential and Multi-Voice plans) or 3 days (Global plan), counted from receipt of the material and payment confirmation.',
@@ -619,7 +619,7 @@ window.JANUS_I18N = {
     'legal.terminos.r2': 'You will not submit illegal, defamatory content, content that infringes third-party rights, or content intended to impersonate another person without their consent.',
     'legal.terminos.r3': 'Voice cloning is performed only on voices present in your own content or with the explicit authorization of the voice owner.',
     'legal.terminos.propiedad': 'Ownership',
-    'legal.terminos.propiedad.p': 'You retain all rights to your original content and to the final delivered video. jonnyck-org claims no ownership over client material.',
+    'legal.terminos.propiedad.p': 'You retain all rights to your original content and to the final delivered video. Janus Media Labs claims no ownership over client material.',
     'legal.terminos.lim': 'Limitation of liability',
     'legal.terminos.lim.p': 'The service is provided "as is". Our maximum liability for any claim related to an order is limited to the amount paid for that order.',
     'legal.reembolsos.title': 'Refund and Dispute Policy',
@@ -644,7 +644,7 @@ window.JANUS_I18N = {
     'legal.promociones.l2': 'They are not combinable with other offers, coupons, or discounts unless expressly indicated.',
     'legal.promociones.l3': 'They have no cash redemption value.',
     'legal.promociones.l4': 'Each promotion states its validity; outside that period it is not valid.',
-    'legal.promociones.l5': 'jonnyck-org reserves the right to modify or withdraw a promotion at any time, respecting purchases already made.',
+    'legal.promociones.l5': 'Janus Media Labs reserves the right to modify or withdraw a promotion at any time, respecting purchases already made.',
     'legal.restricciones.title': 'Legal and Usage Restrictions',
     'legal.restricciones.l1': 'The service is digital and delivered over the internet; it does not involve the export of physical goods.',
     'legal.restricciones.l2': 'We do not offer the service where prohibited by applicable law, nor to persons or entities subject to international sanctions.',
