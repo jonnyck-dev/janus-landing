@@ -22,7 +22,7 @@ window.JANUS_I18N = {
     'meta.index.title': 'JANUS — Duplica tu audiencia con doblaje automático',
     'meta.index.desc': 'Dobla tus videos entre inglés y español automáticamente. Llega a más de 1,000 millones de personas sin editar ni un segundo.',
     'meta.agencia.title': 'JANUS — Servicio Gestionado | Agencia',
-    'meta.agencia.desc': 'Delega la operación completa de tu canal secundario: doblaje, traducción, edición, SEO y publicación llave en mano.',
+    'meta.agencia.desc': 'Delega la operación completa de tu canal secundario: doblaje, traducción, edición, SEO y publicación.',
     'meta.legal.title': 'Términos y Políticas — JANUS by jonnyck-org',
     'meta.legal.desc': 'Términos de servicio, política de reembolsos, cancelación y promociones de JANUS, un producto de jonnyck-org.',
 
@@ -31,7 +31,7 @@ window.JANUS_I18N = {
     'hero.title.html': 'Duplica tu <em>audiencia</em>',
     'hero.subtitle.html': 'Dobla tus videos entre <strong>inglés y español</strong> automáticamente. Llega a más de <strong>1,000 millones</strong> de personas sin editar ni un segundo.',
     'hero.models': 'Modelos Activos',
-    'hero.demo_label': 'Original &nbsp;→&nbsp; Doblado con JANUS',
+    'hero.demo_label': 'Original  →  Doblado con JANUS',
     'hero.demo_original': 'Original',
     'hero.demo_dubbed': 'Doblado',
     'hero.demo_prev_aria': 'Video anterior',
@@ -107,8 +107,8 @@ window.JANUS_I18N = {
     // ---------- Banner servicio gestionado (index) ----------
     'serv.eyebrow': 'Servicio gestionado',
     'serv.title': '¿Quieres delegar completamente la operación de tu canal secundario?',
-    'serv.body': 'Doblaje, traducción, edición, SEO y publicación llave en mano para creadores y empresas. Tú solo te preocupas por cobrar los nuevos ingresos.',
-    'serv.cta': 'Conocer Servicio Llave en Mano',
+    'serv.body': 'Doblaje, traducción, edición, SEO y publicación para creadores y empresas. Tú solo te preocupas por cobrar los nuevos ingresos.',
+    'serv.cta': 'Más información aquí',
     'serv.link': 'Agendar Llamada →',
 
     // ---------- CTA final ----------
@@ -130,12 +130,12 @@ window.JANUS_I18N = {
     'foot.nota': 'JANUS es un producto de jonnyck-org.',
 
     // ---------- Agencia ----------
-    'ag.title': 'Gestión llave en mano de tu canal secundario',
+    'ag.title': 'Gestión completa de tu canal secundario',
     'ag.subtitle': 'Traducción, doblaje, edición, SEO y publicación por nuestro equipo. Tú solo te preocupas por cobrar los nuevos ingresos.',
     'ag.intro.html': 'Sabemos que no tienes tiempo para gestionar un segundo canal, subir videos, optimizar metadatos en otro idioma o configurar la plataforma. <strong>Por eso eliminamos la fricción por completo.</strong>',
     'ag.card1.title': 'Doblaje de Alta Precisión',
     'ag.card1.desc': 'JANUS traduce tus videos entre inglés y español conservando tu tono de voz original, tu intención y logrando una sincronización impecable.',
-    'ag.card2.title': 'Gestión Llave en Mano',
+    'ag.card2.title': 'Gestión Completa',
     'ag.card2.desc': 'No tienes que mover un solo dedo. Nuestro equipo y tecnología se encargan de:',
     'ag.card2.l1': 'Crear y configurar tu canal secundario',
     'ag.card2.l2': 'Optimizar el SEO (títulos, descripciones y miniaturas)',
@@ -344,19 +344,19 @@ window.JANUS_I18N = {
     'nav.close_aria': 'Close',
 
     // ---------- Meta ----------
-    'meta.index.title': 'JANUS — Double your audience with automatic dubbing',
+    'meta.index.title': 'JANUS — Duplicate your audience with automatic dubbing',
     'meta.index.desc': 'Automatically dub your videos between English and Spanish. Reach over 1 billion people without editing a single second.',
     'meta.agencia.title': 'JANUS — Managed Service | Agency',
-    'meta.agencia.desc': 'Delegate the complete operation of your secondary channel: dubbing, translation, editing, SEO and turnkey publishing.',
+    'meta.agencia.desc': 'Delegate the complete operation of your secondary channel: dubbing, translation, editing, SEO and publishing.',
     'meta.legal.title': 'Terms & Policies — JANUS by jonnyck-org',
     'meta.legal.desc': 'Terms of service, refund policy, cancellation and promotions of JANUS, a product of jonnyck-org.',
 
     // ---------- Hero (index) ----------
     'hero.eyebrow': 'AI Dubbing · English ↔ Spanish',
-    'hero.title.html': 'Double your <em>audience</em>',
+    'hero.title.html': 'Duplicate your <em>audience</em>',
     'hero.subtitle.html': 'Automatically dub your videos between <strong>English and Spanish</strong>. Reach over <strong>1 billion</strong> people without editing a single second.',
     'hero.models': 'Models Active',
-    'hero.demo_label': 'Original &nbsp;→&nbsp; Dubbed with JANUS',
+    'hero.demo_label': 'Original  →  Dubbed with JANUS',
     'hero.demo_original': 'Original',
     'hero.demo_dubbed': 'Dubbed',
     'hero.demo_prev_aria': 'Previous video',
@@ -432,16 +432,16 @@ window.JANUS_I18N = {
     // ---------- Managed service banner (index) ----------
     'serv.eyebrow': 'Managed service',
     'serv.title': 'Want to fully delegate the operation of your secondary channel?',
-    'serv.body': 'Turnkey dubbing, translation, editing, SEO, and publishing for creators and businesses. You only worry about collecting the new income.',
-    'serv.cta': 'Learn About the Turnkey Service',
+    'serv.body': 'Dubbing, translation, editing, SEO, and publishing for creators and businesses. You only worry about collecting the new income.',
+    'serv.cta': 'More information here',
     'serv.link': 'Schedule a Call →',
 
     // ---------- Final CTA ----------
-    'cta.title': 'Ready to double your audience?',
+    'cta.title': 'Ready to duplicate your audience?',
     'cta.subtitle': 'Join creators already reaching millions of Spanish speakers',
 
     // ---------- Footer ----------
-    'foot.tagline': 'Double your audience',
+    'foot.tagline': 'Duplicate your audience',
     'foot.desc': 'AI video dubbing and translation service: English ↔ Spanish, natural voice cloning and studio-grade synchronization, with your video\'s music and effects intact.',
     'foot.contacto': 'Contact',
     'foot.support': 'Customer support via email',
@@ -455,12 +455,12 @@ window.JANUS_I18N = {
     'foot.nota': 'JANUS is a product of jonnyck-org.',
 
     // ---------- Agency ----------
-    'ag.title': 'Turnkey management of your secondary channel',
+    'ag.title': 'Complete management of your secondary channel',
     'ag.subtitle': 'Translation, dubbing, editing, SEO, and publishing by our team. You only worry about collecting the new income.',
     'ag.intro.html': 'We know you don\'t have time to manage a second channel, upload videos, optimize metadata in another language, or set up the platform. <strong>That\'s why we remove all the friction.</strong>',
     'ag.card1.title': 'High-Precision Dubbing',
     'ag.card1.desc': 'JANUS translates your videos between English and Spanish while preserving your original voice tone, your intent, and delivering flawless synchronization.',
-    'ag.card2.title': 'Turnkey Management',
+    'ag.card2.title': 'Complete Management',
     'ag.card2.desc': 'You don\'t have to lift a finger. Our team and technology handle:',
     'ag.card2.l1': 'Create and set up your secondary channel',
     'ag.card2.l2': 'Optimize SEO (titles, descriptions, and thumbnails)',
@@ -729,17 +729,19 @@ function janusApplyTranslations() {
 }
 
 function janusInitLangToggle() {
-  var toggle = document.getElementById('janus-lang-toggle');
-  if (!toggle) return;
+  var toggles = document.querySelectorAll('.janus-lang-toggle');
+  if (!toggles.length) return;
 
-  toggle.innerHTML =
-    '<button class="janus-lang-btn" data-lang="es" type="button" aria-pressed="false">ES</button>' +
-    '<span class="janus-lang-sep">/</span>' +
-    '<button class="janus-lang-btn" data-lang="en" type="button" aria-pressed="false">EN</button>';
+  toggles.forEach(function (toggle) {
+    toggle.innerHTML =
+      '<button class="janus-lang-btn" data-lang="es" type="button" aria-pressed="false">ES</button>' +
+      '<span class="janus-lang-sep">/</span>' +
+      '<button class="janus-lang-btn" data-lang="en" type="button" aria-pressed="false">EN</button>';
 
-  toggle.querySelectorAll('.janus-lang-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      janusSetLang(btn.getAttribute('data-lang'));
+    toggle.querySelectorAll('.janus-lang-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        janusSetLang(btn.getAttribute('data-lang'));
+      });
     });
   });
 

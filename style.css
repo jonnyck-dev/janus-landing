@@ -1401,6 +1401,16 @@ h1, h2, h3 {
     letter-spacing: 0.04em;
 }
 
+.footer-bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.footer-bottom-right .janus-lang-toggle {
+    margin-left: 0;
+}
+
 @media (max-width: 968px) {
     .hero-title {
         font-size: 42px;
