@@ -96,6 +96,44 @@
     border-color: currentColor;
 }
 
+.studio-credits-login {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: 1px dashed var(--gray-300, #d1d5db);
+    border-radius: 10px;
+    background: none;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    color: var(--gold-dark, #a5760f);
+    cursor: pointer;
+    transition: border-color .2s ease, background .2s ease;
+}
+
+.studio-credits-login:hover {
+    border-color: var(--gold-primary, #d4a853);
+    background: rgba(212, 168, 83, .08);
+}
+
+/* Spinner dentro del botón Comenzar */
+.studio-submit.is-loading::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, .45);
+    border-top-color: #fff;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: -2px;
+    animation: studio-spin .6s linear infinite;
+}
+
+@keyframes studio-spin {
+    to { transform: rotate(360deg); }
+}
+
 .studio-form-title {
     font-family: var(--font-heading, 'Playfair Display', serif);
     font-size: 24px;

@@ -102,6 +102,15 @@ create policy "Users can view own credits"
   on public.user_credits for select
   using (auth.uid() = user_id);
 
+-- 11b. El usuario puede CONSUMIR (marcar como used) SUS créditos disponibles.
+-- Solo se permite transicionar available -> used; nunca crear créditos
+-- (el INSERT solo lo hace el webhook con service_role, que omite RLS).
+drop policy if exists "Users can consume own credits" on public.user_credits;
+create policy "Users can consume own credits"
+  on public.user_credits for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id and status = 'used');
+
 -- Nota: los créditos se insertan desde el backend (webhook de Lemon Squeezy)
 -- con la service_role key, que omite RLS. No se habilita INSERT directo por el usuario.
 

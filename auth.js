@@ -256,14 +256,13 @@ function janusSubmitForm(e) {
 
 // ---------- Hook de botones ----------
 function janusWireButtons() {
-    var buttons = ['btn-nav-try', 'btn-hero-try'];
-    buttons.forEach(function (id) {
+    // "Probar ahora" / "Nuevo proyecto" y el hero siempre llevan al Studio
+    ['btn-nav-try', 'btn-hero-try'].forEach(function (id) {
         var btn = document.getElementById(id);
-        if (btn) janusWireCta(btn);
-    });
-    // CTAs genéricos (pricing, etc.)
-    document.querySelectorAll('.janus-cta').forEach(function (btn) {
-        janusWireCta(btn);
+        if (btn) btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = 'studio.html';
+        });
     });
     // "Ver créditos" abre el perfil (que gestiona login si no hay sesión)
     var creditsBtn = document.getElementById('btn-nav-credits');
@@ -318,20 +317,23 @@ function janusFillUserChip(name, avatarUrl) {
     }
 }
 
+var _lastSession = null;
+
 function janusRenderNav(session) {
     var navUser = document.getElementById('janus-nav-user');
     var navGuest = document.getElementById('janus-nav-guest');
     var navTry = document.getElementById('btn-nav-try');
     if (!navUser || !navTry) return;
 
-    var navStudio = document.getElementById('btn-nav-studio');
+    _lastSession = session || null;
+
     var navAdmin = document.getElementById('btn-nav-admin');
 
     if (!session || !session.user) {
         navUser.style.display = 'none';
         navTry.style.display = '';
+        if (navTry) navTry.textContent = janusTr('nav.probar');
         if (navGuest) navGuest.style.display = 'block';
-        if (navStudio) navStudio.style.display = 'none';
         if (navAdmin) navAdmin.style.display = 'none';
         return;
     }
@@ -339,7 +341,7 @@ function janusRenderNav(session) {
     navTry.style.display = '';
     navUser.style.display = 'block';
     if (navGuest) navGuest.style.display = 'none';
-    if (navStudio) navStudio.style.display = '';
+    if (navTry) navTry.textContent = janusTr('nav.nuevo_proyecto');
     if (navAdmin) navAdmin.style.display = (session.user.email === 'admin@janusdubber.website') ? '' : 'none';
 
     var user = session.user;
@@ -628,6 +630,8 @@ function janusRenderCredits() {
 function janusRefreshAuthStrings() {
     var t = janusTr;
     var el;
+    // Botón "Probar ahora" / "Nuevo proyecto" según sesión
+    if ((el = document.getElementById('btn-nav-try'))) el.textContent = _lastSession ? t('nav.nuevo_proyecto') : t('nav.probar');
     if ((el = document.getElementById('janus-auth-title'))) el.textContent = t('auth.modal.title');
     if ((el = document.getElementById('janus-auth-sub'))) el.textContent = t('auth.modal.sub');
     var googleText = document.querySelector('#janus-btn-google .janus-auth-google-text');

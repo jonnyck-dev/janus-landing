@@ -22,9 +22,18 @@
     catch (e) { return ''; }
   }
 
+  function renderCreditsLogin() {
+    var box = document.getElementById('studio-credits');
+    if (!box) return;
+    box.innerHTML = '<button type="button" class="studio-credits-login" id="studio-credits-login">' + t('studio.credits_login') + '</button>';
+    var btn = document.getElementById('studio-credits-login');
+    if (btn) btn.addEventListener('click', function (e) { e.preventDefault(); window.janusOpenModal(); });
+  }
+
   function loadCredits() {
     var box = document.getElementById('studio-credits');
-    if (!box || !_uid) return;
+    if (!box) return;
+    if (!_uid) { renderCreditsLogin(); return; }
     window._supabase.from('user_credits')
       .select('plan, status, expires_at')
       .eq('user_id', _uid)
@@ -86,7 +95,7 @@
   }
 
   function loadJobs() {
-    if (!_uid) return;
+    if (!_uid) { _jobsCache = []; renderJobs(); return; }
     window._supabase.from('dub_jobs')
       .select('id, video_url, status, created_at')
       .eq('user_id', _uid)
@@ -117,7 +126,7 @@
     var form = document.getElementById('studio-form');
     var msg = document.getElementById('studio-msg');
     var btn = document.getElementById('studio-submit');
-    if (!form || !_uid) return;
+    if (!form) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       if (!msg || !btn) return;
@@ -128,8 +137,17 @@
         msg.className = 'studio-msg studio-msg-error';
         return;
       }
-      // Animación de cargando mientras se valida el crédito
+      // Sin sesión: cliente nuevo va directo al embudo (Pase Esencial)
+      if (!_uid) {
+        var ck = window.JANUS_CHECKOUT && window.JANUS_CHECKOUT.essential;
+        if (ck) { window.location.href = ck; return; }
+        msg.textContent = t('studio.err_nocredit');
+        msg.className = 'studio-msg studio-msg-error';
+        return;
+      }
+      // Animación de cargando dentro del botón mientras se valida el crédito
       btn.disabled = true;
+      btn.classList.add('is-loading');
       btn.textContent = t('studio.adding');
       msg.textContent = '';
       msg.className = 'studio-msg';
@@ -142,7 +160,11 @@
           .limit(1)
           .then(function (cr) {
             var credit = cr.data && cr.data[0];
-            var reset = function () { btn.disabled = false; btn.textContent = t('studio.start'); };
+            var reset = function () {
+              btn.disabled = false;
+              btn.classList.remove('is-loading');
+              btn.textContent = t('studio.start');
+            };
             if (cr.error || !credit) {
               // Sin créditos: guarda el trabajo como pendiente de pago y redirige al checkout Esencial
               createJob(url, lang, 'pending_payment', function (ok) {
@@ -176,27 +198,26 @@
   function init() {
     if (!window.janusIsConfigured || !window.janusInitSupabase) return;
     window.janusInitSupabase();
+    var app = document.getElementById('studio-app');
+    if (app) app.style.display = 'block';
+    wireForm();
     window._supabase.auth.getSession().then(function (res) {
       var session = res.data && res.data.session;
-      if (!session || !session.user) {
-        var login = document.getElementById('studio-login');
-        if (login) login.style.display = 'block';
-        var btn = document.getElementById('studio-login-btn');
-        if (btn) btn.addEventListener('click', function (ev) { ev.preventDefault(); window.janusOpenModal(); });
-        return;
+      if (session && session.user) {
+        _uid = session.user.id;
+        _email = session.user.email || null;
+        loadCredits();
+        loadJobs();
+      } else {
+        loadCredits(); // muestra "Iniciar sesión para ver créditos"
+        loadJobs();    // cola/historial vacíos
       }
-      _uid = session.user.id;
-      _email = session.user.email || null;
-      var app = document.getElementById('studio-app');
-      if (app) app.style.display = 'block';
-      loadCredits();
-      loadJobs();
-      wireForm();
     });
   }
 
   document.addEventListener('janus:langchange', function () {
-    if (_uid) { loadCredits(); renderJobs(); }
+    loadCredits();
+    if (_jobsCache) renderJobs();
   });
 
   init();

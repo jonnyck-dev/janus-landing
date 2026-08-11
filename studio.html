@@ -53,12 +53,6 @@
 
     <main class="studio-main" id="studio-main">
         <div class="container">
-            <div class="studio-login" id="studio-login" style="display:none;">
-                <h1 class="studio-login-title" data-i18n="studio.login_title">JANUS Studio</h1>
-                <p data-i18n="studio.login_required">Inicia sesión para usar JANUS Studio.</p>
-                <button class="btn btn-primary btn-3d btn-shimmer" id="studio-login-btn" data-i18n="nav.login">Iniciar sesión</button>
-            </div>
-
             <div class="studio-app" id="studio-app" style="display:none;">
                 <header class="studio-head">
                     <h1 data-i18n="studio.title">JANUS Studio</h1>
@@ -93,7 +87,7 @@
                                     <option value="es" data-i18n="studio.lang_es">Español</option>
                                     <option value="en" data-i18n="studio.lang_en">Inglés</option>
                                 </select>
-                                <button type="submit" class="btn btn-primary btn-3d btn-shimmer" data-i18n="studio.start">Comenzar</button>
+                                <button type="submit" id="studio-submit" class="btn btn-primary btn-3d btn-shimmer" data-i18n="studio.start">Comenzar</button>
                             </form>
                             <p class="studio-msg" id="studio-msg"></p>
                         </section>
