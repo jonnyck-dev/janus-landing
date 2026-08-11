@@ -12,9 +12,6 @@ var SUPABASE_ANON_KEY = 'sb_publishable_mhBHcFeFaBjEACWQjpOZuQ_CqJ5SfWH';
 // URL de la app JANUS (Cloudflare tunnel) — usada solo para chequear sesión viva.
 var JANUS_APP_URL = 'https://app.janusdubber.website';
 
-// mailto original que disparan navbar/hero tras registrarse
-var MAILTO_HREF = 'mailto:support@janusdubber.website?subject=Quiero%20probar%20JANUS&body=Hola%2C%20me%20gustar%C3%ADa%20probar%20JANUS%20para%20doblar%20mis%20videos.';
-
 function janusTr(key) {
     if (typeof window.janusT === 'function') return window.janusT(key);
     var es = window.JANUS_I18N && window.JANUS_I18N.es;
@@ -26,27 +23,7 @@ function janusErr(msg) {
 }
 
 var _supabase = null;
-var _afterAuthMailto = false;
 var _postAuthCallback = null;
-
-function janusMailtoIntent() {
-    var has = _afterAuthMailto;
-    try { has = has || sessionStorage.getItem('janus_mailto_after_auth') === '1'; } catch (e) {}
-    return has;
-}
-function janusMarkMailtoIntent() {
-    _afterAuthMailto = true;
-    try { sessionStorage.setItem('janus_mailto_after_auth', '1'); } catch (e) {}
-}
-function janusClearMailtoIntent() {
-    _afterAuthMailto = false;
-    try { sessionStorage.removeItem('janus_mailto_after_auth'); } catch (e) {}
-}
-function janusConsumeMailtoIntent() {
-    var has = janusMailtoIntent();
-    janusClearMailtoIntent();
-    return has;
-}
 
 function janusSetPostAuthCallback(fn) {
     _postAuthCallback = fn;
@@ -62,10 +39,7 @@ function janusInitSupabase() {
             if (_postAuthCallback) {
                 var cb = _postAuthCallback;
                 _postAuthCallback = null;
-                janusClearMailtoIntent();
                 cb(session);
-            } else if (janusConsumeMailtoIntent()) {
-                window.location.href = MAILTO_HREF;
             }
         } else if (event === 'SIGNED_OUT') {
             janusRenderNav(null);
@@ -216,10 +190,7 @@ function janusSubmitForm(e) {
                         var cb = _postAuthCallback;
                         _postAuthCallback = null;
                         janusCloseModal();
-                        janusClearMailtoIntent();
                         cb(res.data.session);
-                    } else if (janusConsumeMailtoIntent()) {
-                        window.location.href = MAILTO_HREF;
                     } else {
                         janusCloseModal();
                         janusRenderNav(res.data.session);
@@ -242,14 +213,12 @@ function janusSubmitForm(e) {
         .then(function (res) {
             if (res.error) {
                 janusSetMsg(janusErr(res.error.message), true);
-                _afterAuthMailto = false;
                 return;
             }
             janusSetMsg(janusTr('auth.sent'));
         })
         .catch(function (err) {
             janusSetMsg(janusErr(err.message), true);
-            _afterAuthMailto = false;
         });
     }
 }
@@ -269,26 +238,6 @@ function janusWireButtons() {
     if (creditsBtn) creditsBtn.addEventListener('click', function (e) {
         e.preventDefault();
         janusOpenProfile();
-    });
-}
-
-function janusWireCta(btn) {
-    btn.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (!janusIsConfigured()) {
-            // Fallback: comportamiento original (mailto) si no hay Supabase.
-            window.location.href = MAILTO_HREF;
-            return;
-        }
-        janusInitSupabase();
-        _supabase.auth.getSession().then(function (res) {
-            if (res.data && res.data.session) {
-                window.location.href = MAILTO_HREF;
-            } else {
-                janusMarkMailtoIntent();
-                janusOpenModal();
-            }
-        });
     });
 }
 
@@ -415,14 +364,12 @@ function janusInitUserNav() {
         if (loginBtn) loginBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             guestMenu.classList.remove('open');
-            janusClearMailtoIntent();
             janusOpenModal();
         });
         var signupBtn = document.getElementById('janus-menu-signup');
         if (signupBtn) signupBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             guestMenu.classList.remove('open');
-            janusClearMailtoIntent();
             janusOpenModal();
         });
     }
@@ -521,7 +468,6 @@ function janusOpenProfile() {
         var session = res.data && res.data.session;
         if (!session || !session.user) {
             janusCloseProfile();
-            janusClearMailtoIntent();
             janusOpenModal();
             return;
         }
