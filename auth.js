@@ -314,7 +314,7 @@ function janusRenderNav(session) {
         return;
     }
 
-    navTry.style.display = 'none';
+    navTry.style.display = '';
     navUser.style.display = 'block';
     if (navGuest) navGuest.style.display = 'none';
 
@@ -358,6 +358,11 @@ function janusInitUserNav() {
         document.getElementById('janus-menu-profile').addEventListener('click', function () {
             menu.classList.remove('open');
             janusOpenProfile();
+        });
+        var studioItem = document.getElementById('janus-menu-studio');
+        if (studioItem) studioItem.addEventListener('click', function () {
+            menu.classList.remove('open');
+            window.location.href = 'studio.html';
         });
         document.getElementById('janus-menu-logout').addEventListener('click', function () {
             menu.classList.remove('open');
@@ -421,6 +426,8 @@ function janusBuildProfileModal() {
                     '<button type="submit" class="janus-auth-btn janus-auth-primary janus-profile-save">' + janusTr('auth.profile.save') + '</button>' +
                 '</form>' +
                 '<p class="janus-profile-note">' + janusTr('auth.profile.email_note') + '</p>' +
+                '<p class="janus-pf-email-status" id="janus-pf-email-status"></p>' +
+                '<button type="button" class="janus-pf-verify-btn" id="janus-pf-verify-email" style="display:none;">' + janusTr('auth.profile.verify_email') + '</button>' +
             '</div>' +
 
             '<div class="janus-profile-section">' +
@@ -451,6 +458,24 @@ function janusBuildProfileModal() {
     document.getElementById('janus-pf-name-form').addEventListener('submit', janusSaveName);
     document.getElementById('janus-pf-email-form').addEventListener('submit', janusSaveEmail);
     document.getElementById('janus-pf-pw-form').addEventListener('submit', janusSavePassword);
+    document.getElementById('janus-pf-verify-email').addEventListener('click', janusVerifyEmail);
+}
+
+function janusVerifyEmail() {
+    janusInitSupabase();
+    _supabase.auth.getSession().then(function (res) {
+        var user = res.data && res.data.session && res.data.session.user;
+        if (!user || !user.email) return;
+        janusProfileMsg(janusTr('auth.profile.saving'));
+        _supabase.auth.resend({ type: 'signup', email: user.email })
+            .then(function (r) {
+                if (r.error) {
+                    janusProfileMsg(janusErr(r.error.message), true);
+                    return;
+                }
+                janusProfileMsg(janusTr('auth.profile.verify_sent'));
+            });
+    });
 }
 
 function janusOpenProfile() {
@@ -467,6 +492,7 @@ function janusOpenProfile() {
         var meta = user.user_metadata || {};
         document.getElementById('janus-pf-email').value = user.email || '';
         document.getElementById('janus-pf-name').value = meta.full_name || '';
+        janusRenderEmailStatus(user);
         _supabase.from('profiles').select('full_name').eq('id', user.id).maybeSingle()
             .then(function (r) {
                 if (r.data && r.data.full_name) {
@@ -478,6 +504,22 @@ function janusOpenProfile() {
         document.body.style.overflow = 'hidden';
         janusLoadCredits();
     });
+}
+
+function janusRenderEmailStatus(user) {
+    var statusEl = document.getElementById('janus-pf-email-status');
+    var btnEl = document.getElementById('janus-pf-verify-email');
+    if (!statusEl || !btnEl) return;
+    var confirmed = user && user.email_confirmed_at;
+    if (confirmed) {
+        statusEl.textContent = janusTr('auth.profile.email_verified');
+        statusEl.className = 'janus-pf-email-status janus-pf-email-status--ok';
+        btnEl.style.display = 'none';
+    } else {
+        statusEl.textContent = janusTr('auth.profile.email_unverified');
+        statusEl.className = 'janus-pf-email-status janus-pf-email-status--warn';
+        btnEl.style.display = '';
+    }
 }
 
 function janusCloseProfile() {
@@ -598,6 +640,18 @@ function janusRefreshAuthStrings() {
         if (credTitle) credTitle.textContent = t('auth.profile.credits_title');
         var credCta = el.querySelector('.janus-pf-credits-cta');
         if (credCta) credCta.textContent = t('auth.profile.credits_cta');
+        var verifyBtn = document.getElementById('janus-pf-verify-email');
+        if (verifyBtn) verifyBtn.textContent = t('auth.profile.verify_email');
+        var statusEl = document.getElementById('janus-pf-email-status');
+        if (statusEl) {
+            var u = _supabase && _supabase.auth ? _supabase.auth.getSession() : null;
+            if (u && u.then) {
+                u.then(function (res) {
+                    var usr = res.data && res.data.session && res.data.session.user;
+                    if (usr) janusRenderEmailStatus(usr);
+                });
+            }
+        }
         janusRenderCredits();
     }
 }

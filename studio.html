@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JANUS Studio — Doblaje y traducción con IA</title>
+    <meta name="description" content="Tu centro de operaciones de doblaje: sube la URL de tu video, sigue tu cola de renderizado y consulta tu historial.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="studio.css">
+    <link rel="stylesheet" href="auth.css">
+</head>
+<body data-page="studio">
+    <nav class="navbar">
+        <div class="container nav-content">
+            <a href="index.html" class="logo">
+                <img src="assets/icons/JANUSLOGO_BANNER.png" alt="JANUS" class="logo-img">
+            </a>
+            <div class="nav-actions">
+                <a href="#" id="btn-nav-try" class="btn btn-primary btn-sm btn-3d btn-shimmer" data-i18n="nav.probar">Probar ahora</a>
+                <div id="janus-nav-user" class="janus-nav-user" style="display:none;">
+                    <button class="janus-user-chip" id="janus-user-chip" data-i18n-aria="nav.cuenta_aria" aria-label="Mi cuenta">
+                        <img id="janus-user-avatar-img" class="janus-user-avatar" alt="" style="display:none;">
+                        <span id="janus-user-avatar-fallback" class="janus-user-avatar janus-user-avatar-fallback">·</span>
+                        <span class="janus-user-name" id="janus-user-name"></span>
+                    </button>
+                    <div class="janus-user-menu" id="janus-user-menu">
+                        <button class="janus-user-menu-item" id="janus-menu-profile" data-i18n="nav.perfil">Mi perfil</button>
+                        <button class="janus-user-menu-item" id="janus-menu-studio" data-i18n="nav.studio">Mi Studio</button>
+                        <button class="janus-user-menu-item danger" id="janus-menu-logout" data-i18n="nav.cerrar">Cerrar sesión</button>
+                    </div>
+                </div>
+                <div id="janus-nav-guest" class="janus-nav-user">
+                    <button class="janus-user-chip" id="janus-guest-chip" data-i18n-aria="nav.guest_aria" aria-label="Cuenta">
+                        <span class="janus-user-avatar janus-user-avatar-fallback" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        </span>
+                    </button>
+                    <div class="janus-user-menu" id="janus-guest-menu">
+                        <button class="janus-user-menu-item" id="janus-menu-login" data-i18n="nav.login">Iniciar sesión</button>
+                        <button class="janus-user-menu-item" id="janus-menu-signup" data-i18n="nav.signup">Registrarse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="studio-main" id="studio-main">
+        <div class="container">
+            <div class="studio-login" id="studio-login" style="display:none;">
+                <h1 class="studio-login-title" data-i18n="studio.login_title">JANUS Studio</h1>
+                <p data-i18n="studio.login_required">Inicia sesión para usar JANUS Studio.</p>
+                <button class="btn btn-primary btn-3d btn-shimmer" id="studio-login-btn" data-i18n="nav.login">Iniciar sesión</button>
+            </div>
+
+            <div class="studio-app" id="studio-app" style="display:none;">
+                <header class="studio-head">
+                    <h1 data-i18n="studio.title">JANUS Studio</h1>
+                    <p data-i18n="studio.subtitle">Tu centro de operaciones de doblaje.</p>
+                </header>
+
+                <div class="studio-layout">
+                    <aside class="studio-side">
+                        <div class="studio-card">
+                            <h3 class="studio-card-title" data-i18n="studio.credits_title">Mis créditos</h3>
+                            <div id="studio-credits"><p class="studio-muted" data-i18n="studio.loading">Cargando...</p></div>
+                            <a href="index.html#pricing" class="studio-buy" data-i18n="studio.buy">Comprar créditos</a>
+                        </div>
+                        <div class="studio-card">
+                            <p class="studio-note" data-i18n="studio.delivery_note">El renderizado tiene un plazo de entrega máximo de 1 día.</p>
+                        </div>
+                    </aside>
+
+                    <div class="studio-main-col">
+                        <section class="studio-card">
+                            <h3 class="studio-card-title" data-i18n="studio.queue_title">Videos en cola</h3>
+                            <div id="studio-queue"><p class="studio-muted" data-i18n="studio.loading">Cargando...</p></div>
+                        </section>
+
+                        <section class="studio-card" id="studio-form-card">
+                            <h2 class="studio-form-title" data-i18n="studio.form_title">Traducir y Doblar Video</h2>
+                            <p class="studio-form-sub" data-i18n="studio.form_sub">Pega la URL de un video de YouTube. JANUS detectará el idioma original y lo traducirá al idioma que elijas.</p>
+                            <form class="studio-form" id="studio-form">
+                                <input type="url" id="studio-url" class="studio-input" placeholder="https://www.youtube.com/watch?v=..." data-i18n-ph="studio.url_placeholder" required>
+                                <label class="studio-lang-label" for="studio-lang" data-i18n="studio.lang_label">Idioma de destino</label>
+                                <select id="studio-lang" class="studio-input">
+                                    <option value="es" data-i18n="studio.lang_es">Español</option>
+                                    <option value="en" data-i18n="studio.lang_en">Inglés</option>
+                                </select>
+                                <button type="submit" class="btn btn-primary btn-3d btn-shimmer" data-i18n="studio.start">Comenzar</button>
+                            </form>
+                            <p class="studio-msg" id="studio-msg"></p>
+                        </section>
+
+                        <section class="studio-card">
+                            <h3 class="studio-card-title" data-i18n="studio.history_title">Historial</h3>
+                            <div id="studio-history"><p class="studio-muted" data-i18n="studio.history_empty">Aún no hay videos procesados.</p></div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border: none; padding-top: 0;">
+                <p data-i18n="foot.copyright">&copy; 2026 Janus Media Labs. Todos los derechos reservados.</p>
+                <div class="footer-bottom-right">
+                    <p class="footer-bottom-note" data-i18n="foot.nota">JANUS es una marca de Janus Media Labs.</p>
+                    <div class="janus-lang-toggle janus-lang-toggle-footer"></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <script src="studio.js"></script>
+    <script src="brand.js"></script>
+</body>
+</html>

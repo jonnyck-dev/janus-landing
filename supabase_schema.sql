@@ -98,3 +98,40 @@ create policy "Users can view own credits"
 
 -- Nota: los créditos se insertan desde el backend (webhook de Lemon Squeezy)
 -- con la service_role key, que omite RLS. No se habilita INSERT directo por el usuario.
+
+-- 12. Tabla de trabajos de doblaje (JANUS Studio)
+-- Un cliente pega la URL de su video → se crea un job en cola → el admin procesa
+-- manualmente y marca el estado. Entrega máxima: 1 día.
+create table if not exists public.dub_jobs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade not null,
+  video_url text not null,
+  target_lang text not null default 'es',
+  status text not null default 'pending'
+    check (status in ('pending', 'processing', 'done', 'failed', 'cancelled')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  delivered_at timestamptz,
+  admin_note text
+);
+
+-- 13. Habilitar RLS para dub_jobs
+alter table public.dub_jobs enable row level security;
+
+-- 14. El cliente puede crear y ver SUS trabajos
+create policy "Users can insert own dub jobs"
+  on public.dub_jobs for insert
+  with check (auth.uid() = user_id);
+
+create policy "Users can view own dub jobs"
+  on public.dub_jobs for select
+  using (auth.uid() = user_id);
+
+-- 15. El administrador ve y actualiza TODOS los trabajos
+create policy "Admin can view all dub jobs"
+  on public.dub_jobs for select
+  using (auth.email() = 'admin@janusdubber.website');
+
+create policy "Admin can update all dub jobs"
+  on public.dub_jobs for update
+  using (auth.email() = 'admin@janusdubber.website');
