@@ -111,6 +111,7 @@ create policy "Users can view own credits"
 create table if not exists public.dub_jobs (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) on delete cascade not null,
+  email text,
   video_url text not null,
   target_lang text not null default 'es',
   status text not null default 'pending'
@@ -120,6 +121,9 @@ create table if not exists public.dub_jobs (
   delivered_at timestamptz,
   admin_note text
 );
+
+-- Si la tabla ya existía (de un run anterior), asegura la columna email
+alter table public.dub_jobs add column if not exists email text;
 
 -- 13. Habilitar RLS para dub_jobs
 alter table public.dub_jobs enable row level security;

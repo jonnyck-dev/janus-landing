@@ -1,6 +1,7 @@
 // JANUS Studio — base de operaciones del cliente.
 (function () {
   var _uid = null;
+  var _email = null;
   var _jobsCache = null;
 
   function t(key) {
@@ -112,7 +113,7 @@
         return;
       }
       window._supabase.from('dub_jobs')
-        .insert({ user_id: _uid, video_url: url, target_lang: lang, status: 'pending' })
+        .insert({ user_id: _uid, email: _email, video_url: url, target_lang: lang, status: 'pending' })
         .then(function (r) {
           if (r.error) {
             msg.textContent = r.error.message;
@@ -140,6 +141,7 @@
         return;
       }
       _uid = session.user.id;
+      _email = session.user.email || null;
       var app = document.getElementById('studio-app');
       if (app) app.style.display = 'block';
       loadCredits();

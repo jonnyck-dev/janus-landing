@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JANUS Studio — Doblaje y traducción con IA</title>
-    <meta name="description" content="Tu centro de operaciones de doblaje: sube la URL de tu video, sigue tu cola de renderizado y consulta tu historial.">
+    <title>Panel de Administración — JANUS</title>
+    <meta name="description" content="Panel de administración de JANUS Studio.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="studio.css">
     <link rel="stylesheet" href="auth.css">
 </head>
-<body data-page="studio">
+<body data-page="index">
     <nav class="navbar">
         <div class="container nav-content">
             <a href="index.html" class="logo">
@@ -50,59 +50,30 @@
         </div>
     </nav>
 
-    <main class="studio-main" id="studio-main">
+    <main class="studio-main">
         <div class="container">
-            <div class="studio-login" id="studio-login" style="display:none;">
-                <h1 class="studio-login-title" data-i18n="studio.login_title">JANUS Studio</h1>
-                <p data-i18n="studio.login_required">Inicia sesión para usar JANUS Studio.</p>
-                <button class="btn btn-primary btn-3d btn-shimmer" id="studio-login-btn" data-i18n="nav.login">Iniciar sesión</button>
+            <div class="admin-gate" id="admin-gate" style="display:none;">
+                <h1 class="studio-login-title" data-i18n="admin.no_access_title">Acceso restringido</h1>
+                <p data-i18n="admin.no_access">No tienes acceso a esta página.</p>
+                <a href="index.html" class="btn btn-primary btn-3d btn-shimmer" data-i18n="nav.inicio">Inicio</a>
             </div>
 
-            <div class="studio-app" id="studio-app" style="display:none;">
+            <div id="admin-app" style="display:none;">
                 <header class="studio-head">
-                    <h1 data-i18n="studio.title">JANUS Studio</h1>
-                    <p data-i18n="studio.subtitle">Tu centro de operaciones de doblaje.</p>
+                    <h1 data-i18n="admin.title">Panel de Administración</h1>
+                    <p data-i18n="admin.subtitle">Doblajes solicitados por los clientes.</p>
                 </header>
 
-                <div class="studio-layout">
-                    <aside class="studio-side">
-                        <div class="studio-card">
-                            <h3 class="studio-card-title" data-i18n="studio.credits_title">Mis créditos</h3>
-                            <div id="studio-credits"><p class="studio-muted" data-i18n="studio.loading">Cargando...</p></div>
-                            <a href="index.html#pricing" class="studio-buy" data-i18n="studio.buy">Comprar créditos</a>
-                        </div>
-                        <div class="studio-card">
-                            <p class="studio-note" data-i18n="studio.delivery_note">El renderizado tiene un plazo de entrega máximo de 1 día.</p>
-                        </div>
-                    </aside>
-
-                    <div class="studio-main-col">
-                        <section class="studio-card">
-                            <h3 class="studio-card-title" data-i18n="studio.queue_title">Videos en cola</h3>
-                            <div id="studio-queue"><p class="studio-muted" data-i18n="studio.loading">Cargando...</p></div>
-                        </section>
-
-                        <section class="studio-card" id="studio-form-card">
-                            <h2 class="studio-form-title" data-i18n="studio.form_title">Traducir y Doblar Video</h2>
-                            <p class="studio-form-sub" data-i18n="studio.form_sub">Pega la URL de un video de YouTube. JANUS detectará el idioma original y lo traducirá al idioma que elijas.</p>
-                            <form class="studio-form" id="studio-form">
-                                <input type="url" id="studio-url" class="studio-input" placeholder="https://www.youtube.com/watch?v=..." data-i18n-ph="studio.url_placeholder" required>
-                                <label class="studio-lang-label" for="studio-lang" data-i18n="studio.lang_label">Idioma de destino</label>
-                                <select id="studio-lang" class="studio-input">
-                                    <option value="es" data-i18n="studio.lang_es">Español</option>
-                                    <option value="en" data-i18n="studio.lang_en">Inglés</option>
-                                </select>
-                                <button type="submit" class="btn btn-primary btn-3d btn-shimmer" data-i18n="studio.start">Comenzar</button>
-                            </form>
-                            <p class="studio-msg" id="studio-msg"></p>
-                        </section>
-
-                        <section class="studio-card">
-                            <h3 class="studio-card-title" data-i18n="studio.history_title">Historial</h3>
-                            <div id="studio-history"><p class="studio-muted" data-i18n="studio.history_empty">Aún no hay videos procesados.</p></div>
-                        </section>
+                <section class="studio-card">
+                    <h3 class="studio-card-title" data-i18n="admin.all">Todos los trabajos</h3>
+                    <div class="admin-filters">
+                        <button class="admin-filter active" data-filter="pending" data-i18n="admin.filter_pending">En cola</button>
+                        <button class="admin-filter" data-filter="processing" data-i18n="admin.filter_processing">Procesando</button>
+                        <button class="admin-filter" data-filter="done" data-i18n="admin.filter_done">Procesados</button>
+                        <button class="admin-filter" data-filter="all" data-i18n="admin.filter_all">Todos</button>
                     </div>
-                </div>
+                    <div id="admin-jobs"><p class="studio-muted" data-i18n="admin.loading">Cargando...</p></div>
+                </section>
             </div>
         </div>
     </main>
@@ -122,7 +93,7 @@
     <script src="i18n.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="auth.js"></script>
-    <script src="studio.js"></script>
+    <script src="admin.js"></script>
     <script src="brand.js"></script>
 </body>
 </html>

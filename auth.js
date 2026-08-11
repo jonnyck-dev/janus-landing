@@ -320,6 +320,9 @@ function janusRenderNav(session) {
 
     var user = session.user;
     var meta = user.user_metadata || {};
+    // "Panel Admin" solo visible para el administrador
+    var adminItem = document.getElementById('janus-menu-admin');
+    if (adminItem) adminItem.style.display = (user.email === 'admin@janusdubber.website') ? '' : 'none';
     // Relleno inmediato con datos de la sesión
     janusFillUserChip(meta.full_name || user.email, meta.avatar_url);
     // Refinar con la tabla profiles (fuente de verdad: avatar de Google guardado en DB)
@@ -363,6 +366,11 @@ function janusInitUserNav() {
         if (studioItem) studioItem.addEventListener('click', function () {
             menu.classList.remove('open');
             window.location.href = 'studio.html';
+        });
+        var adminItem = document.getElementById('janus-menu-admin');
+        if (adminItem) adminItem.addEventListener('click', function () {
+            menu.classList.remove('open');
+            window.location.href = 'admin.html';
         });
         document.getElementById('janus-menu-logout').addEventListener('click', function () {
             menu.classList.remove('open');

@@ -80,11 +80,10 @@ module.exports = async function handler(req, res) {
 }
 
 // Mapea el id de variante de Lemon Squeezy a tu plan.
-// Lo encuentras en el dashboard de LS, en el producto/variante.
 const VARIANT_ID_MAP = {
-  // '112233': 'essential',
-  // '445566': 'multivoice',
-  // '778899': 'global',
+  '2005128': 'essential',    // Pase Esencial
+  '2005144': 'multivoice',   // Pase Multi-Voz
+  '2005148': 'global',       // Pase Global
 };
 
 function rawBody(req) {

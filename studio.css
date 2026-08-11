@@ -226,3 +226,131 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ---------- Panel de administración ---------- */
+.admin-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.admin-filter {
+    padding: 6px 14px;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: 999px;
+    background: none;
+    font-size: 12.5px;
+    font-weight: 600;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    color: var(--gray-500, #6b7280);
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.admin-filter.active {
+    background: var(--gray-900, #111827);
+    color: var(--gold-light, #f0c040);
+    border-color: var(--gray-900, #111827);
+}
+
+.admin-job {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-100, #f3f4f6);
+}
+
+.admin-job:last-child {
+    border-bottom: none;
+}
+
+.admin-job-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.admin-job-main {
+    flex: 1;
+    min-width: 220px;
+}
+
+.admin-job-email {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gray-900, #111827);
+}
+
+.admin-job-url a {
+    font-size: 12.5px;
+    color: var(--gold-dark, #a5760f);
+    word-break: break-all;
+    text-decoration: none;
+}
+
+.admin-job-url a:hover {
+    text-decoration: underline;
+}
+
+.admin-job-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+}
+
+.admin-job-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.admin-act {
+    padding: 6px 12px;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    border-radius: 8px;
+    background: none;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    color: var(--gray-600, #4b5563);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all .15s ease;
+}
+
+.admin-act:hover {
+    border-color: var(--gray-400, #9ca3af);
+}
+
+.admin-act--proc {
+    color: var(--gold-dark, #a5760f);
+    border-color: var(--gold-primary, #d4a853);
+}
+
+.admin-act--done {
+    color: #047857;
+    border-color: #10b981;
+}
+
+.admin-act--fail {
+    color: #b91c1c;
+    border-color: #f87171;
+}
+
+.admin-job-note-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.admin-job-note-row .studio-input {
+    padding: 8px 12px;
+    font-size: 12.5px;
+}
+
+.admin-note {
+    flex: 1;
+}
