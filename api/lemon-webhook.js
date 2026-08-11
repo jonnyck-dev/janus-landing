@@ -24,7 +24,7 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const raw = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+  const raw = rawBody(req);
   const signature = req.headers['x-signature'] || '';
   const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
 
@@ -77,6 +77,13 @@ const VARIANT_ID_MAP = {
   // '445566': 'multivoice',
   // '778899': 'global',
 };
+
+function rawBody(req) {
+  const b = req.body;
+  if (typeof b === 'string') return b;
+  if (Buffer.isBuffer(b)) return b.toString('utf8');
+  return JSON.stringify(b);
+}
 
 function verifySignature(raw, signature, secret) {
   const expected = 'sha256=' + crypto.createHmac('sha256', secret).update(raw).digest('hex');
