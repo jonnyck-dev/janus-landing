@@ -759,6 +759,7 @@ h1, h2, h3 {
     align-items: baseline;
     gap: 2px;
     margin-bottom: 28px;
+    white-space: nowrap;
 }
 
 .price-currency {
@@ -776,19 +777,9 @@ h1, h2, h3 {
     color: var(--gray-900);
 }
 
-.price-unit {
-    font-size: 15px;
-    color: var(--gray-500);
-    margin-left: 8px;
-}
-
 .price-card-featured .price-currency,
 .price-card-featured .price-value {
     color: var(--white);
-}
-
-.price-card-featured .price-unit {
-    color: var(--gray-400);
 }
 
 .price-features {
