@@ -307,16 +307,23 @@ function janusRenderNav(session) {
     var navTry = document.getElementById('btn-nav-try');
     if (!navUser || !navTry) return;
 
+    var navStudio = document.getElementById('btn-nav-studio');
+    var navAdmin = document.getElementById('btn-nav-admin');
+
     if (!session || !session.user) {
         navUser.style.display = 'none';
         navTry.style.display = '';
         if (navGuest) navGuest.style.display = 'block';
+        if (navStudio) navStudio.style.display = 'none';
+        if (navAdmin) navAdmin.style.display = 'none';
         return;
     }
 
     navTry.style.display = '';
     navUser.style.display = 'block';
     if (navGuest) navGuest.style.display = 'none';
+    if (navStudio) navStudio.style.display = '';
+    if (navAdmin) navAdmin.style.display = (session.user.email === 'admin@janusdubber.website') ? '' : 'none';
 
     var user = session.user;
     var meta = user.user_metadata || {};

@@ -87,6 +87,21 @@ h1, h2, h3 {
     box-shadow: var(--shadow-lg);
 }
 
+.btn-outline {
+    background: none;
+    color: var(--gray-700, #374151);
+    border: 1px solid var(--gray-300, #d1d5db);
+    transition: border-color .2s ease, color .2s ease, background .2s ease;
+}
+
+.btn-outline:hover {
+    background: none;
+    border-color: var(--gold-primary, #d4a853);
+    color: var(--gold-dark, #a5760f);
+    transform: none;
+    box-shadow: none;
+}
+
 .btn-sm {
     padding: 8px 20px;
     font-size: 14px;

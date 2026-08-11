@@ -1,4 +1,8 @@
 {
+  "rewrites": [
+    { "source": "/mistudio", "destination": "/studio.html" },
+    { "source": "/adminpanel", "destination": "/admin.html" }
+  ],
   "headers": [
     {
       "source": "/(.*\\.(js|css|html))",
