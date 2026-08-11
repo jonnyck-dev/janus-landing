@@ -399,6 +399,14 @@ function janusBuildProfileModal() {
                 '</form>' +
             '</div>' +
 
+            '<div class="janus-profile-section">' +
+                '<label class="janus-profile-label" id="janus-pf-credits-title">' + janusTr('auth.profile.credits_title') + '</label>' +
+                '<div class="janus-pf-credits" id="janus-pf-credits">' +
+                    '<p class="janus-profile-note">' + janusTr('auth.profile.credits_empty') + '</p>' +
+                '</div>' +
+                '<a href="index.html#pricing" class="janus-pf-credits-cta">' + janusTr('auth.profile.credits_cta') + '</a>' +
+            '</div>' +
+
             '<p class="janus-auth-msg" id="janus-pf-msg"></p>' +
         '</div>';
 
@@ -436,6 +444,7 @@ function janusOpenProfile() {
         janusProfileMsg('');
         document.getElementById('janus-profile-modal').classList.add('janus-auth-open');
         document.body.style.overflow = 'hidden';
+        janusLoadCredits();
     });
 }
 
@@ -452,6 +461,51 @@ function janusProfileMsg(text, isError) {
     if (!el) return;
     el.textContent = text || '';
     el.className = 'janus-auth-msg' + (isError ? ' janus-auth-msg-error' : '');
+}
+
+var janusCreditsCache = null;
+
+function janusLoadCredits() {
+    var box = document.getElementById('janus-pf-credits');
+    if (!box) return;
+    janusInitSupabase();
+    _supabase.auth.getSession().then(function (res) {
+        var session = res.data && res.data.session;
+        if (!session || !session.user) return;
+        _supabase.from('user_credits')
+            .select('plan, status, expires_at')
+            .eq('user_id', session.user.id)
+            .eq('status', 'available')
+            .gte('expires_at', new Date().toISOString())
+            .order('expires_at', { ascending: true })
+            .then(function (r) {
+                if (r.error) return;
+                janusCreditsCache = (r.data || []).filter(function (c) {
+                    return c && c.plan && c.expires_at;
+                });
+                janusRenderCredits();
+            });
+    });
+}
+
+function janusRenderCredits() {
+    var box = document.getElementById('janus-pf-credits');
+    if (!box) return;
+    if (!janusCreditsCache || !janusCreditsCache.length) {
+        box.innerHTML = '<p class="janus-profile-note">' + janusTr('auth.profile.credits_empty') + '</p>';
+        return;
+    }
+    var now = Date.now();
+    var items = janusCreditsCache.map(function (c) {
+        var planName = janusTr('pr.' + c.plan + '.name') || c.plan;
+        var days = Math.max(0, Math.ceil((new Date(c.expires_at).getTime() - now) / 86400000));
+        var exp = days === 0 ? janusTr('auth.profile.credits_today') : janusTr('auth.profile.credits_expires').replace('%s', String(days));
+        return '<div class="janus-pf-credit-item">' +
+            '<span class="janus-pf-credit-plan">' + planName + '</span>' +
+            '<span class="janus-pf-credit-exp">' + exp + '</span>' +
+        '</div>';
+    });
+    box.innerHTML = items.join('');
 }
 
 function janusRefreshAuthStrings() {
@@ -500,6 +554,11 @@ function janusRefreshAuthStrings() {
         if (sub) sub.textContent = t('auth.profile.sub');
         var note = el.querySelector('.janus-profile-note');
         if (note) note.textContent = t('auth.profile.email_note');
+        var credTitle = document.getElementById('janus-pf-credits-title');
+        if (credTitle) credTitle.textContent = t('auth.profile.credits_title');
+        var credCta = el.querySelector('.janus-pf-credits-cta');
+        if (credCta) credCta.textContent = t('auth.profile.credits_cta');
+        janusRenderCredits();
     }
 }
 

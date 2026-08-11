@@ -75,3 +75,26 @@ create policy "Users can insert own leads"
 create policy "Users can view own leads"
   on public.roi_leads for select
   using (auth.uid() = user_id);
+
+-- 9. Tabla de créditos digitales (comprados vía Lemon Squeezy)
+-- Un crédito = 1 video procesable según el plan. Vigencia: 1 mes desde la compra.
+create table if not exists public.user_credits (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade not null,
+  plan text not null check (plan in ('essential', 'multivoice', 'global')),
+  status text not null default 'available' check (status in ('available', 'used', 'expired')),
+  created_at timestamptz not null default now(),
+  expires_at timestamptz not null default now() + interval '1 month',
+  used_at timestamptz
+);
+
+-- 10. Habilitar RLS para user_credits
+alter table public.user_credits enable row level security;
+
+-- 11. El usuario solo puede ver SUS créditos activos (SELECT own)
+create policy "Users can view own credits"
+  on public.user_credits for select
+  using (auth.uid() = user_id);
+
+-- Nota: los créditos se insertan desde el backend (webhook de Lemon Squeezy)
+-- con la service_role key, que omite RLS. No se habilita INSERT directo por el usuario.
