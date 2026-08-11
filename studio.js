@@ -166,13 +166,12 @@
               btn.textContent = t('studio.start');
             };
             if (cr.error || !credit) {
-              // Sin créditos: guarda el trabajo como pendiente de pago y redirige al checkout Esencial
-              createJob(url, lang, 'pending_payment', function (ok) {
+              // Sin créditos: guarda el trabajo como pendiente de pago (mejor esfuerzo)
+              // y redirige siempre al checkout Esencial (misma estrategia que sin sesión).
+              createJob(url, lang, 'pending_payment', function () {
                 reset();
-                if (ok && window.JANUS_CHECKOUT && window.JANUS_CHECKOUT.essential) {
-                  window.location.href = window.JANUS_CHECKOUT.essential;
-                  return;
-                }
+                var ck = window.JANUS_CHECKOUT && window.JANUS_CHECKOUT.essential;
+                if (ck) { window.location.href = ck; return; }
                 msg.textContent = t('studio.err_nocredit');
                 msg.className = 'studio-msg studio-msg-error';
               });
