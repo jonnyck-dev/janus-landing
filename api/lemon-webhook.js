@@ -38,7 +38,7 @@ module.exports = async function handler(req, res) {
   catch (e) { res.status(400).json({ error: 'Bad JSON' }); return; }
 
   const eventName = event.meta && event.meta.event_name;
-  if (eventName !== 'order_created') {
+  if (eventName !== 'order_created' && eventName !== 'order_refunded') {
     res.status(200).json({ received: eventName });
     return;
   }
@@ -46,13 +46,6 @@ module.exports = async function handler(req, res) {
   const a = (event.data && event.data.attributes) || {};
   const email = a.customer_email;
   const name = a.customer_name || null;
-  const variantId = a.first_order_item && a.first_order_item.variant_id;
-  const plan = VARIANT_ID_MAP[String(variantId)];
-
-  if (!email || !plan) {
-    res.status(200).json({ received: true, ignored: true });
-    return;
-  }
 
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -62,6 +55,22 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    if (eventName === 'order_refunded') {
+      // Revoca los créditos activos del cliente (marca como used).
+      const userId = await findUser(supabaseUrl, serviceKey, email);
+      if (userId) await revokeCredits(supabaseUrl, serviceKey, userId);
+      res.status(200).json({ ok: true, revoked: !!userId });
+      return;
+    }
+
+    const variantId = a.first_order_item && a.first_order_item.variant_id;
+    const plan = VARIANT_ID_MAP[String(variantId)];
+
+    if (!email || !plan) {
+      res.status(200).json({ received: true, ignored: true });
+      return;
+    }
+
     const userId = await ensureUser(supabaseUrl, serviceKey, email, name);
     await grantCredit(supabaseUrl, serviceKey, userId, plan);
     res.status(200).json({ ok: true, userId: userId, plan: plan });
@@ -92,15 +101,19 @@ function verifySignature(raw, signature, secret) {
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
-async function ensureUser(base, key, email, name) {
-  // 1) Busca si ya existe
+async function findUser(base, key, email) {
+  if (!email) return null;
   const listRes = await fetch(base + '/auth/v1/admin/users?email=' + encodeURIComponent(email), {
     headers: authHeaders(key),
   });
   const list = await listRes.json();
   if (list.users && list.users.length) return list.users[0].id;
+  return null;
+}
 
-  // 2) Si no existe, lo crea (email sin confirmar)
+async function ensureUser(base, key, email, name) {
+  const existing = await findUser(base, key, email);
+  if (existing) return existing;
   const createRes = await fetch(base + '/auth/v1/admin/users', {
     method: 'POST',
     headers: { ...authHeaders(key), 'Content-Type': 'application/json' },
@@ -132,6 +145,22 @@ async function grantCredit(base, key, userId, plan) {
     }),
   });
   if (!res.ok) throw new Error('Fallo al insertar el credito: ' + res.status);
+}
+
+async function revokeCredits(base, key, userId) {
+  const res = await fetch(base + '/rest/v1/user_credits?user_id=eq.' + userId + '&status=eq.available', {
+    method: 'PATCH',
+    headers: {
+      ...authHeaders(key),
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify({
+      status: 'expired',
+      used_at: new Date().toISOString(),
+    }),
+  });
+  if (!res.ok) throw new Error('Fallo al revocar creditos: ' + res.status);
 }
 
 function authHeaders(key) {

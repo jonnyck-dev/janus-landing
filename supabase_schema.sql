@@ -19,12 +19,15 @@ create table if not exists public.profiles (
 alter table public.profiles enable row level security;
 
 -- 3. Crear políticas de acceso (RLS)
+drop policy if exists "Los perfiles públicos son visibles para todos." on public.profiles;
 create policy "Los perfiles públicos son visibles para todos." on public.profiles
   for select using (true);
 
+drop policy if exists "Los usuarios pueden insertar su propio perfil." on public.profiles;
 create policy "Los usuarios pueden insertar su propio perfil." on public.profiles
   for insert with check (auth.uid() = id);
 
+drop policy if exists "Los usuarios pueden actualizar su propio perfil." on public.profiles;
 create policy "Los usuarios pueden actualizar su propio perfil." on public.profiles
   for update using (auth.uid() = id);
 
@@ -68,10 +71,12 @@ create table if not exists public.roi_leads (
 alter table public.roi_leads enable row level security;
 
 -- 8. Políticas de acceso para roi_leads
+drop policy if exists "Users can insert own leads" on public.roi_leads;
 create policy "Users can insert own leads"
   on public.roi_leads for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can view own leads" on public.roi_leads;
 create policy "Users can view own leads"
   on public.roi_leads for select
   using (auth.uid() = user_id);
@@ -92,6 +97,7 @@ create table if not exists public.user_credits (
 alter table public.user_credits enable row level security;
 
 -- 11. El usuario solo puede ver SUS créditos activos (SELECT own)
+drop policy if exists "Users can view own credits" on public.user_credits;
 create policy "Users can view own credits"
   on public.user_credits for select
   using (auth.uid() = user_id);
@@ -119,19 +125,23 @@ create table if not exists public.dub_jobs (
 alter table public.dub_jobs enable row level security;
 
 -- 14. El cliente puede crear y ver SUS trabajos
+drop policy if exists "Users can insert own dub jobs" on public.dub_jobs;
 create policy "Users can insert own dub jobs"
   on public.dub_jobs for insert
   with check (auth.uid() = user_id);
 
+drop policy if exists "Users can view own dub jobs" on public.dub_jobs;
 create policy "Users can view own dub jobs"
   on public.dub_jobs for select
   using (auth.uid() = user_id);
 
 -- 15. El administrador ve y actualiza TODOS los trabajos
+drop policy if exists "Admin can view all dub jobs" on public.dub_jobs;
 create policy "Admin can view all dub jobs"
   on public.dub_jobs for select
   using (auth.email() = 'admin@janusdubber.website');
 
+drop policy if exists "Admin can update all dub jobs" on public.dub_jobs;
 create policy "Admin can update all dub jobs"
   on public.dub_jobs for update
   using (auth.email() = 'admin@janusdubber.website');
