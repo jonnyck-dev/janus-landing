@@ -35,6 +35,17 @@
                         <button class="janus-user-menu-item danger" id="janus-menu-logout" data-i18n="nav.cerrar">Cerrar sesión</button>
                     </div>
                 </div>
+                <div id="janus-nav-guest" class="janus-nav-user">
+                    <button class="janus-user-chip" id="janus-guest-chip" data-i18n-aria="nav.guest_aria" aria-label="Cuenta">
+                        <span class="janus-user-avatar janus-user-avatar-fallback" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        </span>
+                    </button>
+                    <div class="janus-user-menu" id="janus-guest-menu">
+                        <button class="janus-user-menu-item" id="janus-menu-login" data-i18n="nav.login">Iniciar sesión</button>
+                        <button class="janus-user-menu-item" id="janus-menu-signup" data-i18n="nav.signup">Registrarse</button>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

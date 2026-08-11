@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
     <style>
         .legal-main {
             padding: 140px 0 100px;
@@ -148,7 +149,7 @@
                 <span class="logo-text">JANUS</span>
             </a>
             <div style="display:flex;align-items:center;gap:14px;">
-                <a href="index.html#pricing" class="btn btn-primary btn-sm" data-i18n="nav.ver_planes">Ver planes</a>
+                <a href="#" id="btn-nav-credits" class="btn btn-primary btn-sm" data-i18n="nav.ver_creditos">Ver créditos</a>
             </div>
         </div>
     </nav>
@@ -269,5 +270,7 @@
     </footer>
 
     <script src="i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
 </body>
 </html>

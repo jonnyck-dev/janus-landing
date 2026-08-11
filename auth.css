@@ -375,6 +375,40 @@
     white-space: nowrap;
 }
 
+.janus-pf-credits-counter {
+    font-family: var(--font-mono, 'IBM Plex Mono', monospace);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--gold-dark, #a5760f);
+    margin-bottom: 8px;
+}
+
+.janus-pf-credit-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.janus-pf-credit-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.janus-pf-credit-icon--essential {
+    color: var(--gold-dark, #b8860b);
+}
+
+.janus-pf-credit-icon--multivoice {
+    color: var(--gold-primary, #d4a853);
+}
+
+.janus-pf-credit-icon--global {
+    color: var(--gold-light, #f0c040);
+}
+
 .janus-pf-credits-cta {
     display: inline-block;
     font-size: 12px;

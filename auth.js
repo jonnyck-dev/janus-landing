@@ -249,6 +249,12 @@ function janusWireButtons() {
     document.querySelectorAll('.janus-cta').forEach(function (btn) {
         janusWireCta(btn);
     });
+    // "Ver créditos" abre el perfil (que gestiona login si no hay sesión)
+    var creditsBtn = document.getElementById('btn-nav-credits');
+    if (creditsBtn) creditsBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        janusOpenProfile();
+    });
 }
 
 function janusWireCta(btn) {
@@ -297,17 +303,20 @@ function janusFillUserChip(name, avatarUrl) {
 
 function janusRenderNav(session) {
     var navUser = document.getElementById('janus-nav-user');
+    var navGuest = document.getElementById('janus-nav-guest');
     var navTry = document.getElementById('btn-nav-try');
     if (!navUser || !navTry) return;
 
     if (!session || !session.user) {
         navUser.style.display = 'none';
         navTry.style.display = '';
+        if (navGuest) navGuest.style.display = 'block';
         return;
     }
 
     navTry.style.display = 'none';
     navUser.style.display = 'block';
+    if (navGuest) navGuest.style.display = 'none';
 
     var user = session.user;
     var meta = user.user_metadata || {};
@@ -341,22 +350,45 @@ function janusInitUserNav() {
 
     var chip = document.getElementById('janus-user-chip');
     var menu = document.getElementById('janus-user-menu');
-    if (!chip || !menu) return;
+    if (chip && menu) {
+        chip.addEventListener('click', function (e) {
+            e.stopPropagation();
+            menu.classList.toggle('open');
+        });
+        document.getElementById('janus-menu-profile').addEventListener('click', function () {
+            menu.classList.remove('open');
+            janusOpenProfile();
+        });
+        document.getElementById('janus-menu-logout').addEventListener('click', function () {
+            menu.classList.remove('open');
+            janusLogout();
+        });
+    }
 
-    chip.addEventListener('click', function (e) {
-        e.stopPropagation();
-        menu.classList.toggle('open');
-    });
+    var guestChip = document.getElementById('janus-guest-chip');
+    var guestMenu = document.getElementById('janus-guest-menu');
+    if (guestChip && guestMenu) {
+        guestChip.addEventListener('click', function (e) {
+            e.stopPropagation();
+            guestMenu.classList.toggle('open');
+        });
+        var loginBtn = document.getElementById('janus-menu-login');
+        if (loginBtn) loginBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            guestMenu.classList.remove('open');
+            janusOpenModal();
+        });
+        var signupBtn = document.getElementById('janus-menu-signup');
+        if (signupBtn) signupBtn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            guestMenu.classList.remove('open');
+            janusOpenModal();
+        });
+    }
+
     document.addEventListener('click', function () {
-        menu.classList.remove('open');
-    });
-    document.getElementById('janus-menu-profile').addEventListener('click', function () {
-        menu.classList.remove('open');
-        janusOpenProfile();
-    });
-    document.getElementById('janus-menu-logout').addEventListener('click', function () {
-        menu.classList.remove('open');
-        janusLogout();
+        if (menu) menu.classList.remove('open');
+        if (guestMenu) guestMenu.classList.remove('open');
     });
 }
 
@@ -496,16 +528,24 @@ function janusRenderCredits() {
         return;
     }
     var now = Date.now();
+    var counter = '<div class="janus-pf-credits-counter">' +
+        janusTr('auth.profile.credits_count').replace('%s', String(janusCreditsCache.length)) +
+        '</div>';
     var items = janusCreditsCache.map(function (c) {
         var planName = janusTr('pr.' + c.plan + '.name') || c.plan;
         var days = Math.max(0, Math.ceil((new Date(c.expires_at).getTime() - now) / 86400000));
         var exp = days === 0 ? janusTr('auth.profile.credits_today') : janusTr('auth.profile.credits_expires').replace('%s', String(days));
         return '<div class="janus-pf-credit-item">' +
-            '<span class="janus-pf-credit-plan">' + planName + '</span>' +
+            '<span class="janus-pf-credit-left">' +
+                '<span class="janus-pf-credit-icon janus-pf-credit-icon--' + c.plan + '" data-plan="' + c.plan + '" aria-hidden="true">' +
+                    '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>' +
+                '</span>' +
+                '<span class="janus-pf-credit-plan">' + planName + '</span>' +
+            '</span>' +
             '<span class="janus-pf-credit-exp">' + exp + '</span>' +
         '</div>';
     });
-    box.innerHTML = items.join('');
+    box.innerHTML = counter + items.join('');
 }
 
 function janusRefreshAuthStrings() {
