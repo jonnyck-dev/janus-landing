@@ -73,6 +73,7 @@ module.exports = async function handler(req, res) {
 
     const userId = await ensureUser(supabaseUrl, serviceKey, email, name);
     await grantCredit(supabaseUrl, serviceKey, userId, plan);
+    await releasePendingJobs(supabaseUrl, serviceKey, userId);
     res.status(200).json({ ok: true, userId: userId, plan: plan });
   } catch (err) {
     res.status(500).json({ error: err.message || 'Internal error' });
@@ -160,6 +161,24 @@ async function revokeCredits(base, key, userId) {
     }),
   });
   if (!res.ok) throw new Error('Fallo al revocar creditos: ' + res.status);
+}
+
+// Después de un pago confirmado, pasa los trabajos "esperando pago"
+// del usuario a "en cola" para que aparezcan en el panel del admin.
+async function releasePendingJobs(base, key, userId) {
+  const res = await fetch(base + '/rest/v1/dub_jobs?user_id=eq.' + userId + '&status=eq.pending_payment', {
+    method: 'PATCH',
+    headers: {
+      ...authHeaders(key),
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
+    },
+    body: JSON.stringify({
+      status: 'pending',
+      updated_at: new Date().toISOString(),
+    }),
+  });
+  if (!res.ok) throw new Error('Fallo al liberar trabajos pendientes: ' + res.status);
 }
 
 function authHeaders(key) {

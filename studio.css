@@ -206,6 +206,12 @@
     color: var(--gold-dark, #a5760f);
 }
 
+.studio-job-status--pending_payment {
+    background: rgba(212, 168, 83, .15);
+    color: var(--gold-dark, #a5760f);
+    border: 1px dashed var(--gold-primary, #d4a853);
+}
+
 .studio-job-status--done {
     background: #ecfdf5;
     color: #047857;

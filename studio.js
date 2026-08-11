@@ -71,7 +71,7 @@
     var formCard = document.getElementById('studio-form-card');
     if (!_jobsCache) return;
     var rows = _jobsCache;
-    var queue = rows.filter(function (j) { return j.status === 'pending' || j.status === 'processing'; });
+    var queue = rows.filter(function (j) { return j.status === 'pending' || j.status === 'processing' || j.status === 'pending_payment'; });
     var hist = rows.filter(function (j) { return j.status === 'done' || j.status === 'failed' || j.status === 'cancelled'; });
 
     if (queueBox) queueBox.innerHTML = queue.length
@@ -98,13 +98,29 @@
       });
   }
 
+  function createJob(url, lang, status, cb) {
+    window._supabase.from('dub_jobs')
+      .insert({ user_id: _uid, email: _email, video_url: url, target_lang: lang, status: status })
+      .then(function (r) {
+        cb(!r.error);
+      });
+  }
+
+  function consumeCredit(creditId, cb) {
+    window._supabase.from('user_credits')
+      .update({ status: 'used', used_at: new Date().toISOString() })
+      .eq('id', creditId)
+      .then(cb);
+  }
+
   function wireForm() {
     var form = document.getElementById('studio-form');
     var msg = document.getElementById('studio-msg');
+    var btn = document.getElementById('studio-submit');
     if (!form || !_uid) return;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      if (!msg) return;
+      if (!msg || !btn) return;
       var url = (document.getElementById('studio-url').value || '').trim();
       var lang = (document.getElementById('studio-lang') || {}).value || 'es';
       if (!url || url.indexOf('http') !== 0) {
@@ -112,19 +128,48 @@
         msg.className = 'studio-msg studio-msg-error';
         return;
       }
-      window._supabase.from('dub_jobs')
-        .insert({ user_id: _uid, email: _email, video_url: url, target_lang: lang, status: 'pending' })
-        .then(function (r) {
-          if (r.error) {
-            msg.textContent = r.error.message;
-            msg.className = 'studio-msg studio-msg-error';
-            return;
-          }
-          document.getElementById('studio-url').value = '';
-          msg.textContent = t('studio.job_submitted');
-          msg.className = 'studio-msg';
-          loadJobs();
-        });
+      // Animación de cargando mientras se valida el crédito
+      btn.disabled = true;
+      btn.textContent = t('studio.adding');
+      msg.textContent = '';
+      msg.className = 'studio-msg';
+      setTimeout(function () {
+        window._supabase.from('user_credits')
+          .select('id')
+          .eq('user_id', _uid)
+          .eq('status', 'available')
+          .gte('expires_at', new Date().toISOString())
+          .limit(1)
+          .then(function (cr) {
+            var credit = cr.data && cr.data[0];
+            var reset = function () { btn.disabled = false; btn.textContent = t('studio.start'); };
+            if (cr.error || !credit) {
+              // Sin créditos: guarda el trabajo como pendiente de pago y redirige al checkout Esencial
+              createJob(url, lang, 'pending_payment', function (ok) {
+                reset();
+                if (ok && window.JANUS_CHECKOUT && window.JANUS_CHECKOUT.essential) {
+                  window.location.href = window.JANUS_CHECKOUT.essential;
+                  return;
+                }
+                msg.textContent = t('studio.err_nocredit');
+                msg.className = 'studio-msg studio-msg-error';
+              });
+              return;
+            }
+            // Con crédito: crea el trabajo 'en cola' y consume el crédito
+            createJob(url, lang, 'pending', function (ok) {
+              if (!ok) { reset(); msg.textContent = t('studio.err_submit'); msg.className = 'studio-msg studio-msg-error'; return; }
+              consumeCredit(credit.id, function () {
+                reset();
+                document.getElementById('studio-url').value = '';
+                msg.textContent = t('studio.job_submitted');
+                msg.className = 'studio-msg';
+                loadCredits();
+                loadJobs();
+              });
+            });
+          });
+      }, 2500);
     });
   }
 

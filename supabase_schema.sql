@@ -115,7 +115,7 @@ create table if not exists public.dub_jobs (
   video_url text not null,
   target_lang text not null default 'es',
   status text not null default 'pending'
-    check (status in ('pending', 'processing', 'done', 'failed', 'cancelled')),
+    check (status in ('pending', 'processing', 'done', 'failed', 'cancelled', 'pending_payment')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   delivered_at timestamptz,
@@ -124,6 +124,11 @@ create table if not exists public.dub_jobs (
 
 -- Si la tabla ya existía (de un run anterior), asegura la columna email
 alter table public.dub_jobs add column if not exists email text;
+
+-- Actualiza la restricción de status para incluir 'pending_payment' en tablas existentes
+alter table public.dub_jobs drop constraint if exists dub_jobs_status_check;
+alter table public.dub_jobs add constraint dub_jobs_status_check
+  check (status in ('pending', 'processing', 'done', 'failed', 'cancelled', 'pending_payment'));
 
 -- 13. Habilitar RLS para dub_jobs
 alter table public.dub_jobs enable row level security;
@@ -149,3 +154,6 @@ drop policy if exists "Admin can update all dub jobs" on public.dub_jobs;
 create policy "Admin can update all dub jobs"
   on public.dub_jobs for update
   using (auth.email() = 'admin@janusdubber.website');
+
+-- 16. Refresca el cache de schema de PostgREST (para que reconozca columnas nuevas)
+notify pgrst, 'reload schema';
