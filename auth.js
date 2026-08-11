@@ -29,6 +29,25 @@ var _supabase = null;
 var _afterAuthMailto = false;
 var _postAuthCallback = null;
 
+function janusMailtoIntent() {
+    var has = _afterAuthMailto;
+    try { has = has || sessionStorage.getItem('janus_mailto_after_auth') === '1'; } catch (e) {}
+    return has;
+}
+function janusMarkMailtoIntent() {
+    _afterAuthMailto = true;
+    try { sessionStorage.setItem('janus_mailto_after_auth', '1'); } catch (e) {}
+}
+function janusClearMailtoIntent() {
+    _afterAuthMailto = false;
+    try { sessionStorage.removeItem('janus_mailto_after_auth'); } catch (e) {}
+}
+function janusConsumeMailtoIntent() {
+    var has = janusMailtoIntent();
+    janusClearMailtoIntent();
+    return has;
+}
+
 function janusSetPostAuthCallback(fn) {
     _postAuthCallback = fn;
 }
@@ -43,10 +62,9 @@ function janusInitSupabase() {
             if (_postAuthCallback) {
                 var cb = _postAuthCallback;
                 _postAuthCallback = null;
-                _afterAuthMailto = false;
+                janusClearMailtoIntent();
                 cb(session);
-            } else if (_afterAuthMailto) {
-                _afterAuthMailto = false;
+            } else if (janusConsumeMailtoIntent()) {
                 window.location.href = MAILTO_HREF;
             }
         } else if (event === 'SIGNED_OUT') {
@@ -153,9 +171,6 @@ function janusLoginGoogle() {
         return;
     }
     janusInitSupabase();
-    if (!_postAuthCallback) {
-        _afterAuthMailto = true;
-    }
     var redirect = window.location.origin + window.location.pathname;
     _supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -201,9 +216,13 @@ function janusSubmitForm(e) {
                         var cb = _postAuthCallback;
                         _postAuthCallback = null;
                         janusCloseModal();
+                        janusClearMailtoIntent();
                         cb(res.data.session);
-                    } else {
+                    } else if (janusConsumeMailtoIntent()) {
                         window.location.href = MAILTO_HREF;
+                    } else {
+                        janusCloseModal();
+                        janusRenderNav(res.data.session);
                     }
                 } else {
                     janusSetMsg(janusTr('auth.check_email'));
@@ -214,9 +233,6 @@ function janusSubmitForm(e) {
             });
     } else {
         // Magic link
-        if (!_postAuthCallback) {
-            _afterAuthMailto = true;
-        }
         _supabase.auth.signInWithOtp({
             email: email,
             options: {
@@ -270,6 +286,7 @@ function janusWireCta(btn) {
             if (res.data && res.data.session) {
                 window.location.href = MAILTO_HREF;
             } else {
+                janusMarkMailtoIntent();
                 janusOpenModal();
             }
         });
@@ -396,12 +413,14 @@ function janusInitUserNav() {
         if (loginBtn) loginBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             guestMenu.classList.remove('open');
+            janusClearMailtoIntent();
             janusOpenModal();
         });
         var signupBtn = document.getElementById('janus-menu-signup');
         if (signupBtn) signupBtn.addEventListener('click', function (e) {
             e.stopPropagation();
             guestMenu.classList.remove('open');
+            janusClearMailtoIntent();
             janusOpenModal();
         });
     }
@@ -500,6 +519,7 @@ function janusOpenProfile() {
         var session = res.data && res.data.session;
         if (!session || !session.user) {
             janusCloseProfile();
+            janusClearMailtoIntent();
             janusOpenModal();
             return;
         }
