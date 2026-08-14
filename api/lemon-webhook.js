@@ -56,8 +56,9 @@ module.exports = async function handler(req, res) {
   }
 
   const a = (event.data && event.data.attributes) || {};
-  const email = a.customer_email;
-  const name = a.customer_name || null;
+  // La API v1 de Lemon Squeezy usa user_email/user_name en orders
+  const email = a.user_email || a.customer_email;
+  const name = a.user_name || a.customer_name || null;
 
   const supabaseUrl = process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
