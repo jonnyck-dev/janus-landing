@@ -31,7 +31,16 @@ module.exports = async function handler(req, res) {
   const signature = req.headers['x-signature'] || '';
   const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
 
+  console.log('[lemon-webhook]', {
+    method: req.method,
+    hasSecret: !!secret,
+    rawLen: raw ? raw.length : 0,
+    sigLen: signature.length,
+    sigPrefix: signature.slice(0, 12)
+  });
+
   if (!secret || !raw || !verifySignature(raw, signature, secret)) {
+    console.log('[lemon-webhook] SIGNATURE FAIL', { hasSecret: !!secret, rawLen: raw ? raw.length : 0 });
     res.status(401).json({ error: 'Invalid signature' });
     return;
   }
