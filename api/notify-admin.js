@@ -55,11 +55,16 @@ function smtpSend(host, port, user, pass, from, to, subject, text) {
       reject(err);
     }
 
+    var CMD_LABEL = ['greeting', 'ehlo', 'starttls', 'ehlo2', 'auth', 'mail-from', 'rcpt-to', 'data', 'body', 'quit'];
+
     function handle(response) {
       var lines = response.trim().split('\r\n');
       var last = lines[lines.length - 1];
       var code = last.slice(0, 3);
-      if (code[0] === '4' || code[0] === '5') { fail(new Error('SMTP ' + response.trim())); return; }
+      if (code[0] === '4' || code[0] === '5') {
+        fail(new Error('SMTP [' + (CMD_LABEL[cmd] || cmd) + '] ' + response.trim()));
+        return;
+      }
 
       switch (cmd) {
         case 0: cmd = 1; write('EHLO janus-landing'); break;
