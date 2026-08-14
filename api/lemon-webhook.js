@@ -16,7 +16,9 @@
 
 const crypto = require('crypto');
 
-
+// Deshabilitar el body parser de Vercel: necesitamos el body CRUDO para
+// verificar la firma HMAC (re-stringify de req.body rompe la firma).
+module.exports.config = { api: { bodyParser: false } };
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -24,11 +26,12 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const raw = rawBody(req);
+  // Lee el body crudo desde el stream (correcto para la verificación de firma)
+  const raw = await getRawBody(req);
   const signature = req.headers['x-signature'] || '';
   const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
 
-  if (!secret || !verifySignature(raw, signature, secret)) {
+  if (!secret || !raw || !verifySignature(raw, signature, secret)) {
     res.status(401).json({ error: 'Invalid signature' });
     return;
   }
@@ -67,7 +70,7 @@ module.exports = async function handler(req, res) {
     const plan = VARIANT_ID_MAP[String(variantId)];
 
     if (!email || !plan) {
-      res.status(200).json({ received: true, ignored: true });
+      res.status(200).json({ received: true, ignored: true, email: email, variant: variantId });
       return;
     }
 
@@ -87,11 +90,23 @@ const VARIANT_ID_MAP = {
   '2005148': 'global',       // Pase Global
 };
 
-function rawBody(req) {
-  const b = req.body;
-  if (typeof b === 'string') return b;
-  if (Buffer.isBuffer(b)) return b.toString('utf8');
-  return JSON.stringify(b);
+async function getRawBody(req) {
+  // 1) Leer del stream (correcto; el body parser está deshabilitado)
+  try {
+    const body = await new Promise(function (resolve) {
+      var chunks = [];
+      var got = false;
+      req.on('data', function (c) { got = true; chunks.push(Buffer.from(c)); });
+      req.on('end', function () { resolve(got ? Buffer.concat(chunks).toString('utf8') : null); });
+      req.on('error', function () { resolve(null); });
+    });
+    if (body) return body;
+  } catch (e) {}
+  // 2) Fallback: req.body si viene como string crudo
+  if (typeof req.body === 'string') return req.body;
+  // 3) Último recurso: re-stringify (puede fallar la firma, pero intenta)
+  if (req.body) return JSON.stringify(req.body);
+  return null;
 }
 
 function verifySignature(raw, signature, secret) {
