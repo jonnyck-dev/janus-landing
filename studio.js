@@ -8,6 +8,10 @@
     return window.janusTr ? window.janusTr(key) : key;
   }
 
+  function normUrl(u) {
+    return String(u || '').trim().replace(/\/+$/, '').toLowerCase();
+  }
+
   function statusClass(s) {
     return 'studio-job-status--' + (s || 'pending');
   }
@@ -109,9 +113,11 @@
       });
   }
 
-  function createJob(url, lang, status, cb) {
+  function createJob(url, lang, status, creditId, cb) {
+    var row = { user_id: _uid, email: _email, video_url: url, target_lang: lang, status: status };
+    if (creditId) row.credit_id = creditId;
     window._supabase.from('dub_jobs')
-      .insert({ user_id: _uid, email: _email, video_url: url, target_lang: lang, status: status })
+      .insert(row)
       .then(function (r) {
         if (r.error) console.error('dub_jobs insert error:', r.error);
         cb(!r.error, r.error ? r.error.message : null);
@@ -142,8 +148,9 @@
       }
       // Guard rail: si ese mismo video ya está en cola (sin finalizar), no duplicar
       if (_uid && _jobsCache) {
+        var nUrl = normUrl(url);
         var dup = _jobsCache.some(function (j) {
-          return j.video_url === url &&
+          return normUrl(j.video_url) === nUrl &&
             (j.status === 'pending' || j.status === 'processing' || j.status === 'pending_payment');
         });
         if (dup) {
@@ -183,7 +190,7 @@
             if (cr.error || !credit) {
               // Sin créditos: guarda el trabajo como pendiente de pago (mejor esfuerzo)
               // y redirige siempre al checkout Esencial (misma estrategia que sin sesión).
-              createJob(url, lang, 'pending_payment', function () {
+              createJob(url, lang, 'pending_payment', null, function () {
                 reset();
                 var ck = window.JANUS_CHECKOUT && window.JANUS_CHECKOUT.essential;
                 if (ck) { window.location.href = ck; return; }
@@ -192,8 +199,8 @@
               });
               return;
             }
-            // Con crédito: crea el trabajo 'en cola' y consume el crédito
-            createJob(url, lang, 'pending', function (ok, err) {
+            // Con crédito: crea el trabajo 'en cola' (con el crédito) y consume el crédito
+            createJob(url, lang, 'pending', credit.id, function (ok, err) {
               if (!ok) { reset(); msg.textContent = err || t('studio.err_submit'); msg.className = 'studio-msg studio-msg-error'; return; }
               consumeCredit(credit.id, function () {
                 reset();

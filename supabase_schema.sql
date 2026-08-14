@@ -88,10 +88,14 @@ create table if not exists public.user_credits (
   user_id uuid references auth.users(id) on delete cascade not null,
   plan text not null check (plan in ('essential', 'multivoice', 'global')),
   status text not null default 'available' check (status in ('available', 'used', 'expired')),
+  order_id text,
   created_at timestamptz not null default now(),
   expires_at timestamptz not null default now() + interval '1 month',
   used_at timestamptz
 );
+
+-- Si la tabla ya existía, asegura la columna order_id (idempotencia del webhook)
+alter table public.user_credits add column if not exists order_id text;
 
 -- 10. Habilitar RLS para user_credits
 alter table public.user_credits enable row level security;
@@ -125,14 +129,16 @@ create table if not exists public.dub_jobs (
   target_lang text not null default 'es',
   status text not null default 'pending'
     check (status in ('pending', 'processing', 'done', 'failed', 'cancelled', 'pending_payment')),
+  credit_id uuid,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   delivered_at timestamptz,
   admin_note text
 );
 
--- Si la tabla ya existía (de un run anterior), asegura la columna email
+-- Si la tabla ya existía (de un run anterior), asegura la columna email y credit_id
 alter table public.dub_jobs add column if not exists email text;
+alter table public.dub_jobs add column if not exists credit_id uuid;
 
 -- Actualiza la restricción de status para incluir 'pending_payment' en tablas existentes
 alter table public.dub_jobs drop constraint if exists dub_jobs_status_check;
@@ -164,5 +170,30 @@ create policy "Admin can update all dub jobs"
   on public.dub_jobs for update
   using (auth.email() = 'admin@janusdubber.website');
 
--- 16. Refresca el cache de schema de PostgREST (para que reconozca columnas nuevas)
+-- 16. Devolver el crédito si un trabajo pasa a 'failed' o 'cancelled'.
+-- (El job guarda credit_id al consumir el crédito desde el Studio.)
+create or replace function public.return_credit_on_fail()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if new.status in ('failed', 'cancelled')
+     and old.status is distinct from new.status
+     and new.credit_id is not null then
+    update public.user_credits
+       set status = 'available', used_at = null
+     where id = new.credit_id
+       and status = 'used';
+  end if;
+  return new;
+end;
+$$;
+
+drop trigger if exists return_credit_on_fail on public.dub_jobs;
+create trigger return_credit_on_fail
+  after update on public.dub_jobs
+  for each row execute function public.return_credit_on_fail();
+
+-- 17. Refresca el cache de schema de PostgREST (para que reconozca columnas nuevas)
 notify pgrst, 'reload schema';

@@ -78,6 +78,8 @@ module.exports = async function handler(req, res) {
 
     const variantId = a.first_order_item && a.first_order_item.variant_id;
     const plan = VARIANT_ID_MAP[String(variantId)];
+    // Id de la orden (para idempotencia: no acreditar dos veces la misma compra)
+    const orderId = event.data && event.data.id ? String(event.data.id) : null;
 
     if (!email || !plan) {
       res.status(200).json({ received: true, ignored: true, email: email, variant: variantId });
@@ -85,9 +87,9 @@ module.exports = async function handler(req, res) {
     }
 
     const userId = await ensureUser(supabaseUrl, serviceKey, email, name);
-    await grantCredit(supabaseUrl, serviceKey, userId, plan);
-    await releasePendingJobs(supabaseUrl, serviceKey, userId);
-    res.status(200).json({ ok: true, userId: userId, plan: plan });
+    const granted = await grantCredit(supabaseUrl, serviceKey, userId, plan, orderId);
+    if (granted) await releasePendingJobs(supabaseUrl, serviceKey, userId);
+    res.status(200).json({ ok: true, userId: userId, plan: plan, granted: granted });
   } catch (err) {
     res.status(500).json({ error: err.message || 'Internal error' });
   }
@@ -167,7 +169,19 @@ async function ensureUser(base, key, email, name) {
   throw new Error('No se pudo crear el usuario: ' + JSON.stringify(created));
 }
 
-async function grantCredit(base, key, userId, plan) {
+async function grantCredit(base, key, userId, plan, orderId) {
+  // Idempotencia: si ya existe un crédito para esta orden, no acreditar de nuevo
+  if (orderId) {
+    const checkRes = await fetch(
+      base + '/rest/v1/user_credits?user_id=eq.' + userId + '&order_id=eq.' + encodeURIComponent(orderId) + '&select=id',
+      { headers: authHeaders(key) }
+    );
+    if (checkRes.ok) {
+      const existing = await checkRes.json();
+      if (existing && existing.length) return false; // ya acreditada
+    }
+  }
+
   const expires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
   const res = await fetch(base + '/rest/v1/user_credits', {
     method: 'POST',
@@ -180,10 +194,12 @@ async function grantCredit(base, key, userId, plan) {
       user_id: userId,
       plan: plan,
       status: 'available',
+      order_id: orderId || null,
       expires_at: expires,
     }),
   });
   if (!res.ok) throw new Error('Fallo al insertar el credito: ' + res.status);
+  return true;
 }
 
 async function revokeCredits(base, key, userId) {
