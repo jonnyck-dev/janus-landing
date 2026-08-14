@@ -92,7 +92,8 @@
       ? hist.map(jobItem).join('')
       : '<p class="studio-muted">' + t('studio.history_empty') + '</p>';
 
-    if (formCard) formCard.style.display = queue.length ? 'none' : '';
+    // El formulario siempre visible (permite crear nuevos proyectos aunque haya cola)
+    if (formCard) formCard.style.display = '';
   }
 
   function loadJobs() {

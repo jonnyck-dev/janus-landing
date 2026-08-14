@@ -117,6 +117,11 @@ module.exports = async function handler(req, res) {
 
   const secret = process.env.SUPABASE_WEBHOOK_SECRET;
   const auth = req.headers['authorization'] || '';
+  console.log('[notify-admin]', {
+    hasSecret: !!secret,
+    authOk: secret ? verifySecret(auth, secret) : false,
+    authPrefix: String(auth).slice(0, 14)
+  });
   if (!secret || !verifySecret(auth, secret)) {
     res.status(401).json({ error: 'Unauthorized' });
     return;
@@ -144,6 +149,7 @@ module.exports = async function handler(req, res) {
   const pass = process.env.ICLOUD_SMTP_APP_PASSWORD;
   const from = process.env.ICLOUD_FROM || 'support@janusdubber.website';
   const to = process.env.ADMIN_NOTIFY_TO || 'admin@janusdubber.website';
+  console.log('[notify-admin] smtp config', { hasUser: !!user, hasPass: !!pass, from, to });
   if (!user || !pass) {
     res.status(500).json({ error: 'Server not configured' });
     return;
@@ -162,8 +168,10 @@ module.exports = async function handler(req, res) {
 
   try {
     await smtpSend('smtp.mail.me.com', 587, user, pass, from, to, subject, text);
+    console.log('[notify-admin] email SENT to', to);
     res.status(200).json({ ok: true, sent: true });
   } catch (err) {
+    console.log('[notify-admin] email FAILED:', err && err.message);
     res.status(500).json({ error: 'Email failed' });
   }
 };
