@@ -172,6 +172,6 @@ module.exports = async function handler(req, res) {
     res.status(200).json({ ok: true, sent: true });
   } catch (err) {
     console.log('[notify-admin] email FAILED:', err && err.message);
-    res.status(500).json({ error: 'Email failed' });
+    res.status(500).json({ error: err && err.message ? err.message : 'Email failed' });
   }
 };
