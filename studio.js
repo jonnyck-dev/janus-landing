@@ -140,6 +140,18 @@
         msg.className = 'studio-msg studio-msg-error';
         return;
       }
+      // Guard rail: si ese mismo video ya está en cola (sin finalizar), no duplicar
+      if (_uid && _jobsCache) {
+        var dup = _jobsCache.some(function (j) {
+          return j.video_url === url &&
+            (j.status === 'pending' || j.status === 'processing' || j.status === 'pending_payment');
+        });
+        if (dup) {
+          msg.textContent = t('studio.err_duplicate');
+          msg.className = 'studio-msg studio-msg-error';
+          return;
+        }
+      }
       // Sin sesión: cliente nuevo va directo al embudo (Pase Esencial)
       if (!_uid) {
         var ck = window.JANUS_CHECKOUT && window.JANUS_CHECKOUT.essential;
