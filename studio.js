@@ -112,7 +112,8 @@
     window._supabase.from('dub_jobs')
       .insert({ user_id: _uid, email: _email, video_url: url, target_lang: lang, status: status })
       .then(function (r) {
-        cb(!r.error);
+        if (r.error) console.error('dub_jobs insert error:', r.error);
+        cb(!r.error, r.error ? r.error.message : null);
       });
   }
 
@@ -179,8 +180,8 @@
               return;
             }
             // Con crédito: crea el trabajo 'en cola' y consume el crédito
-            createJob(url, lang, 'pending', function (ok) {
-              if (!ok) { reset(); msg.textContent = t('studio.err_submit'); msg.className = 'studio-msg studio-msg-error'; return; }
+            createJob(url, lang, 'pending', function (ok, err) {
+              if (!ok) { reset(); msg.textContent = err || t('studio.err_submit'); msg.className = 'studio-msg studio-msg-error'; return; }
               consumeCredit(credit.id, function () {
                 reset();
                 document.getElementById('studio-url').value = '';
