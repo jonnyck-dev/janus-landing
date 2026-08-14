@@ -46,7 +46,8 @@
         if (!rows.length) { box.innerHTML = '<p class="studio-muted">' + t('studio.credits_empty') + '</p>'; return; }
         var now = Date.now();
         var counter = '<div class="janus-pf-credits-counter">' +
-          t('auth.profile.credits_count').replace('%s', String(rows.length)) + '</div>';
+          (rows.length === 1 ? t('auth.profile.credits_count_one') : t('auth.profile.credits_count').replace('%s', String(rows.length))) +
+          '</div>';
         var items = rows.map(function (c) {
           var days = Math.max(0, Math.ceil((new Date(c.expires_at).getTime() - now) / 86400000));
           var exp = days === 0 ? t('auth.profile.credits_today') : t('auth.profile.credits_expires').replace('%s', String(days));

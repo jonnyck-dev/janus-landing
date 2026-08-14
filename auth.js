@@ -553,8 +553,9 @@ function janusRenderCredits() {
         return;
     }
     var now = Date.now();
+    var n = janusCreditsCache.length;
     var counter = '<div class="janus-pf-credits-counter">' +
-        janusTr('auth.profile.credits_count').replace('%s', String(janusCreditsCache.length)) +
+        (n === 1 ? janusTr('auth.profile.credits_count_one') : janusTr('auth.profile.credits_count').replace('%s', String(n))) +
         '</div>';
     var items = janusCreditsCache.map(function (c) {
         var planName = janusTr('pr.' + c.plan + '.name') || c.plan;
