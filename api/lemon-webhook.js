@@ -129,12 +129,25 @@ function verifySignature(raw, signature, secret) {
 
 async function findUser(base, key, email) {
   if (!email) return null;
-  const listRes = await fetch(base + '/auth/v1/admin/users?email=' + encodeURIComponent(email), {
-    headers: authHeaders(key),
-  });
-  const list = await listRes.json();
-  if (list.users && list.users.length) return list.users[0].id;
-  return null;
+  const wanted = String(email).toLowerCase();
+  const perPage = 200;
+  let page = 1;
+  // Pagina la Admin API y compara el email exacto (case-insensitive).
+  // El parámetro ?email= de la Admin API NO filtra de forma fiable.
+  while (true) {
+    const listRes = await fetch(base + '/auth/v1/admin/users?page=' + page + '&per_page=' + perPage, {
+      headers: authHeaders(key),
+    });
+    if (!listRes.ok) return null;
+    const list = await listRes.json();
+    const users = list.users || [];
+    const hit = users.find(function (u) {
+      return u && u.email && String(u.email).toLowerCase() === wanted;
+    });
+    if (hit) return hit.id;
+    if (users.length < perPage) return null;
+    page++;
+  }
 }
 
 async function ensureUser(base, key, email, name) {
